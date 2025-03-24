@@ -1,8 +1,26 @@
-<div class="container-login">
-    <div class="">
+<div class="container">
+    <div class="content">
+        <img src="/assets/logo-horizontal-branco.png" alt="Logo">
         <form action="?" method="post">
-            <app-input></app-input>
-            <app-input></app-input>
+            <app-input 
+            class="input" 
+
+            [pTextValue]="'Email:'" 
+            [inputPlaceHolder]="'Insira seu email'" />
+
+            <app-input 
+            class="input" 
+            [inputType]="'password'"
+            [pTextValue]="'Senha:'" 
+            [inputPlaceHolder]="'Insira seu email'" />
+
+            <app-button 
+            class="button"
+            [buttonText]="'ACESSAR'"
+            />
         </form>
+        <p>Cadastrar</p>
     </div>
+
+    <p class="pCopy">Copyright © 2025 | Human Concierge</p>
 </div>

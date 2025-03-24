@@ -1,20 +1,71 @@
-.container-login{
+.container{
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    position: relative;
+
     height: 100vh;
     background-color: var(--primary-color);
+    padding: 0 16px;
 
     .content{
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-direction: column;
         
-        width: 50%;
+        width: 100%;
         max-width: 560px;
-        height: 60%;
-        max-height: 600px;
+        min-height: 50%;
         border-radius: 20px;
         background-color: var(--surface-color);
+        padding: 32px;
+
+        img{
+            width: 100%;
+            height: auto;
+        }
+
+        form{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+
+            width: 100%;
+
+            .input{
+                width: 100%;
+                margin-top: 16px;
+            }
+
+            .button{
+                margin-top: 32px;
+                width: 100%;
+            }
+        }
+
+        p{
+            font-size: 18px;
+            margin-top: 16px;
+            text-decoration: underline;
+            cursor: pointer;
+            color: var(--text-color-primary);
+            margin-left: auto;
+        }
+
+        p:hover{
+            color: var(--hover-color);
+        }
+    }
+
+    .pCopy {
+        position: absolute;
+        bottom: 16px;
+        text-align: center;
+        color: var(--text-color-primary);
+        font-size: 14px;
+        width: 100%;
     }
 }

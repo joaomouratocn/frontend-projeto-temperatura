@@ -2,12 +2,16 @@
    --primary-color: #2F89D1;
    --surface-color: rgba(13, 12, 12, 0.52);
    --inputs-bg-colot: #F7F7F7;
+   --button-color: #45BB5E;
+   --hover-color: rgba(78, 255, 2, 0.534);
 
-   --text-color-primaty: #FFFFFF;
+   --text-color-primary: #FFFFFF;
    --text-color-secondary: #262727;
 }
 
 *{
     margin: 0;
     padding: 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
 }
