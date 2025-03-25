@@ -7,6 +7,8 @@
 
    --text-color-primary: #FFFFFF;
    --text-color-secondary: #262727;
+
+   --error-color: rgb(252, 40, 40);
 }
 
 *{

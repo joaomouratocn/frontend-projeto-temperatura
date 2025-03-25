@@ -1,8 +1,10 @@
 <div>
-    <p>{{pTextValue}}</p>
+    <label [for]="labelName">{{labelText}}</label>
     <input 
-    [type]="inputType"
+    [id]="labelName"
+    [type]="inputType" 
     [placeholder]="inputPlaceHolder"
-    [(ngModel)]="inputValue"
-    />
+    [value]="value" 
+    (input)="onInput($event)"
+    (blur)="onTouched()"/>
 </div>

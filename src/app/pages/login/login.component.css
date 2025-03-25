@@ -44,9 +44,15 @@
                 margin-top: 32px;
                 width: 100%;
             }
+
+            .error{
+                color: var(--error-color);
+                font-size: 12px;
+                margin-left: auto;
+            }
         }
 
-        p{
+        .pRegister{
             font-size: 18px;
             margin-top: 16px;
             text-decoration: underline;
@@ -55,7 +61,7 @@
             margin-left: auto;
         }
 
-        p:hover{
+        .pRegister:hover{
             color: var(--hover-color);
         }
     }
