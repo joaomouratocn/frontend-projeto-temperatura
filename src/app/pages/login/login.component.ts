@@ -4,16 +4,17 @@ import { ButtonComponent } from '../../components/button/button.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
-  providers: [AuthService],
+  providers: [AuthService, ToastrService],
   imports: [CommonModule, ReactiveFormsModule, InputComponent, ButtonComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  constructor(private authService: AuthService){}
+  constructor(private authService: AuthService, private toastr: ToastrService){}
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -34,10 +35,12 @@ export class LoginComponent {
     if(typeof email === 'string' && typeof password === 'string'){
       this.authService.login(email, password).subscribe({
         next: (response) => {
-          console.log('Login bem-sucedido: ', response)
+          this.toastr.success("Sucesso!")
+          console.log(response)
         },
         error: (error) => {
-          console.log('Error no login: ', error)
+          this.toastr.error('Error!')
+          console.log(error)
         }
       })
     }
