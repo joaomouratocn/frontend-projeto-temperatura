@@ -5,6 +5,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,11 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  constructor(private authService: AuthService, private toastr: ToastrService){}
+  constructor(
+    private authService: AuthService, 
+    private toastr: ToastrService,
+    private router: Router
+  ){}
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -37,6 +42,8 @@ export class LoginComponent {
         next: (response) => {
           this.toastr.success("Sucesso!")
           console.log(response)
+          this.router.navigate([''])
+
         },
         error: (error) => {
           this.toastr.error('Error!')
@@ -44,5 +51,9 @@ export class LoginComponent {
         }
       })
     }
+  }
+
+  register(){
+    this.router.navigate(['register'])
   }
 }
