@@ -53,6 +53,14 @@ export class LoginComponent {
     }
   }
 
+  get nameValid():Boolean{
+    return this.loginForm.controls.email.invalid && this.loginForm.controls.email.touched
+  }
+
+  get passwordValid():Boolean{
+    return this.loginForm.controls.password.invalid && this.loginForm.controls.password.touched
+  }
+
   register(){
     this.router.navigate(['register'])
   }

@@ -24,20 +24,20 @@ export class RegisterComponent {
   });
 
   get nameInvalid(): boolean {
-    return !!this.registerForm.get('name')?.invalid && !!this.registerForm.get('name')?.touched;
+    return this.registerForm.controls.name.invalid && this.registerForm.controls.name.touched;
   }
   
   get emailInvalid(): boolean {
-    return !!this.registerForm.get('email')?.invalid && !!this.registerForm.get('email')?.touched;
+    return this.registerForm.controls.email.invalid && this.registerForm.controls.email.touched;
   }
   
   get passwordInvalid(): boolean {
-    return !!this.registerForm.get('password')?.invalid && !!this.registerForm.get('password')?.touched;
+    return this.registerForm.controls.password.invalid && this.registerForm.controls.password.touched;
   }
 
   get matchPassword(): boolean {
-    return (this.registerForm.get('password')?.value !== this.registerForm.get('rePassword')?.value) &&
-           (this.registerForm.get('rePassword')?.touched ?? false);
+    return this.registerForm.controls.rePassword.value !== this.registerForm.controls.password.value &&
+           this.registerForm.controls.rePassword.touched;
   }
 
   get unitInvalid(): boolean {

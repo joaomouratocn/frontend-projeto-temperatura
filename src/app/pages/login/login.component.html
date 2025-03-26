@@ -4,13 +4,13 @@
         <form [formGroup]="loginForm">
             <app-input class="input" [labelName]="'email'" [labelText]="'Email:'"
                 [inputPlaceHolder]="'Insira seu email'" formControlName="email" />
-            <p *ngIf="loginForm.controls.email.invalid && loginForm.controls.email.touched" class="error">
+            <p *ngIf="nameValid" class="error">
                 Email inválido!
             </p>
 
             <app-input class="input" [labelName]="'password'" [labelText]="'Password:'"
                 [inputPlaceHolder]="'Insira sua senha'" [inputType]="'password'" formControlName="password" />
-            <p *ngIf="loginForm.controls.password.invalid && loginForm.controls.password.touched" class="error">
+            <p *ngIf="passwordValid" class="error">
                 Senha precisa ter no mínimo 6 caracteres.
             </p>
 
