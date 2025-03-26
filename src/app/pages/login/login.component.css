@@ -6,8 +6,8 @@
     position: relative;
 
     height: 100vh;
+    padding: 0 32px;
     background-color: var(--primary-color);
-    padding: 0 16px;
 
     .content{
         display: flex;
@@ -19,8 +19,8 @@
         max-width: 560px;
         min-height: 50%;
         border-radius: 20px;
-        background-color: var(--surface-color);
         padding: 32px;
+        background-color: var(--surface-color);
 
         img{
             width: 100%;
@@ -44,12 +44,6 @@
                 margin-top: 32px;
                 width: 100%;
             }
-
-            .error{
-                color: var(--error-color);
-                font-size: 12px;
-                margin-left: auto;
-            }
         }
 
         .pRegister{
@@ -64,14 +58,5 @@
         .pRegister:hover{
             color: var(--hover-color);
         }
-    }
-
-    .pCopy {
-        position: absolute;
-        bottom: 16px;
-        text-align: center;
-        color: var(--text-color-primary);
-        font-size: 14px;
-        width: 100%;
     }
 }

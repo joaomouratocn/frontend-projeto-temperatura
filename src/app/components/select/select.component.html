@@ -1,0 +1,7 @@
+<div>
+    <label [for]="labelName">{{labelText}}</label>
+    <select [id]="labelName" (change)="onValueChange($event)" [formControl]="control">
+        <option value="" disabled selected>Selecione...</option>
+        <option *ngFor="let item of itens" [value]="item">{{ item }}</option>
+    </select>
+</div>

@@ -19,3 +19,18 @@
     font-family: 'Poppins', sans-serif;
     box-sizing: border-box;
 }
+
+.pCopy {
+    position: absolute;
+    bottom: 16px;
+    text-align: center;
+    color: var(--text-color-primary);
+    font-size: 14px;
+    width: 100%;
+}
+
+.error{
+    color: var(--error-color);
+    font-size: 12px;
+    margin-left: auto;
+}
