@@ -4,10 +4,13 @@ import { ButtonComponent } from '../../components/button/button.component';
 import { SelectComponent } from "../../components/select/select.component";
 import { CommonModule } from '@angular/common';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RequestService } from '../../services/request.service';
+import { RegisterModelType } from '../../types/register-model.type';
 
 
 @Component({
   selector: 'app-register',
+  providers: [RequestService],
   imports: [ReactiveFormsModule, CommonModule, InputComponent, ButtonComponent, SelectComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
@@ -15,13 +18,20 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular
 export class RegisterComponent {
   itens = ['Item 1', 'Item 2', 'Item 3'];
 
+  constructor(private authService: RequestService){}
+
   registerForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.minLength(4)]),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     rePassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    unit: new FormControl('', {nonNullable:true, validators:[Validators.required]})
+    unit: new FormControl('', [Validators.required])
   });
+
+  register(){
+    if(this.fieldsInvalid){return}
+
+  }
 
   get nameInvalid(): boolean {
     return this.registerForm.controls.name.invalid && this.registerForm.controls.name.touched;
@@ -41,7 +51,12 @@ export class RegisterComponent {
   }
 
   get unitInvalid(): boolean {
-    return (this.registerForm.get('unit')?.invalid ?? false) && (this.registerForm.get('unit')?.touched ?? false);
+    return this.registerForm.controls.unit.valid && this.registerForm.controls.unit.touched;
+  }
+
+  get fieldsInvalid():Boolean{
+    return this.registerForm.controls.name.invalid && this.registerForm.controls.email.invalid &&
+      this.registerForm.controls.password.invalid && this.registerForm.controls.rePassword.invalid && this.registerForm.controls.unit.invalid
   }
   
 }

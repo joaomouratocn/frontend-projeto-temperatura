@@ -46,7 +46,7 @@
           </app-select>
           <p *ngIf="unitInvalid" class="error">Selecione um item!</p>
 
-            <app-button class="button" [buttonText]="'CADASTRAR'"/>
+            <app-button class="button" [buttonText]="'CADASTRAR'" (click)="register()"/>
         </form>
     </div>
 

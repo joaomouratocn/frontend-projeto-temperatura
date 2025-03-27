@@ -3,20 +3,21 @@ import { InputComponent } from '../../components/input/input.component';
 import { ButtonComponent } from '../../components/button/button.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth.service';
+import { RequestService } from '../../services/request.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { LoginModelType } from '../../types/login-model.type';
 
 @Component({
   selector: 'app-login',
-  providers: [AuthService, ToastrService],
+  providers: [RequestService, ToastrService],
   imports: [CommonModule, ReactiveFormsModule, InputComponent, ButtonComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
   constructor(
-    private authService: AuthService, 
+    private requestService: RequestService, 
     private toastr: ToastrService,
     private router: Router
   ){}
@@ -27,29 +28,33 @@ export class LoginComponent {
   });
 
   login(){
-    console.log(this.loginForm.value)
-    console.log(this.loginForm.valid)
-
     if(!this.loginForm.valid){
-      console.log("Falha")
       return
     }
 
-    const {email, password} = this.loginForm.value
+    const loginModelType: LoginModelType = {
+      email: this.loginForm.controls.email.value ?? '',
+      password: this.loginForm.controls.password.value ?? ''
+    };
 
-    if(typeof email === 'string' && typeof password === 'string'){
-      this.authService.login(email, password).subscribe({
+    if(loginModelType.email != '' && loginModelType.password != ''){
+      this.requestService.login(loginModelType).subscribe({
         next: (response) => {
-          this.toastr.success("Sucesso!")
-          console.log(response)
-          this.router.navigate([''])
-
+          if ('token' in response) {
+            this.toastr.success("Sucesso!");
+            console.log(response);
+            this.router.navigate(['']);
+          } else {
+            const errorMessage = response || 'Erro desconhecido!';
+            this.toastr.error(errorMessage);
+            console.log(response);
+          }
         },
         error: (error) => {
-          this.toastr.error('Error!')
-          console.log(error)
+          this.toastr.error('Falha na comunicação com o servidor!');
+          console.error(error);
         }
-      })
+      });
     }
   }
 
