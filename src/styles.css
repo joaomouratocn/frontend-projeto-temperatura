@@ -1,36 +1,36 @@
-@import 'ngx-toastr/toastr';
+@import "ngx-toastr/toastr";
 
-:root{
-   --primary-color: #2F89D1;
-   --surface-color: rgba(13, 12, 12, 0.52);
-   --inputs-bg-colot: #F7F7F7;
-   --button-color: #45BB5E;
-   --hover-color: rgba(78, 255, 2, 0.534);
+:root {
+  --primary-color: #2f89d1;
+  --surface-color: rgba(13, 12, 12, 0.52);
+  --inputs-bg-colot: #f7f7f7;
+  --button-color: #45bb5e;
+  --hover-color: rgba(78, 255, 2, 0.534);
 
-   --text-color-primary: #FFFFFF;
-   --text-color-secondary: #262727;
+  --text-color-primary: #ffffff;
+  --text-color-secondary: #262727;
 
-   --error-color: rgb(252, 40, 40);
+  --error-color: rgb(252, 40, 40);
 }
 
-*{
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-    box-sizing: border-box;
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
 }
 
 .pCopy {
-    position: absolute;
-    bottom: 16px;
-    text-align: center;
-    color: var(--text-color-primary);
-    font-size: 14px;
-    width: 100%;
+  position: absolute;
+  bottom: 16px;
+  text-align: center;
+  color: var(--text-color-primary);
+  font-size: 14px;
+  width: 100%;
 }
 
-.error{
-    color: var(--error-color);
-    font-size: 12px;
-    margin-left: auto;
+.error {
+  color: var(--error-color);
+  font-size: 12px;
+  margin-left: auto;
 }

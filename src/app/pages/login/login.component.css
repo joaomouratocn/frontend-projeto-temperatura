@@ -1,62 +1,62 @@
-.container{
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+
+  height: 100vh;
+  padding: 0 32px;
+  background-color: var(--primary-color);
+
+  .content {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    position: relative;
 
-    height: 100vh;
-    padding: 0 32px;
-    background-color: var(--primary-color);
+    width: 100%;
+    max-width: 560px;
+    min-height: 50%;
+    border-radius: 20px;
+    padding: 32px;
+    background-color: var(--surface-color);
 
-    .content{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        
-        width: 100%;
-        max-width: 560px;
-        min-height: 50%;
-        border-radius: 20px;
-        padding: 32px;
-        background-color: var(--surface-color);
-
-        img{
-            width: 100%;
-            height: auto;
-        }
-
-        form{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-
-            width: 100%;
-
-            .input{
-                width: 100%;
-                margin-top: 16px;
-            }
-
-            .button{
-                margin-top: 32px;
-                width: 100%;
-            }
-        }
-
-        .pRegister{
-            font-size: 18px;
-            margin-top: 16px;
-            text-decoration: underline;
-            cursor: pointer;
-            color: var(--text-color-primary);
-            margin-left: auto;
-        }
-
-        .pRegister:hover{
-            color: var(--hover-color);
-        }
+    img {
+      width: 100%;
+      height: auto;
     }
+
+    form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+
+      width: 100%;
+
+      .input {
+        width: 100%;
+        margin-top: 16px;
+      }
+
+      .button {
+        margin-top: 32px;
+        width: 100%;
+      }
+    }
+
+    .pRegister {
+      font-size: 18px;
+      margin-top: 16px;
+      text-decoration: underline;
+      cursor: pointer;
+      color: var(--text-color-primary);
+      margin-left: auto;
+    }
+
+    .pRegister:hover {
+      color: var(--hover-color);
+    }
+  }
 }

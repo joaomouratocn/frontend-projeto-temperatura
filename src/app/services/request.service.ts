@@ -8,30 +8,36 @@ import { RegisterResponseType } from '../types/register-response.type';
 import { ErrorType } from '../types/erro-type';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RequestService {
-  private apiUrl = 'URL'
-  constructor(private http: HttpClient) { }
+  private apiUrl = 'URL';
+  constructor(private http: HttpClient) {}
 
-  login(loginModelType: LoginModelType): Observable<LoginResponseType | ErrorType> {
-    return this.http.post<LoginResponseType>(this.apiUrl, { 
-      email: loginModelType.email, 
-      password: loginModelType.password 
-    }).pipe(
-      tap((value) => {
-        sessionStorage.setItem("email", value.email)
-        sessionStorage.setItem("auth-token", value.token)
+  login(
+    loginModelType: LoginModelType
+  ): Observable<LoginResponseType | ErrorType> {
+    return this.http
+      .post<LoginResponseType>(this.apiUrl, {
+        email: loginModelType.email,
+        password: loginModelType.password,
       })
-    )
+      .pipe(
+        tap((value) => {
+          sessionStorage.setItem('email', value.email);
+          sessionStorage.setItem('auth-token', value.token);
+        })
+      );
   }
 
-  register(resgiterModelType:RegisterModelType):Observable<RegisterResponseType | ErrorType>{
+  register(
+    resgiterModelType: RegisterModelType
+  ): Observable<RegisterResponseType | ErrorType> {
     return this.http.post<RegisterResponseType>(this.apiUrl, {
       name: resgiterModelType.name,
       email: resgiterModelType.email,
       password: resgiterModelType.password,
-      unit: resgiterModelType.unit
+      unit: resgiterModelType.unit,
     });
   }
 }
