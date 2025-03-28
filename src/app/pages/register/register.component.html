@@ -26,7 +26,7 @@
             [inputType]="'password'"
             [inputPlaceHolder]="'Insira sua senha'"
             formControlName="password"/>
-            <p *ngIf="passwordInvalid" class="error">Senha inválida</p>
+            <p *ngIf="passwordInvalid" class="error">Senha inválido</p>
 
             <app-input
             class="input"
@@ -41,10 +41,10 @@
             class="select"
             [labelName]="'Escolha um item'"
             [labelText]="'Selecione sua unidade:'"
-            [itens]="itens"
+            [itens]="unitArray"
             formControlName="unit">
           </app-select>
-          <p *ngIf="unitInvalid" class="error">Selecione um item!</p>
+          <p *ngIf="unitInvalid" class="error">Selecione sua unidade</p>
 
             <app-button class="button" [buttonText]="'CADASTRAR'" (click)="register()"/>
         </form>

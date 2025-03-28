@@ -10,11 +10,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { RequestService } from '../../services/request.service';
+import { ToastrService } from 'ngx-toastr';
+import { UnitModelType } from '../../types/unit-model.type';
+import { RegisterResponseType } from '../../types/register-response.type';
 import { RegisterModelType } from '../../types/register-model.type';
 
 @Component({
   selector: 'app-register',
-  providers: [RequestService],
+  providers: [RequestService, ToastrService],
   imports: [
     ReactiveFormsModule,
     CommonModule,
@@ -26,9 +29,17 @@ import { RegisterModelType } from '../../types/register-model.type';
   styleUrl: './register.component.css',
 })
 export class RegisterComponent {
-  itens = ['Item 1', 'Item 2', 'Item 3'];
+  unitArray: UnitModelType[] = [
+    { id: '1', name: 'Água vermelha' },
+    { id: '2', name: 'Vila Isabel' },
+    { id: '3', name: 'Santa Felicia' },
+    { id: '4', name: 'São José' },
+  ];
 
-  constructor(private authService: RequestService) {}
+  constructor(
+    private requestService: RequestService,
+    private toastr: ToastrService
+  ) {}
 
   registerForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.minLength(4)]),
@@ -45,9 +56,20 @@ export class RegisterComponent {
   });
 
   register() {
-    if (this.fieldsInvalid) {
+    if (this.invalidFields()) {
       return;
     }
+
+    const { name, email, password, unit } = this.registerForm.controls;
+
+    const newUser: RegisterModelType = {
+      name: name.value,
+      email: email.value,
+      password: password.value,
+      unit: unit.value,
+    };
+
+    this.requestService.register(newUser);
   }
 
   get nameInvalid(): boolean {
@@ -74,25 +96,41 @@ export class RegisterComponent {
   get matchPassword(): boolean {
     return (
       this.registerForm.controls.rePassword.value !==
-        this.registerForm.controls.password.value &&
+        this.registerForm.controls.password?.value &&
       this.registerForm.controls.rePassword.touched
     );
   }
 
   get unitInvalid(): boolean {
     return (
-      this.registerForm.controls.unit.valid &&
+      this.registerForm.controls.unit.invalid &&
       this.registerForm.controls.unit.touched
     );
   }
 
-  get fieldsInvalid(): Boolean {
-    return (
-      this.registerForm.controls.name.invalid &&
-      this.registerForm.controls.email.invalid &&
-      this.registerForm.controls.password.invalid &&
-      this.registerForm.controls.rePassword.invalid &&
-      this.registerForm.controls.unit.invalid
-    );
+  invalidFields(): boolean {
+    let fieldsError: string[] = [];
+
+    const { name, email, password, unit } = this.registerForm.controls;
+
+    if (name.invalid) {
+      fieldsError.push('name');
+    }
+    if (email.invalid) {
+      fieldsError.push('email');
+    }
+    if (password.invalid) {
+      fieldsError.push('senha');
+    }
+    if (this.registerForm.controls.unit.invalid) {
+      fieldsError.push('unidade');
+    }
+
+    if (fieldsError.length === 0) {
+      return false;
+    }
+
+    this.toastr.error(`Campos inválidos:\n ${fieldsError.join(', ')}`);
+    return true;
   }
 }
