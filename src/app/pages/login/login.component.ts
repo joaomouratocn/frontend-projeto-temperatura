@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { InputComponent } from '../../components/input/input.component';
 import { ButtonComponent } from '../../components/button/button.component';
 import {

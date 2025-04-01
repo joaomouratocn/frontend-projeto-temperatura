@@ -1,21 +1,19 @@
-<div class="container">
-    <div class="content">
-        <img src="/assets/logo-horizontal-branco.png" alt="Logo">
-        <form [formGroup]="loginForm">
-            <app-input class="input" [labelName]="'email'" [labelText]="'Email:'"
-                [inputPlaceHolder]="'Insira seu email'" formControlName="email" />
-            <p *ngIf="nameValid" class="error">
-                Email inválido!
-            </p>
+<div class="content">
+    <img src="/assets/logo-horizontal-branco.png" alt="Logo">
+    <form [formGroup]="loginForm">
+        <app-input class="input" [labelName]="'email'" [labelText]="'Email:'"
+            [inputPlaceHolder]="'Insira seu email'" formControlName="email" />
+        <p *ngIf="nameValid" class="error">
+            Email inválido!
+        </p>
 
-            <app-input class="input" [labelName]="'password'" [labelText]="'Password:'"
-                [inputPlaceHolder]="'Insira sua senha'" [inputType]="'password'" formControlName="password" />
-            <p *ngIf="passwordValid" class="error">
-                Senha precisa ter no mínimo 6 caracteres.
-            </p>
+        <app-input class="input" [labelName]="'password'" [labelText]="'Password:'"
+            [inputPlaceHolder]="'Insira sua senha'" [inputType]="'password'" formControlName="password" />
+        <p *ngIf="passwordValid" class="error">
+            Senha precisa ter no mínimo 6 caracteres.
+        </p>
 
-            <app-button class="button" [buttonText]="'ACESSAR'" (onSubmit)="login()" />
-        </form>
-        <p class="pRegister" (click)="register()">Cadastrar</p>
-    </div>
+        <app-button class="button" [buttonText]="'ACESSAR'" (onSubmit)="login()" />
+    </form>
+    <p class="pRegister" (click)="register()">Cadastrar</p>
 </div>
