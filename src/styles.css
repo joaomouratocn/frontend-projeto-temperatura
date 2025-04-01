@@ -21,28 +21,23 @@ body {
   background-color: var(--primary-color);
 }
 
+app-root {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+router-outlet + * {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 * {
   margin: 0;
   padding: 0;
   font-family: "Poppins", sans-serif;
   box-sizing: border-box;
-}
-
-app-root {
-  flex: 0.97;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-footer {
-  flex: 0.03;
-  bottom: 16px;
-  text-align: center;
-  justify-content: center;
-  color: var(--text-color-primary);
-  font-size: 14px;
-  width: 100%;
 }
 
 .error {

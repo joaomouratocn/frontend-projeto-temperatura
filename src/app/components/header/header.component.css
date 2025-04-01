@@ -1,0 +1,35 @@
+header {
+  width: 100%;
+  padding: 20px;
+  background-color: var(--surface-color);
+
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+
+  img {
+    width: 180px;
+    height: auto;
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 16px;
+
+    p {
+      color: var(--text-color-primary);
+    }
+
+    .pLogout {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .pLogout:hover {
+      color: var(--hover-color);
+    }
+  }
+}
