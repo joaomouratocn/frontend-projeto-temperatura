@@ -1,18 +1,67 @@
-<div class="container">
-    <form>
-        <div class="refrigarator">
-            <h1>Temperatura Geladeira:</h1>
-            <app-input/>
-            <app-input/>
-            <app-input/>
-        </div>
-        <div class="environment">
-            <h1>Temperatura Ambiente:</h1>
-            <app-input/>
-            <app-input/>
-            <app-input/>
-        </div>
-        <app-button/>
-    </form>
-</div>
+<form [formGroup]="collectDataForm">
+    <h1>Temperatura Geladeira:</h1>
+    <div class="refrigarator">
+        <app-input
+        [labelName]="'min'"
+        [labelText]="'Miníma:'"
+        [inputPlaceHolder]="'0.00°C'"
+        [inputType]="'number'"
+        [formControlName]="'refMin'"/>
+        <p *ngIf="passwordValid" class="error">
+            Preenchar este campo.
+        </p>
 
+        <app-input
+        [labelName]="'current'"
+        [labelText]="'Atual:'"
+        [inputPlaceHolder]="'0.00°C'"
+        [inputType]="'number'"
+        [formControlName]="'refCur'"/>
+        <p *ngIf="passwordValid" class="error">
+            Preenchar este campo.
+        </p>
+
+        <app-input
+        [labelName]="'max'"
+        [labelText]="'Maxíma:'"
+        [inputPlaceHolder]="'0.00°C'"
+        [inputType]="'number'"
+        [formControlName]="'refMax'"/>
+        <p *ngIf="passwordValid" class="error">
+            Preenchar este campo.
+        </p>
+    </div>
+    <h1>Temperatura Ambiente:</h1>
+    <div class="environment">
+        <app-input
+        [labelName]="'min'"
+        [labelText]="'Miníma:'"
+        [inputPlaceHolder]="'0.00°C'"
+        [inputType]="'number'"
+        [formControlName]="'envMin'"/>
+        <p *ngIf="passwordValid" class="error">
+            Preenchar este campo.
+        </p>
+
+        <app-input
+        [labelName]="'current'"
+        [labelText]="'Atual:'"
+        [inputPlaceHolder]="'0.00°C'"
+        [inputType]="'number'"
+        [formControlName]="'envCur'"/>
+        <p *ngIf="passwordValid" class="error">
+            Preenchar este campo.
+        </p>
+
+        <app-input
+        [labelName]="'max'"
+        [labelText]="'Maxíma:'"
+        [inputPlaceHolder]="'0.00°C'"
+        [inputType]="'number'"
+        [formControlName]="'envMax'"/>
+        <p *ngIf="passwordValid" class="error">
+            Preenchar este campo.
+        </p>
+    </div>
+    <app-button [buttonText]="'ENVIAR'" (onSubmit)="send()"/>
+</form>

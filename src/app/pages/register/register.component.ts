@@ -12,7 +12,6 @@ import {
 import { RequestService } from '../../services/request.service';
 import { ToastrService } from 'ngx-toastr';
 import { UnitModelType } from '../../types/unit-model.type';
-import { RegisterResponseType } from '../../types/register-response.type';
 import { RegisterModelType } from '../../types/register-model.type';
 import { Router } from '@angular/router';
 
