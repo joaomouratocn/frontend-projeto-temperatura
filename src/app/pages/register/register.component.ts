@@ -61,15 +61,6 @@ export class RegisterComponent {
     }
 
     const { name, email, password, unit } = this.registerForm.controls;
-
-    const newUser: RegisterModelType = {
-      name: name.value,
-      email: email.value,
-      password: password.value,
-      unit: unit.value,
-    };
-
-    this.requestService.register(newUser);
   }
 
   get nameInvalid(): boolean {
