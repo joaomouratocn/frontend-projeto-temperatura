@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { UnitModelType } from '../../types/unit-model.type';
 import { RegisterResponseType } from '../../types/register-response.type';
 import { RegisterModelType } from '../../types/register-model.type';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -38,7 +39,8 @@ export class RegisterComponent {
 
   constructor(
     private requestService: RequestService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   registerForm = new FormGroup({
@@ -61,6 +63,35 @@ export class RegisterComponent {
     }
 
     const { name, email, password, unit } = this.registerForm.controls;
+
+    if (
+      typeof name == 'string' &&
+      typeof email == 'string' &&
+      typeof password == 'string' &&
+      typeof unit == 'string'
+    ) {
+      const newUser: RegisterModelType = {
+        name: name,
+        email: email,
+        password: password,
+        unit: unit,
+      };
+
+      this.requestService.register(newUser).subscribe({
+        next: (response) => {
+          if ('email' in response) {
+            this.toastr.success('Cadastro realizado com sucesso!');
+            console.log(response);
+            this.router.navigate(['login']);
+          } else {
+            const errorMessage = response.description || 'Erro desconhecido!';
+            this.toastr.error(errorMessage);
+            console.log(response);
+          }
+        },
+        error: (erro) => {},
+      });
+    }
   }
 
   get nameInvalid(): boolean {
@@ -113,7 +144,7 @@ export class RegisterComponent {
     if (password.invalid) {
       fieldsError.push('senha');
     }
-    if (this.registerForm.controls.unit.invalid) {
+    if (unit.invalid) {
       fieldsError.push('unidade');
     }
 

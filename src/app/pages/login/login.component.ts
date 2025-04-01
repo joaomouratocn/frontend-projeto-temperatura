@@ -36,17 +36,19 @@ export class LoginComponent {
   });
 
   login() {
-    if (!this.loginForm.valid) {
+    if (this.invalidFields()) {
       return;
     }
 
-    const loginModelType: LoginModelType = {
-      email: this.loginForm.controls.email.value ?? '',
-      password: this.loginForm.controls.password.value ?? '',
-    };
+    const { email, password } = this.loginForm.controls;
 
-    if (loginModelType.email != '' && loginModelType.password != '') {
-      this.requestService.login(loginModelType).subscribe({
+    if (typeof email == 'string' && typeof password == 'string') {
+      const loginModeType: LoginModelType = {
+        email: email,
+        password: password,
+      };
+
+      this.requestService.login(loginModeType).subscribe({
         next: (response) => {
           if ('token' in response) {
             this.toastr.success('Sucesso!');
@@ -66,6 +68,10 @@ export class LoginComponent {
     }
   }
 
+  register() {
+    this.router.navigate(['register']);
+  }
+
   get nameValid(): Boolean {
     return (
       this.loginForm.controls.email.invalid &&
@@ -80,7 +86,23 @@ export class LoginComponent {
     );
   }
 
-  register() {
-    this.router.navigate(['register']);
+  invalidFields(): boolean {
+    let fieldsError: string[] = [];
+
+    const { email, password } = this.loginForm.controls;
+
+    if (email.invalid) {
+      fieldsError.push('Email');
+    }
+    if (password.invalid) {
+      fieldsError.push('Senha');
+    }
+
+    if (fieldsError.length === 0) {
+      return false;
+    }
+
+    this.toastr.error(`Campos invalidos:\n ${fieldsError.join(', ')}`);
+    return true;
   }
 }
