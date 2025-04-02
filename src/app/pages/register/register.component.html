@@ -6,8 +6,9 @@
         [labelName]="'name'"
         [labelText]="'Nome:'"
         [inputPlaceHolder]="'Insira seu nome'"
+        [pErrorText]="'Nome inválido'"
+        [showError]="nameInvalid"
         formControlName="name"/>
-        <p *ngIf="nameInvalid" class="error">Nome inválido</p>
 
         <app-input
         class="input"
@@ -15,8 +16,9 @@
         [labelText]="'Email:'"
         [inputType]="'email'"
         [inputPlaceHolder]="'Insira seu email'"
+        [pErrorText]="'Email inválido'"
+        [showError]="emailInvalid"
         formControlName="email"/>
-        <p *ngIf="emailInvalid" class="error">Email inválido</p>
 
         <app-input
         class="input"
@@ -24,8 +26,9 @@
         [labelText]="'Senha:'"
         [inputType]="'password'"
         [inputPlaceHolder]="'Insira sua senha'"
+        [pErrorText]="'Senha inválida'"
+        [showError]="passwordInvalid"
         formControlName="password"/>
-        <p *ngIf="passwordInvalid" class="error">Senha inválido</p>
 
         <app-input
         class="input"
@@ -33,17 +36,19 @@
         [labelText]="'Confirmar senha:'"
         [inputType]="'password'"
         [inputPlaceHolder]="'Confirme sua senha'"
+        [pErrorText]="'Senhas não coincidem'"
+        [showError]="matchPassword"
         formControlName="rePassword"/>
-        <p *ngIf="matchPassword" class="error">Senhas não coincidem</p>
 
         <app-select
         class="select"
         [labelName]="'Escolha um item'"
         [labelText]="'Selecione sua unidade:'"
         [itens]="unitArray"
+        [pErrorText]="'Selecione sua unidade'"
+        [showError]="unitInvalid"
         formControlName="unit">
       </app-select>
-      <p *ngIf="unitInvalid" class="error">Selecione sua unidade</p>
 
         <app-button class="button" [buttonText]="'CADASTRAR'" (click)="register()"/>
     </form>

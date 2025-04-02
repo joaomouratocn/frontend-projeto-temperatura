@@ -32,6 +32,8 @@ export class SelectComponent implements ControlValueAccessor {
   @Input() labelName: string = '';
   @Input() labelText: string = '';
   @Input() itens: UnitModelType[] = [];
+  @Input() pErrorText: string = '';
+  @Input() showError: boolean = false;
 
   control = new FormControl();
 

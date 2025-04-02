@@ -10,7 +10,7 @@
   --text-color-primary: #ffffff;
   --text-color-secondary: #262727;
 
-  --error-color: rgb(252, 40, 40);
+  --error-color: rgb(253, 82, 82);
 }
 
 html,
@@ -41,10 +41,4 @@ router-outlet + * {
   padding: 0;
   font-family: "Poppins", sans-serif;
   box-sizing: border-box;
-}
-
-.error {
-  color: var(--error-color);
-  font-size: 12px;
-  margin-left: auto;
 }

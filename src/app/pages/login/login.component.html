@@ -1,17 +1,24 @@
 <div class="content">
     <img src="/assets/logo-horizontal-branco.png" alt="Logo">
     <form [formGroup]="loginForm">
-        <app-input class="input" [labelName]="'email'" [labelText]="'Email:'"
-            [inputPlaceHolder]="'Insira seu email'" formControlName="email" />
-        <p *ngIf="nameValid" class="error">
-            Email inválido!
-        </p>
+        <app-input 
+        class="input" 
+        [labelName]="'email'" 
+        [labelText]="'Email:'"
+        [inputPlaceHolder]="'Insira seu email'"
+        [pErrorText]="'Email invalído!'"
+        [showError]="emailValid"
+        formControlName="email" />
 
-        <app-input class="input" [labelName]="'password'" [labelText]="'Password:'"
-            [inputPlaceHolder]="'Insira sua senha'" [inputType]="'password'" formControlName="password" />
-        <p *ngIf="passwordValid" class="error">
-            Senha precisa ter no mínimo 6 caracteres.
-        </p>
+        <app-input 
+        class="input"
+        [labelName]="'password'"
+        [labelText]="'Password:'"
+        [inputPlaceHolder]="'Insira sua senha'" 
+        [inputType]="'password'" 
+        [pErrorText]="'Senha precisar ter no minímo 6 caracteres'"
+        [showError]="passwordValid"
+        formControlName="password" />
 
         <app-button class="button" [buttonText]="'ACESSAR'" (onSubmit)="login()" />
     </form>

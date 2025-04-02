@@ -4,4 +4,5 @@
         <option value="" disabled selected>Selecione...</option>
         <option *ngFor="let item of itens" [value]="item.id">{{ item.name }}</option>
     </select>
+    <p *ngIf="showError">{{pErrorText}}</p>
 </div>

@@ -7,4 +7,5 @@
     [value]="value" 
     (input)="onInput($event)"
     (blur)="onTouched()"/>
+    <p *ngIf="showError">{{pErrorText}}</p>
 </div>
