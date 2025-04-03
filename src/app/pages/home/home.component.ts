@@ -52,22 +52,22 @@ export class HomeComponent {
 
   get envMinInvalid(): boolean {
     return (
-      this.collectDataForm.controls.refMin.invalid &&
-      this.collectDataForm.controls.refMin.touched
+      this.collectDataForm.controls.envMin.invalid &&
+      this.collectDataForm.controls.envMin.touched
     );
   }
 
   get envCurInvalid(): boolean {
     return (
-      this.collectDataForm.controls.refCur.invalid &&
-      this.collectDataForm.controls.refCur.touched
+      this.collectDataForm.controls.envCur.invalid &&
+      this.collectDataForm.controls.envCur.touched
     );
   }
 
   get envMaxInvalid(): boolean {
     return (
-      this.collectDataForm.controls.refMax.invalid &&
-      this.collectDataForm.controls.refMax.touched
+      this.collectDataForm.controls.envMax.invalid &&
+      this.collectDataForm.controls.envMax.touched
     );
   }
 }
