@@ -32,4 +32,14 @@ header {
       color: var(--hover-color);
     }
   }
+
+  @media (max-width: 375px) {
+    img {
+      width: 130px;
+    }
+
+    p {
+      font-size: 12px;
+    }
+  }
 }

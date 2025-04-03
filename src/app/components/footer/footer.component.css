@@ -10,3 +10,9 @@ footer {
   padding: 20px;
   background-color: var(--surface-color);
 }
+
+@media (max-width: 375px) {
+  footer {
+    font-size: 12px;
+  }
+}

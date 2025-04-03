@@ -6,6 +6,7 @@
     [placeholder]="inputPlaceHolder"
     [value]="value" 
     (input)="onInput($event)"
-    (blur)="onTouched()"/>
+    (blur)="onTouched()"
+    [appOnlyNumbers]="onlyNumbers"/>
     <p *ngIf="showError">{{pErrorText}}</p>
 </div>

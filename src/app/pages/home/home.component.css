@@ -1,3 +1,40 @@
-h1 {
-  color: var(--text-color-primary);
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 560px;
+  width: 100%;
+  h1 {
+    margin-top: 36px;
+    color: var(--text-color-primary);
+  }
+  div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+
+    app-input {
+      width: 200px;
+    }
+  }
+
+  app-button {
+    width: 200px;
+    margin-top: 24px;
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 375px) {
+  form {
+    h1 {
+      font-size: 20px;
+    }
+
+    app-button {
+      width: 150px;
+    }
+  }
 }

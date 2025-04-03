@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { InputComponent } from '../../components/input/input.component';
 import { ButtonComponent } from '../../components/button/button.component';
 import {
   FormControl,
@@ -8,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { InputComponent } from '../../components/input/input.component';
 
 @Component({
   selector: 'app-home',
@@ -17,17 +17,57 @@ import { CommonModule } from '@angular/common';
 })
 export class HomeComponent {
   collectDataForm = new FormGroup({
-    refMin: new FormControl(0, [Validators.required]),
-    refCur: new FormControl(0, [Validators.required]),
-    refMax: new FormControl(0, [Validators.required]),
-    envMin: new FormControl(0, [Validators.required]),
-    envCur: new FormControl(0, [Validators.required]),
-    envMax: new FormControl(0, [Validators.required]),
+    refMin: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    refCur: new FormControl('', [Validators.required]),
+    refMax: new FormControl('', [Validators.required]),
+    envMin: new FormControl('', [Validators.required]),
+    envCur: new FormControl('', [Validators.required]),
+    envMax: new FormControl('', [Validators.required]),
   });
-
-  passwordValid: boolean = true;
 
   send() {
     console.log('Enviar dados!');
+  }
+
+  get refMinInvalid(): boolean {
+    return (
+      this.collectDataForm.controls.refMin.invalid &&
+      this.collectDataForm.controls.refMin.touched
+    );
+  }
+
+  get refCurInvalid(): boolean {
+    return (
+      this.collectDataForm.controls.refCur.invalid &&
+      this.collectDataForm.controls.refCur.touched
+    );
+  }
+
+  get refMaxInvalid(): boolean {
+    return (
+      this.collectDataForm.controls.refMax.invalid &&
+      this.collectDataForm.controls.refMax.touched
+    );
+  }
+
+  get envMinInvalid(): boolean {
+    return (
+      this.collectDataForm.controls.refMin.invalid &&
+      this.collectDataForm.controls.refMin.touched
+    );
+  }
+
+  get envCurInvalid(): boolean {
+    return (
+      this.collectDataForm.controls.refCur.invalid &&
+      this.collectDataForm.controls.refCur.touched
+    );
+  }
+
+  get envMaxInvalid(): boolean {
+    return (
+      this.collectDataForm.controls.refMax.invalid &&
+      this.collectDataForm.controls.refMax.touched
+    );
   }
 }

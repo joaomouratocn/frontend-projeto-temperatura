@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { OnlyNumberDirective } from '../../directives/only-number.directive';
 import { Component, forwardRef, Input } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -8,7 +9,7 @@ import {
 
 @Component({
   selector: 'app-input',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, OnlyNumberDirective],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -26,6 +27,7 @@ export class InputComponent implements ControlValueAccessor {
   @Input() inputPlaceHolder: string = '';
   @Input() pErrorText: string = '';
   @Input() showError: boolean = false;
+  @Input() onlyNumbers: boolean = false;
 
   value: String = '';
   onChange: any = () => {};
