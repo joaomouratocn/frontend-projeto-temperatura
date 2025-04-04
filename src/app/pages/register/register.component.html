@@ -8,6 +8,7 @@
         [inputPlaceHolder]="'Insira seu nome'"
         [pErrorText]="'Nome inválido'"
         [showError]="nameInvalid"
+        [onlyNumbers]="false"
         formControlName="name"/>
 
         <app-input
@@ -18,6 +19,7 @@
         [inputPlaceHolder]="'Insira seu email'"
         [pErrorText]="'Email inválido'"
         [showError]="emailInvalid"
+        [onlyNumbers]="false"
         formControlName="email"/>
 
         <app-input
@@ -28,6 +30,7 @@
         [inputPlaceHolder]="'Insira sua senha'"
         [pErrorText]="'Senha inválida'"
         [showError]="passwordInvalid"
+        [onlyNumbers]="false"
         formControlName="password"/>
 
         <app-input
@@ -38,6 +41,7 @@
         [inputPlaceHolder]="'Confirme sua senha'"
         [pErrorText]="'Senhas não coincidem'"
         [showError]="matchPassword"
+        [onlyNumbers]="false"
         formControlName="rePassword"/>
 
         <app-select

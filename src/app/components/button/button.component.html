@@ -1,1 +1,5 @@
-<Button (click)="submit()">{{buttonText}}</Button>
+<Button 
+(click)="submit()"
+[ngClass]="orangeButton ? 'orange-button' : 'green-button'">
+<img *ngIf="imageSrc" [src]="imageSrc" [alt]="imageAlt" class="button-icon"/>
+{{buttonText}}</Button>

@@ -1,4 +1,4 @@
-<div>
+<div class="input-container">
     <label [for]="labelName">{{labelText}}</label>
     <input 
     [id]="labelName"
@@ -7,6 +7,6 @@
     [value]="value" 
     (input)="onInput($event)"
     (blur)="onTouched()"
-    [appOnlyNumbers]="onlyNumbers"/>
+    [appOnlyNumbers]="onlyNumbers">
     <p *ngIf="showError">{{pErrorText}}</p>
 </div>

@@ -8,6 +8,7 @@
         [inputPlaceHolder]="'Insira seu email'"
         [pErrorText]="'Email invalído!'"
         [showError]="emailValid"
+        [onlyNumbers]="false"
         formControlName="email" />
 
         <app-input 
@@ -18,6 +19,7 @@
         [inputType]="'password'" 
         [pErrorText]="'Senha precisar ter no minímo 6 caracteres'"
         [showError]="passwordValid"
+        [onlyNumbers]="false"
         formControlName="password" />
 
         <app-button class="button" [buttonText]="'ACESSAR'" (onSubmit)="login()" />

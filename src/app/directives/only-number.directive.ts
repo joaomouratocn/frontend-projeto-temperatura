@@ -15,6 +15,7 @@ export class OnlyNumberDirective {
     'Home',
     'ArrowLeft',
     'ArrowRight',
+    '/',
   ];
 
   constructor(private el: ElementRef) {}

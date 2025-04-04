@@ -108,8 +108,27 @@ export class HomeComponent {
     envMax: new FormControl('', [Validators.required]),
   });
 
+  searchDataForm = new FormGroup({
+    initData: new FormControl('', [
+      Validators.required,
+      Validators.minLength(10),
+    ]),
+    endData: new FormControl('', [
+      Validators.required,
+      Validators.minLength(10),
+    ]),
+  });
+
   send() {
     console.log('Enviar dados!');
+  }
+
+  searchData() {
+    console.log('Buscar filtro de data');
+  }
+
+  printSelection() {
+    console.log('Imprimir seleção');
   }
 
   get refMinInvalid(): boolean {
@@ -151,6 +170,20 @@ export class HomeComponent {
     return (
       this.collectDataForm.controls.envMax.invalid &&
       this.collectDataForm.controls.envMax.touched
+    );
+  }
+
+  get dateInitInvalid(): boolean {
+    return (
+      this.searchDataForm.controls.initData.invalid &&
+      this.searchDataForm.controls.endData.touched
+    );
+  }
+
+  get dateEndInvalid(): boolean {
+    return (
+      this.searchDataForm.controls.endData.invalid &&
+      this.searchDataForm.controls.endData.touched
     );
   }
 }

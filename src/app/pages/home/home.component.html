@@ -1,4 +1,4 @@
-<form [formGroup]="collectDataForm">
+<form [formGroup]="collectDataForm" class="collectDataForm">
   <h1>Temperatura Geladeira:</h1>
   <div class="refrigarator">
     <app-input
@@ -66,4 +66,35 @@
   <app-button [buttonText]="'ENVIAR'" (onSubmit)="send()" />
 </form>
 
+<form [formGroup]="searchDataForm" class="searchDataForm">
+  <app-input
+  [labelName]="'initDate'"
+  [labelText]="'Data inicial:'"
+  [inputPlaceHolder]="'00/00/0000'"
+  [onlyNumbers]="true"
+  [showError]="dateInitInvalid"
+  [pErrorText]="'Data Invalída'"
+  [imageAlt]="'Calendario'"
+  [imageSrc]="'/assets/calendar.png'"
+  formControlName="initData"/>
+  <app-input
+  [labelName]="'endDate'"
+  [labelText]="'Data final:'"
+  [inputPlaceHolder]="'00/00/0000'"
+  [onlyNumbers]="true"
+  [showError]="dateEndInvalid"
+  [pErrorText]="'Data invalída'"
+  [imageAlt]="'Calendario'"
+  [imageSrc]="'/assets/calendar.png'"
+  formControlName="endData"/>
+  <app-button 
+  [buttonText]="'FILTRAR'"
+  (onSubmit)="searchData()"/>
+  <app-button 
+  [buttonText]="'IMPRIMIR'"
+  [orangeButton]="true"
+  [imageAlt]="'Print'"
+  [imageSrc]="'/assets/print.png'"
+  (onSubmit)="printSelection()"/>
+</form>
 <app-table [data]="data" />
