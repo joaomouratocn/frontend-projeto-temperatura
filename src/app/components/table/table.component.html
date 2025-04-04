@@ -1,1 +1,30 @@
-<p>table works!</p>
+<table>
+  <thead>
+    <tr>
+      <th rowspan="2">Data</th>
+      <th colspan="3">Geladeira</th>
+      <th colspan="3">Ambiente</th>
+      <th rowspan="2">Usuário</th>
+    </tr>
+    <tr>
+      <th>Mínimo</th>
+      <th>Atual</th>
+      <th>Máximo</th>
+      <th>Mínimo</th>
+      <th>Atual</th>
+      <th>Máximo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of data">
+      <td>{{ item.data }}</td>
+      <td>{{ item.fridge.min }}</td>
+      <td>{{ item.fridge.cur }}</td>
+      <td>{{ item.fridge.max }}</td>
+      <td>{{ item.env.min }}</td>
+      <td>{{ item.env.cur }}</td>
+      <td>{{ item.env.max }}</td>
+      <td>{{ item.user }}</td>
+    </tr>
+  </tbody>
+</table>

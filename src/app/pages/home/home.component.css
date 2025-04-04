@@ -27,6 +27,12 @@ form {
   }
 }
 
+app-table {
+  height: 500px;
+  margin-top: 24px;
+  overflow-y: auto;
+}
+
 @media (max-width: 375px) {
   form {
     h1 {

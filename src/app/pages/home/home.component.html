@@ -1,61 +1,69 @@
 <form [formGroup]="collectDataForm">
-    <h1>Temperatura Geladeira:</h1>
-    <div class="refrigarator">
-        <app-input
-        [labelName]="'refmin'"
-        [labelText]="'Miníma:'"
-        [inputPlaceHolder]="'0.00°C'"
-        [onlyNumbers]="true"
-        [showError]="refMinInvalid"
-        [pErrorText]="'Dado invalído'"
-        formControlName="refMin"/>
+  <h1>Temperatura Geladeira:</h1>
+  <div class="refrigarator">
+    <app-input
+      [labelName]="'refmin'"
+      [labelText]="'Miníma:'"
+      [inputPlaceHolder]="'0.00°C'"
+      [onlyNumbers]="true"
+      [showError]="refMinInvalid"
+      [pErrorText]="'Dado invalído'"
+      formControlName="refMin"
+    />
 
-        <app-input
-        [labelName]="'refcur'"
-        [labelText]="'Atual:'"
-        [inputPlaceHolder]="'0.00°C'"
-        [onlyNumbers]="true"
-        [showError]="refCurInvalid"
-        [pErrorText]="'Dado invalído'"
-        formControlName="refCur"/>
+    <app-input
+      [labelName]="'refcur'"
+      [labelText]="'Atual:'"
+      [inputPlaceHolder]="'0.00°C'"
+      [onlyNumbers]="true"
+      [showError]="refCurInvalid"
+      [pErrorText]="'Dado invalído'"
+      formControlName="refCur"
+    />
 
-        <app-input
-        [labelName]="'refmax'"
-        [labelText]="'Maxíma:'"
-        [inputPlaceHolder]="'0.00°C'"
-        [onlyNumbers]="true"
-        [showError]="refMaxInvalid"
-        [pErrorText]="'Dado invalído'"
-        formControlName="refMax"/>
-    </div>
-    <h1>Temperatura Ambiente:</h1>
-    <div class="environment">
-        <app-input
-        [labelName]="'envmin'"
-        [labelText]="'Miníma:'"
-        [inputPlaceHolder]="'0.00°C'"
-        [onlyNumbers]="true"
-        [showError]="envMinInvalid"
-        [pErrorText]="'Dado invalído'"
-        formControlName="envMin"/>
+    <app-input
+      [labelName]="'refmax'"
+      [labelText]="'Maxíma:'"
+      [inputPlaceHolder]="'0.00°C'"
+      [onlyNumbers]="true"
+      [showError]="refMaxInvalid"
+      [pErrorText]="'Dado invalído'"
+      formControlName="refMax"
+    />
+  </div>
+  <h1>Temperatura Ambiente:</h1>
+  <div class="environment">
+    <app-input
+      [labelName]="'envmin'"
+      [labelText]="'Miníma:'"
+      [inputPlaceHolder]="'0.00°C'"
+      [onlyNumbers]="true"
+      [showError]="envMinInvalid"
+      [pErrorText]="'Dado invalído'"
+      formControlName="envMin"
+    />
 
-        <app-input
-        [labelName]="'envcur'"
-        [labelText]="'Atual:'"
-        [inputPlaceHolder]="'0.00°C'"
-        [onlyNumbers]="true"
-        [showError]="envCurInvalid"
-        [pErrorText]="'Dado invalído'"
-        formControlName="envCur"/>
+    <app-input
+      [labelName]="'envcur'"
+      [labelText]="'Atual:'"
+      [inputPlaceHolder]="'0.00°C'"
+      [onlyNumbers]="true"
+      [showError]="envCurInvalid"
+      [pErrorText]="'Dado invalído'"
+      formControlName="envCur"
+    />
 
-        <app-input
-        [labelName]="'envmax'"
-        [labelText]="'Maxíma:'"
-        [inputPlaceHolder]="'0.00°C'"
-        [onlyNumbers]="true"
-        [showError]="envMaxInvalid"
-        [pErrorText]="'Dado invalído'"
-        formControlName="envMax"/>
-    </div>
-    <app-button [buttonText]="'ENVIAR'" (onSubmit)="send()"/>
+    <app-input
+      [labelName]="'envmax'"
+      [labelText]="'Maxíma:'"
+      [inputPlaceHolder]="'0.00°C'"
+      [onlyNumbers]="true"
+      [showError]="envMaxInvalid"
+      [pErrorText]="'Dado invalído'"
+      formControlName="envMax"
+    />
+  </div>
+  <app-button [buttonText]="'ENVIAR'" (onSubmit)="send()" />
 </form>
+
+<app-table [data]="data" />

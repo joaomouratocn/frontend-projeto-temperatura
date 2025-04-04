@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ButtonComponent } from '../../components/button/button.component';
 import {
   FormControl,
@@ -8,14 +8,97 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { InputComponent } from '../../components/input/input.component';
+import { TableComponent } from '../../components/table/table.component';
+import { DataModelType } from '../../types/data-model.type';
 
 @Component({
   selector: 'app-home',
-  imports: [InputComponent, ButtonComponent, ReactiveFormsModule, CommonModule],
+  imports: [
+    InputComponent,
+    ButtonComponent,
+    ReactiveFormsModule,
+    CommonModule,
+    TableComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
+  data: DataModelType[] = [
+    {
+      data: '19/03/2025-07:10',
+      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+      env: { min: '27°C', cur: '28°C', max: '29°C' },
+      user: 'JOÃO MOURATO',
+    },
+    {
+      data: '19/03/2025-11:55',
+      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+      env: { min: '27°C', cur: '28°C', max: '29°C' },
+      user: 'JOÃO MOURATO',
+    },
+    {
+      data: '19/03/2025-16:50',
+      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+      env: { min: '27°C', cur: '28°C', max: '29°C' },
+      user: 'JOÃO MOURATO',
+    },
+    {
+      data: '20/03/2025-07:10',
+      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+      env: { min: '27°C', cur: '28°C', max: '29°C' },
+      user: 'JOÃO MOURATO',
+    },
+    {
+      data: '20/03/2025-11:55',
+      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+      env: { min: '27°C', cur: '28°C', max: '29°C' },
+      user: 'JOÃO MOURATO',
+    },
+    {
+      data: '20/03/2025-16:50',
+      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+      env: { min: '27°C', cur: '28°C', max: '29°C' },
+      user: 'JOÃO MOURATO',
+    },
+    {
+      data: '21/03/2025-07:10',
+      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+      env: { min: '27°C', cur: '28°C', max: '29°C' },
+      user: 'JOÃO MOURATO',
+    },
+    {
+      data: '21/03/2025-11:55',
+      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+      env: { min: '27°C', cur: '28°C', max: '29°C' },
+      user: 'JOÃO MOURATO',
+    },
+    {
+      data: '21/03/2025-16:50',
+      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+      env: { min: '27°C', cur: '28°C', max: '29°C' },
+      user: 'JOÃO MOURATO',
+    },
+    {
+      data: '19/03/2025-07:10',
+      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+      env: { min: '27°C', cur: '28°C', max: '29°C' },
+      user: 'JOÃO MOURATO',
+    },
+    {
+      data: '22/03/2025-11:55',
+      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+      env: { min: '27°C', cur: '28°C', max: '29°C' },
+      user: 'JOÃO MOURATO',
+    },
+    {
+      data: '22/03/2025-16:50',
+      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+      env: { min: '27°C', cur: '28°C', max: '29°C' },
+      user: 'JOÃO MOURATO',
+    },
+  ];
+
   collectDataForm = new FormGroup({
     refMin: new FormControl('', [Validators.required, Validators.minLength(3)]),
     refCur: new FormControl('', [Validators.required]),
