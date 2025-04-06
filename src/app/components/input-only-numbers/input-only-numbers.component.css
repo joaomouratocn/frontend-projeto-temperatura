@@ -6,7 +6,7 @@ label {
 
 div {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   padding: 8px;
@@ -15,7 +15,6 @@ div {
   margin-top: 4px;
   border-radius: 20px;
   background-color: var(--text-color-primary);
-  flex-direction: row;
   img {
     width: 24px;
     height: 24px;
@@ -28,15 +27,8 @@ div {
     min-width: 0;
     outline: none;
     border: none;
+    text-align: center;
   }
-}
-
-.normal-orietation {
-  flex-direction: row;
-}
-
-.reverse-orietation {
-  flex-direction: row-reverse;
 }
 
 p {

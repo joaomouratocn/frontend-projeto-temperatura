@@ -1,0 +1,13 @@
+<label [for]="labelName">{{ labelText }}</label>
+<div>
+  <img [src]="imgSrc" [alt]="imgAlt" />
+  <input
+    type="text"
+    [placeholder]="placeHolder"
+    [value]="value"
+    (input)="onInput($event)"
+    (blur)="onTouched()"
+    [appOnlyNumbers]="true"
+  />
+</div>
+<p *ngIf="showError">{{ pErrorText }}</p>

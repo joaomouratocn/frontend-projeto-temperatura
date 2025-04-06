@@ -1,28 +1,34 @@
 <div class="content">
-    <img src="/assets/logo-horizontal-branco.png" alt="Logo">
-    <form [formGroup]="loginForm">
-        <app-input 
-        class="input" 
-        [labelName]="'email'" 
-        [labelText]="'Email:'"
-        [inputPlaceHolder]="'Insira seu email'"
-        [pErrorText]="'Email invalído!'"
-        [showError]="emailValid"
-        [onlyNumbers]="false"
-        formControlName="email" />
+  <img src="/assets/logo-horizontal-branco.png" alt="Logo" />
+  <form [formGroup]="loginForm">
+    <app-input
+      class="input"
+      [labelName]="'email'"
+      [labelText]="'Email:'"
+      [inputPlaceHolder]="'Insira seu email'"
+      [pErrorText]="'Email invalído!'"
+      [showError]="emailValid"
+      [onlyNumbers]="false"
+      [imageSrc]="'/assets/email.png'"
+      [imageAlt]="'Email'"
+      formControlName="email"
+    />
 
-        <app-input 
-        class="input"
-        [labelName]="'password'"
-        [labelText]="'Password:'"
-        [inputPlaceHolder]="'Insira sua senha'" 
-        [inputType]="'password'" 
-        [pErrorText]="'Senha precisar ter no minímo 6 caracteres'"
-        [showError]="passwordValid"
-        [onlyNumbers]="false"
-        formControlName="password" />
+    <app-input
+      class="input"
+      [labelName]="'password'"
+      [labelText]="'Password:'"
+      [inputPlaceHolder]="'Insira sua senha'"
+      [inputType]="'password'"
+      [pErrorText]="'Senha precisar ter no minímo 6 caracteres'"
+      [showError]="passwordValid"
+      [onlyNumbers]="false"
+      [imageSrc]="'/assets/visibility-off.png'"
+      [imageAlt]="'Visibility'"
+      formControlName="password"
+    />
 
-        <app-button class="button" [buttonText]="'ACESSAR'" (onSubmit)="login()" />
-    </form>
-    <p class="pRegister" (click)="register()">Cadastrar</p>
+    <app-button class="button" [buttonText]="'ACESSAR'" (onSubmit)="login()" />
+  </form>
+  <p class="pRegister" (click)="register()">Cadastrar</p>
 </div>

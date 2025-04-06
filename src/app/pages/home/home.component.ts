@@ -7,14 +7,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { InputComponent } from '../../components/input/input.component';
 import { TableComponent } from '../../components/table/table.component';
 import { DataModelType } from '../../types/data-model.type';
+import { InputOnlyNumbersComponent } from '../../components/input-only-numbers/input-only-numbers.component';
 
 @Component({
   selector: 'app-home',
   imports: [
-    InputComponent,
+    InputOnlyNumbersComponent,
     ButtonComponent,
     ReactiveFormsModule,
     CommonModule,
@@ -101,11 +101,11 @@ export class HomeComponent {
 
   collectDataForm = new FormGroup({
     refMin: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    refCur: new FormControl('', [Validators.required]),
-    refMax: new FormControl('', [Validators.required]),
-    envMin: new FormControl('', [Validators.required]),
-    envCur: new FormControl('', [Validators.required]),
-    envMax: new FormControl('', [Validators.required]),
+    refCur: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    refMax: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    envMin: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    envCur: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    envMax: new FormControl('', [Validators.required, Validators.minLength(3)]),
   });
 
   searchDataForm = new FormGroup({

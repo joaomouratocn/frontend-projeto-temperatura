@@ -1,65 +1,71 @@
 <form [formGroup]="collectDataForm" class="collectDataForm">
   <h1>Temperatura Geladeira:</h1>
   <div class="refrigarator">
-    <app-input
+    <app-input-only-numbers
       [labelName]="'refmin'"
       [labelText]="'Miníma:'"
-      [inputPlaceHolder]="'0.00°C'"
-      [onlyNumbers]="true"
+      [placeHolder]="'0.00°C'"
       [showError]="refMinInvalid"
       [pErrorText]="'Dado invalído'"
+      [imgSrc]="'/assets/thermostat.png'"
+      [imgAlt]="'Termometro'"
       formControlName="refMin"
     />
 
-    <app-input
+    <app-input-only-numbers
       [labelName]="'refcur'"
       [labelText]="'Atual:'"
-      [inputPlaceHolder]="'0.00°C'"
-      [onlyNumbers]="true"
+      [placeHolder]="'0.00°C'"
       [showError]="refCurInvalid"
       [pErrorText]="'Dado invalído'"
+      [imgSrc]="'/assets/thermostat.png'"
+      [imgAlt]="'Termometro'"
       formControlName="refCur"
     />
 
-    <app-input
+    <app-input-only-numbers
       [labelName]="'refmax'"
       [labelText]="'Maxíma:'"
-      [inputPlaceHolder]="'0.00°C'"
-      [onlyNumbers]="true"
+      [placeHolder]="'0.00°C'"
       [showError]="refMaxInvalid"
       [pErrorText]="'Dado invalído'"
+      [imgSrc]="'/assets/thermostat.png'"
+      [imgAlt]="'Termometro'"
       formControlName="refMax"
     />
   </div>
   <h1>Temperatura Ambiente:</h1>
   <div class="environment">
-    <app-input
+    <app-input-only-numbers
       [labelName]="'envmin'"
       [labelText]="'Miníma:'"
-      [inputPlaceHolder]="'0.00°C'"
-      [onlyNumbers]="true"
+      [placeHolder]="'0.00°C'"
       [showError]="envMinInvalid"
       [pErrorText]="'Dado invalído'"
+      [imgSrc]="'/assets/thermostat.png'"
+      [imgAlt]="'Termometro'"
       formControlName="envMin"
     />
 
-    <app-input
+    <app-input-only-numbers
       [labelName]="'envcur'"
       [labelText]="'Atual:'"
-      [inputPlaceHolder]="'0.00°C'"
-      [onlyNumbers]="true"
+      [placeHolder]="'0.00°C'"
       [showError]="envCurInvalid"
       [pErrorText]="'Dado invalído'"
+      [imgSrc]="'/assets/thermostat.png'"
+      [imgAlt]="'Termometro'"
       formControlName="envCur"
     />
 
-    <app-input
+    <app-input-only-numbers
       [labelName]="'envmax'"
       [labelText]="'Maxíma:'"
-      [inputPlaceHolder]="'0.00°C'"
-      [onlyNumbers]="true"
+      [placeHolder]="'0.00°C'"
       [showError]="envMaxInvalid"
       [pErrorText]="'Dado invalído'"
+      [imgSrc]="'/assets/thermostat.png'"
+      [imgAlt]="'Termometro'"
       formControlName="envMax"
     />
   </div>
@@ -67,34 +73,33 @@
 </form>
 
 <form [formGroup]="searchDataForm" class="searchDataForm">
-  <app-input
-  [labelName]="'initDate'"
-  [labelText]="'Data inicial:'"
-  [inputPlaceHolder]="'00/00/0000'"
-  [onlyNumbers]="true"
-  [showError]="dateInitInvalid"
-  [pErrorText]="'Data Invalída'"
-  [imageAlt]="'Calendario'"
-  [imageSrc]="'/assets/calendar.png'"
-  formControlName="initData"/>
-  <app-input
-  [labelName]="'endDate'"
-  [labelText]="'Data final:'"
-  [inputPlaceHolder]="'00/00/0000'"
-  [onlyNumbers]="true"
-  [showError]="dateEndInvalid"
-  [pErrorText]="'Data invalída'"
-  [imageAlt]="'Calendario'"
-  [imageSrc]="'/assets/calendar.png'"
-  formControlName="endData"/>
-  <app-button 
-  [buttonText]="'FILTRAR'"
-  (onSubmit)="searchData()"/>
-  <app-button 
-  [buttonText]="'IMPRIMIR'"
-  [orangeButton]="true"
-  [imageAlt]="'Print'"
-  [imageSrc]="'/assets/print.png'"
-  (onSubmit)="printSelection()"/>
+  <app-input-only-numbers
+    [labelName]="'initDate'"
+    [labelText]="'Data inicial:'"
+    [placeHolder]="'00/00/0000'"
+    [showError]="dateInitInvalid"
+    [pErrorText]="'Data Invalída'"
+    [imgSrc]="'/assets/calendar.png'"
+    [imgAlt]="'Calendar'"
+    formControlName="initData"
+  />
+  <app-input-only-numbers
+    [labelName]="'endDate'"
+    [labelText]="'Data final:'"
+    [placeHolder]="'00/00/0000'"
+    [showError]="dateEndInvalid"
+    [pErrorText]="'Data invalída'"
+    [imgSrc]="'/assets/calendar.png'"
+    [imgAlt]="'Calendar'"
+    formControlName="endData"
+  />
+  <app-button [buttonText]="'FILTRAR'" (onSubmit)="searchData()" />
+  <app-button
+    [buttonText]="'IMPRIMIR'"
+    [orangeButton]="true"
+    [imageAlt]="'Print'"
+    [imageSrc]="'/assets/print.png'"
+    (onSubmit)="printSelection()"
+  />
 </form>
 <app-table [data]="data" />

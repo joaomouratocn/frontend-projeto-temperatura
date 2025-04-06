@@ -28,6 +28,12 @@ export class InputComponent implements ControlValueAccessor {
   @Input() pErrorText: string = '';
   @Input() showError: boolean = false;
   @Input() onlyNumbers: boolean = false;
+  @Input() imageSrc?: string = '';
+  @Input() imageAlt: string = '';
+  @Input() reverseOrietation = false;
+  @Input() passwordField: boolean = false;
+
+  showPassword: boolean = false;
 
   value: String = '';
   onChange: any = () => {};
@@ -51,4 +57,29 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean): void {}
+
+  get CurrentInputType(): string {
+    return this.inputType === 'password'
+      ? this.showPassword
+        ? 'text'
+        : 'password'
+      : this.inputType;
+  }
+
+  get toggleIcon(): string {
+    return this.showPassword
+      ? '/assets/visibility.png'
+      : '/assets/visibility-off.png';
+  }
+
+  get shouldShowPassword(): boolean {
+    return this.passwordField
+      ? !!this.imageSrc && this.inputType === 'password'
+      : !!this.imageSrc;
+  }
+
+  togglePasswordVisibily() {
+    this.showPassword = !this.showPassword;
+    console.log(this.showPassword);
+  }
 }
