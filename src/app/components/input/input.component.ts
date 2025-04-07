@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { OnlyNumberDirective } from '../../directives/only-number.directive';
 import { Component, forwardRef, Input } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -9,7 +8,7 @@ import {
 
 @Component({
   selector: 'app-input',
-  imports: [CommonModule, ReactiveFormsModule, OnlyNumberDirective],
+  imports: [CommonModule, ReactiveFormsModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -23,19 +22,14 @@ import {
 export class InputComponent implements ControlValueAccessor {
   @Input() labelName: string = '';
   @Input() labelText: string = '';
-  @Input() inputType: string = 'text';
-  @Input() inputPlaceHolder: string = '';
+  @Input() placeholder: string = '';
   @Input() pErrorText: string = '';
   @Input() showError: boolean = false;
-  @Input() onlyNumbers: boolean = false;
   @Input() imageSrc?: string = '';
   @Input() imageAlt: string = '';
   @Input() reverseOrietation = false;
-  @Input() passwordField: boolean = false;
 
-  showPassword: boolean = false;
-
-  value: String = '';
+  value: string = '';
   onChange: any = () => {};
   onTouched: any = () => {};
 
@@ -57,29 +51,4 @@ export class InputComponent implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean): void {}
-
-  get CurrentInputType(): string {
-    return this.inputType === 'password'
-      ? this.showPassword
-        ? 'text'
-        : 'password'
-      : this.inputType;
-  }
-
-  get toggleIcon(): string {
-    return this.showPassword
-      ? '/assets/visibility.png'
-      : '/assets/visibility-off.png';
-  }
-
-  get shouldShowPassword(): boolean {
-    return this.passwordField
-      ? !!this.imageSrc && this.inputType === 'password'
-      : !!this.imageSrc;
-  }
-
-  togglePasswordVisibily() {
-    this.showPassword = !this.showPassword;
-    console.log(this.showPassword);
-  }
 }

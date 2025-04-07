@@ -1,6 +1,6 @@
 .content {
   width: 100%;
-  max-width: 560px;
+  max-width: 400px;
   border-radius: 20px;
   padding: 32px;
   background-color: var(--surface-color);

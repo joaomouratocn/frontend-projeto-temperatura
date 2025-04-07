@@ -12,11 +12,18 @@ import { RequestService } from '../../services/request.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { LoginModelType } from '../../types/login-model.type';
+import { InputPasswordComponent } from '../../components/input-password/input-password.component';
 
 @Component({
   selector: 'app-login',
   providers: [RequestService, ToastrService],
-  imports: [CommonModule, ReactiveFormsModule, InputComponent, ButtonComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    InputComponent,
+    ButtonComponent,
+    InputPasswordComponent,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })

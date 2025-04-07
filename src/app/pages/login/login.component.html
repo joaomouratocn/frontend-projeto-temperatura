@@ -5,26 +5,19 @@
       class="input"
       [labelName]="'email'"
       [labelText]="'Email:'"
-      [inputPlaceHolder]="'Insira seu email'"
+      [placeholder]="'Insira seu email'"
       [pErrorText]="'Email invalído!'"
       [showError]="emailValid"
-      [onlyNumbers]="false"
       [imageSrc]="'/assets/email.png'"
       [imageAlt]="'Email'"
+      [reverseOrietation]="true"
       formControlName="email"
     />
 
-    <app-input
+    <app-input-password
       class="input"
-      [labelName]="'password'"
-      [labelText]="'Password:'"
-      [inputPlaceHolder]="'Insira sua senha'"
-      [inputType]="'password'"
       [pErrorText]="'Senha precisar ter no minímo 6 caracteres'"
       [showError]="passwordValid"
-      [onlyNumbers]="false"
-      [imageSrc]="'/assets/visibility-off.png'"
-      [imageAlt]="'Visibility'"
       formControlName="password"
     />
 

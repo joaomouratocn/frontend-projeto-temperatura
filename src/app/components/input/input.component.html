@@ -1,19 +1,13 @@
 <label [for]="labelName">{{ labelText }}</label>
 <div [ngClass]="reverseOrietation ? 'reverse-orietation' : 'normal-orietation'">
-  <img
-    *ngIf="shouldShowPassword"
-    [src]="toggleIcon"
-    [alt]="imageAlt"
-    (click)="togglePasswordVisibily()"
-  />
+  <img *ngIf="imageSrc" [src]="imageSrc" [alt]="imageAlt" />
   <input
+    type="text"
     [id]="labelName"
-    [type]="CurrentInputType"
-    [placeholder]="inputPlaceHolder"
+    [placeholder]="placeholder"
     [value]="value"
     (input)="onInput($event)"
     (blur)="onTouched()"
-    [appOnlyNumbers]="onlyNumbers"
   />
 </div>
 <p *ngIf="showError">{{ pErrorText }}</p>

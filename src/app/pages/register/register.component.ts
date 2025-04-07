@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { UnitModelType } from '../../types/unit-model.type';
 import { RegisterModelType } from '../../types/register-model.type';
 import { Router } from '@angular/router';
+import { InputPasswordComponent } from '../../components/input-password/input-password.component';
 
 @Component({
   selector: 'app-register',
@@ -24,6 +25,7 @@ import { Router } from '@angular/router';
     InputComponent,
     ButtonComponent,
     SelectComponent,
+    InputPasswordComponent,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',

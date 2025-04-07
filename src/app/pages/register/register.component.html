@@ -1,59 +1,55 @@
 <div class="content">
-    <img src="/assets/logo-horizontal-branco.png" alt="logo">
-    <form [formGroup]="registerForm">
-        <app-input
-        class="input"
-        [labelName]="'name'"
-        [labelText]="'Nome:'"
-        [inputPlaceHolder]="'Insira seu nome'"
-        [pErrorText]="'Nome inválido'"
-        [showError]="nameInvalid"
-        [onlyNumbers]="false"
-        formControlName="name"/>
+  <img src="/assets/logo-horizontal-branco.png" alt="logo" />
+  <form [formGroup]="registerForm">
+    <app-input
+      class="input"
+      [labelName]="'name'"
+      [labelText]="'Nome:'"
+      [placeholder]="'Insira seu nome'"
+      [pErrorText]="'Nome inválido'"
+      [showError]="nameInvalid"
+      formControlName="name"
+    />
 
-        <app-input
-        class="input"
-        [labelName]="'email'"
-        [labelText]="'Email:'"
-        [inputType]="'email'"
-        [inputPlaceHolder]="'Insira seu email'"
-        [pErrorText]="'Email inválido'"
-        [showError]="emailInvalid"
-        [onlyNumbers]="false"
-        formControlName="email"/>
+    <app-input
+      class="input"
+      [labelName]="'email'"
+      [labelText]="'Email:'"
+      [placeholder]="'Insira seu email'"
+      [pErrorText]="'Email inválido'"
+      [showError]="emailInvalid"
+      formControlName="email"
+    />
 
-        <app-input
-        class="input"
-        [labelName]="'password'"
-        [labelText]="'Senha:'"
-        [inputType]="'password'"
-        [inputPlaceHolder]="'Insira sua senha'"
-        [pErrorText]="'Senha inválida'"
-        [showError]="passwordInvalid"
-        [onlyNumbers]="false"
-        formControlName="password"/>
+    <app-input-password
+      class="input"
+      [pErrorText]="'Senha inválida'"
+      [showError]="passwordInvalid"
+      formControlName="password"
+    />
 
-        <app-input
-        class="input"
-        [labelName]="'confirmPass'"
-        [labelText]="'Confirmar senha:'"
-        [inputType]="'password'"
-        [inputPlaceHolder]="'Confirme sua senha'"
-        [pErrorText]="'Senhas não coincidem'"
-        [showError]="matchPassword"
-        [onlyNumbers]="false"
-        formControlName="rePassword"/>
+    <app-input-password
+      class="input"
+      [pErrorText]="'Senhas não coincidem'"
+      [showError]="matchPassword"
+      formControlName="rePassword"
+    />
 
-        <app-select
-        class="select"
-        [labelName]="'Escolha um item'"
-        [labelText]="'Selecione sua unidade:'"
-        [itens]="unitArray"
-        [pErrorText]="'Selecione sua unidade'"
-        [showError]="unitInvalid"
-        formControlName="unit">
-      </app-select>
+    <app-select
+      class="select"
+      [labelName]="'Escolha um item'"
+      [labelText]="'Selecione sua unidade:'"
+      [itens]="unitArray"
+      [pErrorText]="'Selecione sua unidade'"
+      [showError]="unitInvalid"
+      formControlName="unit"
+    >
+    </app-select>
 
-        <app-button class="button" [buttonText]="'CADASTRAR'" (click)="register()"/>
-    </form>
+    <app-button
+      class="button"
+      [buttonText]="'CADASTRAR'"
+      (click)="register()"
+    />
+  </form>
 </div>
