@@ -10,6 +10,7 @@ import { NavigationEnd, Router } from '@angular/router';
 })
 export class HeaderComponent {
   isHomePage: boolean = false;
+  isUserAdmin: boolean = false;
 
   constructor(private router: Router) {
     this.router.events.subscribe((event) => {

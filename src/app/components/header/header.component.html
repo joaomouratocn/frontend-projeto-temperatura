@@ -2,6 +2,7 @@
     <img src="/assets/logo-horizontal-branco.png" alt="Logo">
     <div>
         <p class="pUserName">João Mourato</p>
-        <p class="pLogout">Sair</p>
+        <p class="pLink" *ngIf="isUserAdmin"> Lançar</p>
+        <p class="pLink">Sair</p>
     </div>
 </header>
