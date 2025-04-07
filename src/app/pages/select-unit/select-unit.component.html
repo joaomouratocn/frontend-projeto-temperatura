@@ -1,0 +1,21 @@
+<div class="content">
+    <form [formGroup]="selectForm">
+  
+      <app-select
+        class="select"
+        [labelName]="'Escolha um item'"
+        [labelText]="'Selecione uma unidade:'"
+        [itens]="unitArray"
+        [pErrorText]="'Selecione uma unidade'"
+        [showError]="unitInvalid"
+        formControlName="unit"
+      >
+      </app-select>
+  
+      <app-button
+        class="button"
+        [buttonText]="'ACESSAR'"
+      />
+    </form>
+  </div>
+  

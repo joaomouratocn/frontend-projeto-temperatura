@@ -62,8 +62,6 @@ export class HomeAdminComponent {
     }
 
     const { unit, allUnits, initData, endData } = this.formCollectData.controls;
-
-    this.requestService.getReport();
   }
 
   toggleDisable() {
