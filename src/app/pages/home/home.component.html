@@ -73,7 +73,7 @@
 </form>
 
 <form [formGroup]="searchDataForm" class="searchDataForm">
-  <app-input-only-numbers
+  <app-input-data
     [labelName]="'initDate'"
     [labelText]="'Data inicial:'"
     [placeHolder]="'00/00/0000'"
@@ -83,7 +83,7 @@
     [imgAlt]="'Calendar'"
     formControlName="initData"
   />
-  <app-input-only-numbers
+  <app-input-data
     [labelName]="'endDate'"
     [labelText]="'Data final:'"
     [placeHolder]="'00/00/0000'"
@@ -102,4 +102,4 @@
     (onSubmit)="printSelection()"
   />
 </form>
-<app-table [data]="data" />
+<app-table [data]="getFakeData()" />

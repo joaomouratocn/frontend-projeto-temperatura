@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { TableComponent } from '../../components/table/table.component';
 import { DataModelType } from '../../types/data-model.type';
 import { InputOnlyNumbersComponent } from '../../components/input-only-numbers/input-only-numbers.component';
+import { InputDataComponent } from '../../components/input-data/input-data.component';
 
 @Component({
   selector: 'app-home',
@@ -19,93 +20,43 @@ import { InputOnlyNumbersComponent } from '../../components/input-only-numbers/i
     ReactiveFormsModule,
     CommonModule,
     TableComponent,
+    InputDataComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  data: DataModelType[] = [
-    {
-      data: '19/03/2025-07:10',
-      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-      env: { min: '27°C', cur: '28°C', max: '29°C' },
-      user: 'JOÃO MOURATO',
-    },
-    {
-      data: '19/03/2025-11:55',
-      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-      env: { min: '27°C', cur: '28°C', max: '29°C' },
-      user: 'JOÃO MOURATO',
-    },
-    {
-      data: '19/03/2025-16:50',
-      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-      env: { min: '27°C', cur: '28°C', max: '29°C' },
-      user: 'JOÃO MOURATO',
-    },
-    {
-      data: '20/03/2025-07:10',
-      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-      env: { min: '27°C', cur: '28°C', max: '29°C' },
-      user: 'JOÃO MOURATO',
-    },
-    {
-      data: '20/03/2025-11:55',
-      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-      env: { min: '27°C', cur: '28°C', max: '29°C' },
-      user: 'JOÃO MOURATO',
-    },
-    {
-      data: '20/03/2025-16:50',
-      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-      env: { min: '27°C', cur: '28°C', max: '29°C' },
-      user: 'JOÃO MOURATO',
-    },
-    {
-      data: '21/03/2025-07:10',
-      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-      env: { min: '27°C', cur: '28°C', max: '29°C' },
-      user: 'JOÃO MOURATO',
-    },
-    {
-      data: '21/03/2025-11:55',
-      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-      env: { min: '27°C', cur: '28°C', max: '29°C' },
-      user: 'JOÃO MOURATO',
-    },
-    {
-      data: '21/03/2025-16:50',
-      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-      env: { min: '27°C', cur: '28°C', max: '29°C' },
-      user: 'JOÃO MOURATO',
-    },
-    {
-      data: '19/03/2025-07:10',
-      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-      env: { min: '27°C', cur: '28°C', max: '29°C' },
-      user: 'JOÃO MOURATO',
-    },
-    {
-      data: '22/03/2025-11:55',
-      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-      env: { min: '27°C', cur: '28°C', max: '29°C' },
-      user: 'JOÃO MOURATO',
-    },
-    {
-      data: '22/03/2025-16:50',
-      fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-      env: { min: '27°C', cur: '28°C', max: '29°C' },
-      user: 'JOÃO MOURATO',
-    },
-  ];
-
   collectDataForm = new FormGroup({
-    refMin: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    refCur: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    refMax: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    envMin: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    envCur: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    envMax: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    refMin: new FormControl('', [
+      Validators.required,
+      Validators.min(-30),
+      Validators.max(100),
+    ]),
+    refCur: new FormControl('', [
+      Validators.required,
+      Validators.min(-30),
+      Validators.max(100),
+    ]),
+    refMax: new FormControl('', [
+      Validators.required,
+      Validators.min(-30),
+      Validators.max(100),
+    ]),
+    envMin: new FormControl('', [
+      Validators.required,
+      Validators.min(-30),
+      Validators.max(100),
+    ]),
+    envCur: new FormControl('', [
+      Validators.required,
+      Validators.min(-30),
+      Validators.max(100),
+    ]),
+    envMax: new FormControl('', [
+      Validators.required,
+      Validators.min(-30),
+      Validators.max(100),
+    ]),
   });
 
   searchDataForm = new FormGroup({
@@ -185,5 +136,82 @@ export class HomeComponent {
       this.searchDataForm.controls.endData.invalid &&
       this.searchDataForm.controls.endData.touched
     );
+  }
+
+  getFakeData(): DataModelType[] {
+    return [
+      {
+        data: '19/03/2025-07:10',
+        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+        env: { min: '27°C', cur: '28°C', max: '29°C' },
+        user: 'JOÃO MOURATO',
+      },
+      {
+        data: '19/03/2025-11:55',
+        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+        env: { min: '27°C', cur: '28°C', max: '29°C' },
+        user: 'JOÃO MOURATO',
+      },
+      {
+        data: '19/03/2025-16:50',
+        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+        env: { min: '27°C', cur: '28°C', max: '29°C' },
+        user: 'JOÃO MOURATO',
+      },
+      {
+        data: '20/03/2025-07:10',
+        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+        env: { min: '27°C', cur: '28°C', max: '29°C' },
+        user: 'JOÃO MOURATO',
+      },
+      {
+        data: '20/03/2025-11:55',
+        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+        env: { min: '27°C', cur: '28°C', max: '29°C' },
+        user: 'JOÃO MOURATO',
+      },
+      {
+        data: '20/03/2025-16:50',
+        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+        env: { min: '27°C', cur: '28°C', max: '29°C' },
+        user: 'JOÃO MOURATO',
+      },
+      {
+        data: '21/03/2025-07:10',
+        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+        env: { min: '27°C', cur: '28°C', max: '29°C' },
+        user: 'JOÃO MOURATO',
+      },
+      {
+        data: '21/03/2025-11:55',
+        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+        env: { min: '27°C', cur: '28°C', max: '29°C' },
+        user: 'JOÃO MOURATO',
+      },
+      {
+        data: '21/03/2025-16:50',
+        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+        env: { min: '27°C', cur: '28°C', max: '29°C' },
+        user: 'JOÃO MOURATO',
+      },
+      {
+        data: '19/03/2025-07:10',
+        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+        env: { min: '27°C', cur: '28°C', max: '29°C' },
+        user: 'JOÃO MOURATO',
+      },
+      {
+        data: '22/03/2025-11:55',
+        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+        env: { min: '27°C', cur: '28°C', max: '29°C' },
+        user: 'JOÃO MOURATO',
+      },
+      {
+        data: '22/03/2025-16:50',
+        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
+        env: { min: '27°C', cur: '28°C', max: '29°C' },
+        user: 'JOÃO MOURATO',
+      },
+    ];
   }
 }

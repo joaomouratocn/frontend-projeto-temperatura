@@ -5,9 +5,7 @@ import { Directive, ElementRef, HostListener, Input } from '@angular/core';
   standalone: true,
 })
 export class OnlyNumberDirective {
-  @Input() appOnlyNumbers: boolean = false;
-
-  private regex: RegExp = new RegExp(/^[0-9.]*$/);
+  private regex: RegExp = new RegExp(/^[0-9.-]*$/);
   private specialKeys: string[] = [
     'Backspace',
     'Tab',
@@ -15,7 +13,7 @@ export class OnlyNumberDirective {
     'Home',
     'ArrowLeft',
     'ArrowRight',
-    '/',
+    'Delete',
   ];
 
   constructor(private el: ElementRef) {}
@@ -26,8 +24,23 @@ export class OnlyNumberDirective {
       return;
     }
 
+    const input = this.el.nativeElement;
     const currentValue: string = this.el.nativeElement.value;
-    const nextValue: string = currentValue.concat(event.key);
+
+    if (
+      currentValue.length >= 6 &&
+      !input.selectionStart !== input.selectionEnd
+    ) {
+      event.preventDefault();
+      return;
+    }
+
+    if (
+      event.key === '-' &&
+      (currentValue.length > 0 || currentValue.includes('-'))
+    ) {
+      event.preventDefault();
+    }
 
     if (!String(event.key).match(this.regex)) {
       event.preventDefault();

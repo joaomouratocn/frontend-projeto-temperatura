@@ -37,7 +37,7 @@
   align-items: end;
   gap: 16px;
 
-  app-input-only-numbers {
+  app-input-data {
     width: 25%;
   }
 
@@ -67,7 +67,7 @@ app-table {
 
   .searchDataForm {
     flex-direction: column;
-    app-input-only-numbers {
+    app-input-data {
       width: 100%;
     }
     app-button {

@@ -26,17 +26,18 @@ export class InputOnlyNumbersComponent implements ControlValueAccessor {
   @Input() pErrorText: string = '';
 
   value: string = '';
-  onchange: any = () => {};
+  onChange: any = () => {};
   onTouched: any = () => {};
   onInput(event: Event) {
     const value = (event.target as HTMLInputElement).value;
+    this.onChange(value);
   }
 
   writeValue(value: any): void {
     this.value = value;
   }
   registerOnChange(fn: any): void {
-    this.onchange = fn;
+    this.onChange = fn;
   }
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
