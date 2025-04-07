@@ -29,6 +29,7 @@ export class ValidateDateDirective {
       const isValid = this.isValidDate(value);
       if (!isValid) {
         input.setCustomValidity('Data inválida');
+        input.value = '';
       } else {
         input.setCustomValidity('');
       }

@@ -49,11 +49,13 @@ export class LoginComponent {
 
     const { email, password } = this.loginForm.controls;
 
-    if (typeof email == 'string' && typeof password == 'string') {
+    if (typeof email.value === 'string' && typeof password.value === 'string') {
       const loginModeType: LoginModelType = {
-        email: email,
-        password: password,
+        email: email.value,
+        password: password.value,
       };
+
+      console.log('Enviar dados');
 
       this.requestService.login(loginModeType).subscribe({
         next: (response) => {

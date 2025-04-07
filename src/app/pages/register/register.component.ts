@@ -65,18 +65,22 @@ export class RegisterComponent {
 
     const { name, email, password, unit } = this.registerForm.controls;
 
+    console.log(typeof name.value);
+
     if (
-      typeof name == 'string' &&
-      typeof email == 'string' &&
-      typeof password == 'string' &&
-      typeof unit == 'string'
+      typeof name.value === 'string' &&
+      typeof email.value === 'string' &&
+      typeof password.value === 'string' &&
+      typeof unit.value === 'string'
     ) {
       const newUser: RegisterModelType = {
-        name: name,
-        email: email,
-        password: password,
-        unit: unit,
+        name: name.value,
+        email: email.value,
+        password: password.value,
+        unit: unit.value,
       };
+
+      console.log('Enviar Dados!');
 
       this.requestService.register(newUser).subscribe({
         next: (response) => {

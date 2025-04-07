@@ -1,6 +1,9 @@
 <div>
     <label [for]="labelName">{{ labelText }}</label>
-    <select [id]="labelName" [formControl]="control" (blur)="onTouched()">
+    <select 
+    [id]="labelName" 
+    [formControl]="control"
+    (blur)="onTouched()">
         <option value="" disabled selected>Selecione...</option>
         <option *ngFor="let item of itens" [value]="item.id">{{ item.name }}</option>
     </select>

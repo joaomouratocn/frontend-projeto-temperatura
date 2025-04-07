@@ -19,8 +19,6 @@ import { OnlyNumberDirective } from '../../directives/only-number.directive';
 export class InputOnlyNumbersComponent implements ControlValueAccessor {
   @Input() labelName: string = '';
   @Input() labelText: string = '';
-  @Input() imgSrc: string = '';
-  @Input() imgAlt: string = '';
   @Input() placeHolder: string = '';
   @Input() showError: boolean = false;
   @Input() pErrorText: string = '';

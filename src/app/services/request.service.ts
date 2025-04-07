@@ -6,6 +6,7 @@ import { LoginModelType } from '../types/login-model.type';
 import { RegisterModelType } from '../types/register-model.type';
 import { RegisterResponseType } from '../types/register-response.type';
 import { ErrorType } from '../types/erro-type';
+import { ReportModelType } from '../types/report-model.type';
 
 @Injectable({
   providedIn: 'root',
@@ -38,6 +39,16 @@ export class RequestService {
       email: resgiterModelType.email,
       password: resgiterModelType.password,
       unit: resgiterModelType.unit,
+    });
+  }
+
+  getReport(
+    reportModel: ReportModelType
+  ): Observable<RegisterResponseType | ErrorType> {
+    return this.http.post<RegisterResponseType>(this.apiUrl, {
+      units: reportModel.units,
+      intData: reportModel.initData,
+      endData: reportModel.endData,
     });
   }
 }

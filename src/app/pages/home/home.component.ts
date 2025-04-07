@@ -124,14 +124,14 @@ export class HomeComponent {
     );
   }
 
-  get dateInitInvalid(): boolean {
+  get dataInitInvalid(): boolean {
     return (
       this.searchDataForm.controls.initData.invalid &&
-      this.searchDataForm.controls.endData.touched
+      this.searchDataForm.controls.initData.touched
     );
   }
 
-  get dateEndInvalid(): boolean {
+  get dataEndInvalid(): boolean {
     return (
       this.searchDataForm.controls.endData.invalid &&
       this.searchDataForm.controls.endData.touched

@@ -7,8 +7,6 @@
       [placeHolder]="'0.00°C'"
       [showError]="refMinInvalid"
       [pErrorText]="'Dado invalído'"
-      [imgSrc]="'/assets/thermostat.png'"
-      [imgAlt]="'Termometro'"
       formControlName="refMin"
     />
 
@@ -18,8 +16,6 @@
       [placeHolder]="'0.00°C'"
       [showError]="refCurInvalid"
       [pErrorText]="'Dado invalído'"
-      [imgSrc]="'/assets/thermostat.png'"
-      [imgAlt]="'Termometro'"
       formControlName="refCur"
     />
 
@@ -29,8 +25,6 @@
       [placeHolder]="'0.00°C'"
       [showError]="refMaxInvalid"
       [pErrorText]="'Dado invalído'"
-      [imgSrc]="'/assets/thermostat.png'"
-      [imgAlt]="'Termometro'"
       formControlName="refMax"
     />
   </div>
@@ -42,8 +36,6 @@
       [placeHolder]="'0.00°C'"
       [showError]="envMinInvalid"
       [pErrorText]="'Dado invalído'"
-      [imgSrc]="'/assets/thermostat.png'"
-      [imgAlt]="'Termometro'"
       formControlName="envMin"
     />
 
@@ -53,8 +45,6 @@
       [placeHolder]="'0.00°C'"
       [showError]="envCurInvalid"
       [pErrorText]="'Dado invalído'"
-      [imgSrc]="'/assets/thermostat.png'"
-      [imgAlt]="'Termometro'"
       formControlName="envCur"
     />
 
@@ -64,8 +54,6 @@
       [placeHolder]="'0.00°C'"
       [showError]="envMaxInvalid"
       [pErrorText]="'Dado invalído'"
-      [imgSrc]="'/assets/thermostat.png'"
-      [imgAlt]="'Termometro'"
       formControlName="envMax"
     />
   </div>
@@ -77,20 +65,16 @@
     [labelName]="'initDate'"
     [labelText]="'Data inicial:'"
     [placeHolder]="'00/00/0000'"
-    [showError]="dateInitInvalid"
+    [showError]="dataInitInvalid"
     [pErrorText]="'Data Invalída'"
-    [imgSrc]="'/assets/calendar.png'"
-    [imgAlt]="'Calendar'"
     formControlName="initData"
   />
   <app-input-data
     [labelName]="'endDate'"
     [labelText]="'Data final:'"
     [placeHolder]="'00/00/0000'"
-    [showError]="dateEndInvalid"
+    [showError]="dataEndInvalid"
     [pErrorText]="'Data invalída'"
-    [imgSrc]="'/assets/calendar.png'"
-    [imgAlt]="'Calendar'"
     formControlName="endData"
   />
   <app-button [buttonText]="'FILTRAR'" (onSubmit)="searchData()" />

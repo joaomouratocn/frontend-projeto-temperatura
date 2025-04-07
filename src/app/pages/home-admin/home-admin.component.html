@@ -1,1 +1,45 @@
-<p>home-admin works!</p>
+<form [formGroup]="formCollectData">
+    <div class="selectUnit">
+        <app-select
+        [labelName]="'unit'"
+        [labelText]="'Selecione a unidade'"
+        [pErrorText]="'Unidade invalída'"
+        [showError]="unitInvalid"
+        [itens]="unitArray"
+        formControlName="unit"/>
+
+        <div>
+            <input type="checkbox" id="allUnits" formControlName="allUnits" (click)="toggleDisable()">
+            <label for="allUnits" id="allUnitsLabel">Selecionar todas</label>
+        </div>
+    </div>
+
+    <div class="filterData">
+        <app-input-data
+        [labelName]="'initData'"
+        [labelText]="'Data inicial:'"
+        [placeHolder]="'00/00/0000'"
+        [showError]="initDateInvalid"
+        [pErrorText]="'Data invalída'"
+        formControlName="initData"/>
+    
+        <app-input-data
+        [labelName]="'endData'"
+        [labelText]="'Data final:'"
+        [placeHolder]="'00/00/0000'"
+        [showError]="endDateInvalid"
+        [pErrorText]="'Data invalída'"
+        formControlName="endData"/>
+    
+        <app-button
+        [buttonText]="'FILTRAR'"
+        (click)="getReport()"/>
+    
+        <app-button
+        [buttonText]="'IMPRIMIR'"
+        [orangeButton]="true"
+        [imageSrc]="'assets/print.png'"/>
+    </div>
+
+    <app-table [data]="getFakeData()"/>
+</form>

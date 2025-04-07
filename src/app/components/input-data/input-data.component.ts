@@ -20,8 +20,6 @@ export class InputDataComponent implements ControlValueAccessor {
   @Input() labelName: string = '';
   @Input() labelText: string = '';
   @Input() placeHolder: string = '';
-  @Input() imgSrc?: string = '';
-  @Input() imgAlt: string = '';
   @Input() showError: boolean = false;
   @Input() pErrorText: string = '';
 
