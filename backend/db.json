@@ -1,0 +1,52 @@
+{
+    "units": [
+        {
+            "id":"AAA",
+            "name":"Água Vermelha"
+        },
+        {
+            "id":"BBB",
+            "name":"Botafogo"
+        },
+        {
+            "id":"CCC",
+            "name":"Cidade Aracy"
+        },
+        {
+            "id":"DDD",
+            "name":"Delta"
+        },
+        {
+            "id":"EEE",
+            "name":"Itamaraty"
+        },
+        {
+            "id":"FFF",
+            "name":"Jockey Club"
+        },
+        {
+            "id":"GGG",
+            "name":"Redenção"
+        },
+        {
+            "id":"HHH",
+            "name":"Santa Eudóxia"
+        },
+        {
+            "id":"III",
+            "name":"Santa Felicia"
+        },
+        {
+            "id":"JJJ",
+            "name":"São José"
+        },
+        {
+            "id":"KKK",
+            "name":"Vila Isabel"
+        },
+        {
+            "id":"LLL",
+            "name":"Zavaglia"
+        }
+    ]
+}
