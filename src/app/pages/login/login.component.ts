@@ -55,12 +55,9 @@ export class LoginComponent {
         password: password.value,
       };
 
-      console.log('Enviar dados');
-
       this.requestService.login(loginModeType).subscribe({
         next: (response) => {
           if ('token' in response) {
-            this.toastr.success('Sucesso!');
             console.log(response);
             this.router.navigate(['']);
           } else {

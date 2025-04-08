@@ -1,52 +1,84 @@
 {
-    "units": [
-        {
-            "id":"AAA",
-            "name":"Água Vermelha"
-        },
-        {
-            "id":"BBB",
-            "name":"Botafogo"
-        },
-        {
-            "id":"CCC",
-            "name":"Cidade Aracy"
-        },
-        {
-            "id":"DDD",
-            "name":"Delta"
-        },
-        {
-            "id":"EEE",
-            "name":"Itamaraty"
-        },
-        {
-            "id":"FFF",
-            "name":"Jockey Club"
-        },
-        {
-            "id":"GGG",
-            "name":"Redenção"
-        },
-        {
-            "id":"HHH",
-            "name":"Santa Eudóxia"
-        },
-        {
-            "id":"III",
-            "name":"Santa Felicia"
-        },
-        {
-            "id":"JJJ",
-            "name":"São José"
-        },
-        {
-            "id":"KKK",
-            "name":"Vila Isabel"
-        },
-        {
-            "id":"LLL",
-            "name":"Zavaglia"
-        }
-    ]
+  "units": [
+    {
+      "id": "AAA",
+      "name": "Água Vermelha"
+    },
+    {
+      "id": "BBB",
+      "name": "Botafogo"
+    },
+    {
+      "id": "CCC",
+      "name": "Cidade Aracy"
+    },
+    {
+      "id": "DDD",
+      "name": "Delta"
+    },
+    {
+      "id": "EEE",
+      "name": "Itamaraty"
+    },
+    {
+      "id": "FFF",
+      "name": "Jockey Club"
+    },
+    {
+      "id": "GGG",
+      "name": "Redenção"
+    },
+    {
+      "id": "HHH",
+      "name": "Santa Eudóxia"
+    },
+    {
+      "id": "III",
+      "name": "Santa Felicia"
+    },
+    {
+      "id": "JJJ",
+      "name": "São José"
+    },
+    {
+      "id": "KKK",
+      "name": "Vila Isabel"
+    },
+    {
+      "id": "LLL",
+      "name": "Zavaglia"
+    }
+  ],
+  "login": [
+    {
+      "name": "João Mourato",
+      "auth-token": "token123",
+      "id": "67d5"
+    },
+    {
+      "id": "1781",
+      "email": "joaoubamit@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": "ea66",
+      "email": "joaoubamit@gmail.com",
+      "password": "123456789"
+    },
+    {
+      "id": "107c",
+      "email": "joaoubamit@gmail.com",
+      "password": "123456789"
+    },
+    {
+      "id": "fac1",
+      "email": "joaoubamit@gmail.com",
+      "password": "1234578"
+    },
+    {
+      "id": "2663",
+      "email": "joaoubamit@gmail.com",
+      "password": "12345678"
+    }
+  ]
 }

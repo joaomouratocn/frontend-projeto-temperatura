@@ -9,6 +9,7 @@ import { NavigationEnd, Router } from '@angular/router';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
+  userName: string = sessionStorage.getItem('name') || '';
   isHomePage: boolean = false;
   isUserAdmin: boolean = false;
 

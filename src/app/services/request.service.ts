@@ -20,14 +20,14 @@ export class RequestService {
     loginModelType: LoginModelType
   ): Observable<LoginResponseType | ErrorType> {
     return this.http
-      .post<LoginResponseType>(this.apiUrl, {
+      .post<LoginResponseType>(`${this.apiUrl}login`, {
         email: loginModelType.email,
         password: loginModelType.password,
       })
       .pipe(
         tap((value) => {
-          sessionStorage.setItem('email', value.email);
-          sessionStorage.setItem('auth-token', value.token);
+          sessionStorage.setItem('name', value.name);
+          sessionStorage.setItem('token', value.token);
         })
       );
   }
@@ -54,7 +54,9 @@ export class RequestService {
   }
 
   getUnits(): Observable<UnitModelType[] | ErrorType> {
-    const headers = new HttpHeaders({ Authorization: 'Bearer token' });
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+    });
     return this.http.get<UnitModelType[]>(`${this.apiUrl}units`, { headers });
   }
 }
