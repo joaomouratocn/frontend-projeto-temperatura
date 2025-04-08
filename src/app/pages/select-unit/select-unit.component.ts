@@ -19,18 +19,17 @@ import { ButtonComponent } from '../../components/button/button.component';
   styleUrl: './select-unit.component.css',
 })
 export class SelectUnitComponent {
-  unitArray: UnitModelType[] = [
-    { id: '1', name: 'Água vermelha' },
-    { id: '2', name: 'Vila Isabel' },
-    { id: '3', name: 'Santa Felicia' },
-    { id: '4', name: 'São José' },
-  ];
+  unitArray: UnitModelType[] = [];
 
   constructor(
     private requestService: RequestService,
     private toastr: ToastrService,
     private router: Router
   ) {}
+
+  ngOnInit() {
+    this.getUnits();
+  }
 
   selectForm = new FormGroup({
     unit: new FormControl('', [Validators.required]),
@@ -41,5 +40,32 @@ export class SelectUnitComponent {
       this.selectForm.controls.unit.invalid &&
       this.selectForm.controls.unit.touched
     );
+  }
+
+  selectUnit() {
+    if (this.selectForm.controls.unit.invalid) {
+      this.toastr.error('Selecione uma unidade');
+      return;
+    }
+
+    this.router.navigate(['']);
+  }
+
+  getUnits() {
+    this.requestService.getUnits().subscribe({
+      next: (response) => {
+        if (Array.isArray(response)) {
+          this.unitArray = response;
+        } else {
+          const errorMessage = response.description || 'Erro desconhecido';
+          this.toastr.error(errorMessage);
+          console.log(response);
+        }
+      },
+      error: (erro) => {
+        this.toastr.error('Erro de comunicação com o servidor');
+        console.error(erro);
+      },
+    });
   }
 }

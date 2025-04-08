@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { LoginResponseType } from '../types/login-response.type';
@@ -7,12 +7,13 @@ import { RegisterModelType } from '../types/register-model.type';
 import { RegisterResponseType } from '../types/register-response.type';
 import { ErrorType } from '../types/erro-type';
 import { ReportModelType } from '../types/report-model.type';
+import { UnitModelType } from '../types/unit-model.type';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RequestService {
-  private apiUrl = 'URL';
+  private apiUrl = 'http://localhost:3001/';
   constructor(private http: HttpClient) {}
 
   login(
@@ -50,5 +51,10 @@ export class RequestService {
       intData: reportModel.initData,
       endData: reportModel.endData,
     });
+  }
+
+  getUnits(): Observable<UnitModelType[] | ErrorType> {
+    const headers = new HttpHeaders({ Authorization: 'Bearer token' });
+    return this.http.get<UnitModelType[]>(`${this.apiUrl}units`, { headers });
   }
 }

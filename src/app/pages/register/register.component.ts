@@ -31,12 +31,7 @@ import { InputPasswordComponent } from '../../components/input-password/input-pa
   styleUrl: './register.component.css',
 })
 export class RegisterComponent {
-  unitArray: UnitModelType[] = [
-    { id: '1', name: 'Água vermelha' },
-    { id: '2', name: 'Vila Isabel' },
-    { id: '3', name: 'Santa Felicia' },
-    { id: '4', name: 'São José' },
-  ];
+  unitArray: UnitModelType[] = [];
 
   constructor(
     private requestService: RequestService,
@@ -57,6 +52,28 @@ export class RegisterComponent {
     ]),
     unit: new FormControl('', [Validators.required]),
   });
+
+  ngOnInit() {
+    this.getUnits();
+  }
+
+  getUnits() {
+    this.requestService.getUnits().subscribe({
+      next: (response) => {
+        if (Array.isArray(response)) {
+          this.unitArray = response;
+        } else {
+          const errorMessage = response.description || 'Erro desconhecido!';
+          this.toastr.error(errorMessage);
+          console.log(response);
+        }
+      },
+      error: (erro) => {
+        this.toastr.error('Erro de comunicação com o servidor.');
+        console.error('Erro HTTP:', erro);
+      },
+    });
+  }
 
   register() {
     if (this.invalidFields()) {
