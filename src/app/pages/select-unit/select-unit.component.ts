@@ -48,6 +48,7 @@ export class SelectUnitComponent {
       return;
     }
 
+    console.log(this.selectForm.controls.unit.value);
     this.router.navigate(['']);
   }
 

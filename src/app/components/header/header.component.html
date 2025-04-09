@@ -2,7 +2,19 @@
     <img src="/assets/logo-horizontal-branco.png" alt="Logo">
     <div>
         <p class="pUserName">{{userName}}</p>
-        <p class="pLink" *ngIf="isUserAdmin"> Lançar</p>
-        <p class="pLink">Sair</p>
+        <p 
+        class="pLink"
+        *ngIf="showRelease"
+        (click)="goSelectUnit()"
+        > Lançar</p>
+        <p 
+        class="pLink"
+        *ngIf="showBack"
+        (click)="goHomeAdm()"
+        > Voltar</p>
+        <p
+        class="pLink"
+        (click)="logout()"
+        >Sair</p>
     </div>
 </header>

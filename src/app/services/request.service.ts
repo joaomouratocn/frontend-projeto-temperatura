@@ -28,6 +28,7 @@ export class RequestService {
         tap((value) => {
           sessionStorage.setItem('name', value.name);
           sessionStorage.setItem('token', value.token);
+          sessionStorage.setItem('role', value.role);
         })
       );
   }

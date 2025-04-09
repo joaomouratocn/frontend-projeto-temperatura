@@ -28,7 +28,7 @@ header {
       cursor: pointer;
     }
 
-    .pLogout:hover {
+    .pLink:hover {
       color: var(--hover-color);
     }
   }

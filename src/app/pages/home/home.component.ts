@@ -26,6 +26,8 @@ import { InputDataComponent } from '../../components/input-data/input-data.compo
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
+  unitName: string = sessionStorage.getItem('unit') || '';
+
   collectDataForm = new FormGroup({
     refMin: new FormControl('', [
       Validators.required,

@@ -10,8 +10,8 @@ import { NavigationEnd, Router } from '@angular/router';
 })
 export class HeaderComponent {
   userName: string = sessionStorage.getItem('name') || '';
+  role: string = sessionStorage.getItem('role') || '1';
   isHomePage: boolean = false;
-  isUserAdmin: boolean = false;
 
   constructor(private router: Router) {
     this.router.events.subscribe((event) => {
@@ -20,5 +20,26 @@ export class HeaderComponent {
         this.isHomePage = !pages.includes(event.url);
       }
     });
+  }
+
+  get showRelease(): boolean {
+    return this.role === '0' && this.router.url === '/home';
+  }
+
+  get showBack(): boolean {
+    return this.role === '0' && this.router.url === '/';
+  }
+
+  goSelectUnit() {
+    this.router.navigate(['select']);
+  }
+
+  goHomeAdm() {
+    this.router.navigate(['home']);
+  }
+
+  logout() {
+    sessionStorage.clear();
+    this.router.navigate(['login']);
   }
 }

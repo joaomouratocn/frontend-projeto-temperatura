@@ -55,22 +55,17 @@ export class LoginComponent {
         password: password.value,
       };
 
-      this.requestService.login(loginModeType).subscribe({
-        next: (response) => {
-          if ('token' in response) {
-            console.log(response);
-            this.router.navigate(['']);
-          } else {
-            const errorMessage = response.description || 'Erro desconhecido!';
-            this.toastr.error(errorMessage);
-            console.log(response);
-          }
-        },
-        error: (error) => {
-          this.toastr.error('Falha na comunicação com o servidor!');
-          console.error(error);
-        },
-      });
+      sessionStorage.setItem('name', 'João Mourato');
+      sessionStorage.setItem('token', 'token123');
+      sessionStorage.setItem('unit', 'Água vermelha');
+      sessionStorage.setItem('unitId', '123abc');
+      sessionStorage.setItem('role', '0');
+
+      if (sessionStorage.getItem('role') === '0') {
+        this.router.navigate(['home']);
+        return;
+      }
+      this.router.navigate(['']);
     }
   }
 

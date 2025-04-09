@@ -1,5 +1,6 @@
 <form [formGroup]="collectDataForm" class="collectDataForm">
-  <h1>Temperatura Geladeira:</h1>
+  <h1>{{unitName}}</h1>
+  <h2>Temperatura Geladeira:</h2>
   <div class="refrigarator">
     <app-input-only-numbers
       [labelName]="'refmin'"
@@ -28,7 +29,7 @@
       formControlName="refMax"
     />
   </div>
-  <h1>Temperatura Ambiente:</h1>
+  <h2>Temperatura Ambiente:</h2>
   <div class="environment">
     <app-input-only-numbers
       [labelName]="'envmin'"
