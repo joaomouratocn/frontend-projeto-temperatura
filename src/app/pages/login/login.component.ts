@@ -13,6 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { LoginModelType } from '../../types/login-model.type';
 import { InputPasswordComponent } from '../../components/input-password/input-password.component';
+import { decode } from '../../utils/decode';
 
 @Component({
   selector: 'app-login',
@@ -55,13 +56,9 @@ export class LoginComponent {
         password: password.value,
       };
 
-      sessionStorage.setItem('name', 'João Mourato');
-      sessionStorage.setItem('token', 'token123');
-      sessionStorage.setItem('unit', 'Água vermelha');
-      sessionStorage.setItem('unitId', '123abc');
-      sessionStorage.setItem('role', '0');
+      this.requestService.login(loginModeType);
 
-      if (sessionStorage.getItem('role') === '0') {
+      if (decode()?.role === '0') {
         this.router.navigate(['home']);
         return;
       }

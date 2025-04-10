@@ -28,12 +28,7 @@ import { Router } from '@angular/router';
   styleUrl: './home-admin.component.css',
 })
 export class HomeAdminComponent {
-  unitArray: UnitModelType[] = [
-    { id: '1', name: 'Água vermelha' },
-    { id: '2', name: 'Vila Isabel' },
-    { id: '3', name: 'Santa Felicia' },
-    { id: '4', name: 'São José' },
-  ];
+  unitArray: UnitModelType[] = [];
 
   formCollectData = new FormGroup({
     unit: new FormControl({ value: '', disabled: false }, [
@@ -55,6 +50,10 @@ export class HomeAdminComponent {
     private toastr: ToastrService,
     private router: Router
   ) {}
+
+  ngOnInit() {
+    this.getUnits();
+  }
 
   getReport() {
     if (this.invalidFields()) {
@@ -113,6 +112,23 @@ export class HomeAdminComponent {
     return true;
   }
 
+  getUnits() {
+    this.requestService.getUnits().subscribe({
+      next: (response) => {
+        if (Array.isArray(response)) {
+          this.unitArray = response;
+        } else {
+          const errorMessage = response.description || 'Erro desconhecido!';
+          this.toastr.error(errorMessage);
+          console.log(response);
+        }
+      },
+      error: (erro) => {
+        this.toastr.error('Erro de comunicação com o servidor.');
+        console.error('Erro HTTP:', erro);
+      },
+    });
+  }
   getFakeData(): DataModelType[] {
     return [
       {

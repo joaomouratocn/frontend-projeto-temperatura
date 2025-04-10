@@ -49,10 +49,7 @@
       "name": "Zavaglia"
     }
   ],
-  "login": [
-    {
-      "name": "João Mourato",
-      "auth-token": "token123"
-    }
+  "users": [
+    
   ]
 }

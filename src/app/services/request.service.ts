@@ -8,6 +8,7 @@ import { RegisterResponseType } from '../types/register-response.type';
 import { ErrorType } from '../types/erro-type';
 import { ReportModelType } from '../types/report-model.type';
 import { UnitModelType } from '../types/unit-model.type';
+import { decode } from '../utils/decode';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +20,15 @@ export class RequestService {
   login(
     loginModelType: LoginModelType
   ): Observable<LoginResponseType | ErrorType> {
+    sessionStorage.setItem('name', 'João Mourato');
+    sessionStorage.setItem(
+      'token',
+      //TOKEN ROLE 0
+      //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJKb8OjbyBNb3VyYXRvIiwicm9sZSI6IjAiLCJleHAiOjQ3OTM3MTQ0MDB9.dummy-signature'
+      //TOKEN ROLE 1
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJKb8OjbyBNb3VyYXRvIiwicm9sZSI6IjEiLCJleHAiOjQ3OTM3MTQ0MDB9.dummy-signature'
+    );
+
     return this.http
       .post<LoginResponseType>(`${this.apiUrl}login`, {
         email: loginModelType.email,
@@ -26,9 +36,14 @@ export class RequestService {
       })
       .pipe(
         tap((value) => {
-          sessionStorage.setItem('name', value.name);
-          sessionStorage.setItem('token', value.token);
-          sessionStorage.setItem('role', value.role);
+          sessionStorage.setItem('name', 'João Mourato');
+          sessionStorage.setItem(
+            'token',
+            //TOKEN ROLE 0
+            //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJKb8OjbyBNb3VyYXRvIiwicm9sZSI6IjAiLCJleHAiOjQ3OTM3MTQ0MDB9.dummy-signature'
+            //TOKEN ROLE 1
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJKb8OjbyBNb3VyYXRvIiwicm9sZSI6IjEiLCJleHAiOjQ3OTM3MTQ0MDB9.dummy-signature'
+          );
         })
       );
   }
@@ -59,5 +74,15 @@ export class RequestService {
       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
     });
     return this.http.get<UnitModelType[]>(`${this.apiUrl}units`, { headers });
+  }
+
+  getUnitId(): Observable<UnitModelType | ErrorType> {
+    const userId = decode()?.userId;
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+    });
+    return this.http.get<UnitModelType>(
+      `${this.apiUrl}units/${sessionStorage.getItem(userId || '')}`
+    );
   }
 }
