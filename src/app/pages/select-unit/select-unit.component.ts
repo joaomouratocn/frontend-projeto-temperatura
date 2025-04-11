@@ -48,7 +48,8 @@ export class SelectUnitComponent {
       return;
     }
 
-    console.log(this.selectForm.controls.unit.value);
+    const unit = this.selectForm.controls.unit.value;
+    sessionStorage.setItem('unitId', unit || '');
     this.router.navigate(['']);
   }
 

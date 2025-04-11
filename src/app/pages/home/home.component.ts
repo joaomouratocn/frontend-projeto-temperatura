@@ -30,6 +30,7 @@ import { decode } from '../../utils/decode';
 })
 export class HomeComponent {
   unitName: string = '';
+  data: DataModelType[] = [];
   collectDataForm = new FormGroup({
     refMin: new FormControl('', [
       Validators.required,

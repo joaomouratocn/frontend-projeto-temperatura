@@ -14,6 +14,7 @@ import { RequestService } from '../../services/request.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { decode } from '../../utils/decode';
+import { DataModelType } from '../../types/data-model.type';
 
 @Component({
   selector: 'app-home-admin',
@@ -28,6 +29,7 @@ import { decode } from '../../utils/decode';
   styleUrl: './home-admin.component.css',
 })
 export class HomeAdminComponent {
+  data: DataModelType[] = [];
   unitArray: UnitModelType[] = [];
 
   formCollectData = new FormGroup({
@@ -47,12 +49,10 @@ export class HomeAdminComponent {
 
   constructor(
     private requestService: RequestService,
-    private toastr: ToastrService,
-    private router: Router
+    private toastr: ToastrService
   ) {}
   ngOnInit() {
-    console.log(decode()?.role);
-    console.log(decode()?.userId);
+    this.getUnits();
   }
 
   getReport() {
@@ -118,14 +118,14 @@ export class HomeAdminComponent {
         if (Array.isArray(response)) {
           this.unitArray = response;
         } else {
-          const errorMessage = response.description || 'Erro desconhecido!';
+          const errorMessage = response.description;
           this.toastr.error(errorMessage);
           console.log(response);
         }
       },
       error: (erro) => {
         this.toastr.error('Erro de comunicação com o servidor.');
-        console.error('Erro HTTP:', erro);
+        console.error(erro);
       },
     });
   }

@@ -25,9 +25,9 @@ export class RequestService {
     sessionStorage.setItem(
       'token',
       //TOKEN ROLE 0
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJKb8OjbyBNb3VyYXRvIiwicm9sZSI6IjAiLCJleHAiOjQ3OTM3MTQ0MDB9.dummy-signature'
+      //'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJBQUEiLCJyb2xlIjoiMCIsImV4cCI6NDc5MzcxNDQwMH0.vWgSBShXEvKSU_AkCl3PvWUEPDBX-a0gQ3e0gBdSHeg'
       //TOKEN ROLE 1
-      //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJKb8OjbyBNb3VyYXRvIiwicm9sZSI6IjEiLCJleHAiOjQ3OTM3MTQ0MDB9.dummy-signature'
+      'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJBQUEiLCJyb2xlIjoiMSIsImV4cCI6NDc5MzcxNDQwMH0.n8DfpzjUPBRbSxvFUKXQltEC8VufNiTxN7jPQ08Fvhs'
     );
 
     return this.http
@@ -37,14 +37,8 @@ export class RequestService {
       })
       .pipe(
         tap((value) => {
-          sessionStorage.setItem('name', 'João Mourato');
-          sessionStorage.setItem(
-            'token',
-            //TOKEN ROLE 0
-            //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJKb8OjbyBNb3VyYXRvIiwicm9sZSI6IjAiLCJleHAiOjQ3OTM3MTQ0MDB9.dummy-signature'
-            //TOKEN ROLE 1
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJKb8OjbyBNb3VyYXRvIiwicm9sZSI6IjEiLCJleHAiOjQ3OTM3MTQ0MDB9.dummy-signature'
-          );
+          sessionStorage.setItem('name', value.name);
+          sessionStorage.setItem('token', value.token);
         })
       );
   }
