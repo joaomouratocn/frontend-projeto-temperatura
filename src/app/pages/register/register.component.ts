@@ -97,8 +97,6 @@ export class RegisterComponent {
         unit: unit.value,
       };
 
-      console.log('Enviar Dados!');
-
       this.requestService.register(newUser).subscribe({
         next: (response) => {
           if ('email' in response) {

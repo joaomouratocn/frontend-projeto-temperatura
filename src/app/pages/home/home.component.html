@@ -78,13 +78,12 @@
     [pErrorText]="'Data invalída'"
     formControlName="endData"
   />
-  <app-button [buttonText]="'FILTRAR'" (onSubmit)="searchData()" />
+  <app-button [buttonText]="'FILTRAR'"/>
   <app-button
     [buttonText]="'IMPRIMIR'"
     [orangeButton]="true"
     [imageAlt]="'Print'"
     [imageSrc]="'/assets/print.png'"
-    (onSubmit)="printSelection()"
   />
 </form>
 <app-table [data]="data" />

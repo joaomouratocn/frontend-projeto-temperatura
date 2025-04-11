@@ -10,6 +10,7 @@ import { ReportModelType } from '../types/report-model.type';
 import { UnitModelType } from '../types/unit-model.type';
 import { decode } from '../utils/decode';
 import { GetUnitNameResponseType } from '../types/get-unit-name-response.type';
+import { DataModelResponseType } from '../types/data-model-response.type';
 
 @Injectable({
   providedIn: 'root',
@@ -52,6 +53,13 @@ export class RequestService {
       password: resgiterModelType.password,
       unit: resgiterModelType.unit,
     });
+  }
+
+  sendData(): Observable<DataModelResponseType | ErrorType> {
+    const headers = HttpHeaders({
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+    });
+    return this.http.post();
   }
 
   getUnits(): Observable<UnitModelType[] | ErrorType> {

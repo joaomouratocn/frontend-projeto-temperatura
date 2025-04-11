@@ -14,6 +14,8 @@ import { InputDataComponent } from '../../components/input-data/input-data.compo
 import { RequestService } from '../../services/request.service';
 import { ToastrService } from 'ngx-toastr';
 import { decode } from '../../utils/decode';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-home',
@@ -31,6 +33,7 @@ import { decode } from '../../utils/decode';
 export class HomeComponent {
   unitName: string = '';
   data: DataModelType[] = [];
+
   collectDataForm = new FormGroup({
     refMin: new FormControl('', [
       Validators.required,
@@ -77,7 +80,8 @@ export class HomeComponent {
 
   constructor(
     private requestService: RequestService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -112,16 +116,88 @@ export class HomeComponent {
     }
   }
 
+  getunitName() {
+    this.requestService.getUnit().subscribe({
+      next: (response) => {
+        if ('name' in response) {
+          this.unitName = response.name;
+        } else {
+          this.toastr.error(response.description);
+          console.error(response.description);
+        }
+      },
+      error: (error) => {
+        this.toastr.error(`Erro na comunicação com servidor: ${error}`);
+      },
+    });
+  }
+
   send() {
-    console.log('Enviar dados!');
+    if (this.isInvalidField()) {
+      return;
+    }
+
+    this.confirmDialog();
+
+    const { refMin, refCur, refMax, envMin, envCur, envMax } =
+      this.collectDataForm.controls;
+
+    if (
+      typeof refMin.value === 'string' &&
+      typeof refCur.value === 'string' &&
+      typeof refMax.value === 'string' &&
+      typeof envMin.value === 'string' &&
+      typeof envCur.value === 'string' &&
+      typeof envMax.value === 'string'
+    ) {
+      this.requestService.sendData().subscribe({});
+    }
   }
 
-  searchData() {
-    console.log('Buscar filtro de data');
+  confirmDialog() {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {
+        title: 'Confirme',
+        message:
+          'Confimar a inserção deste dados? Após o envio não será possivel altera-los.',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.send();
+      }
+    });
   }
 
-  printSelection() {
-    console.log('Imprimir seleção');
+  isInvalidField(): boolean {
+    let isInvalidField: String[] = [];
+
+    if (this.collectDataForm.controls.refMin.invalid) {
+      isInvalidField.push('Geladeira Miníma');
+    }
+    if (this.collectDataForm.controls.refCur.invalid) {
+      isInvalidField.push('Geladeira Atual');
+    }
+    if (this.collectDataForm.controls.refMax.invalid) {
+      isInvalidField.push('Geladeira Maxíma');
+    }
+    if (this.collectDataForm.controls.envMin.invalid) {
+      isInvalidField.push('Ambiente Minímo');
+    }
+    if (this.collectDataForm.controls.refCur.invalid) {
+      isInvalidField.push('Ambiente Atual');
+    }
+    if (this.collectDataForm.controls.envMax.invalid) {
+      isInvalidField.push('Ambiente Maxímo');
+    }
+
+    if (isInvalidField.length === 0) {
+      return false;
+    }
+
+    this.toastr.error(`Campos inválidos: ${isInvalidField.join(', ')}`);
+    return true;
   }
 
   get refMinInvalid(): boolean {
@@ -178,21 +254,5 @@ export class HomeComponent {
       this.searchDataForm.controls.endData.invalid &&
       this.searchDataForm.controls.endData.touched
     );
-  }
-
-  getunitName() {
-    this.requestService.getUnit().subscribe({
-      next: (response) => {
-        if ('name' in response) {
-          this.unitName = response.name;
-        } else {
-          this.toastr.error(response.description);
-          console.error(response.description);
-        }
-      },
-      error: (error) => {
-        this.toastr.error(`Erro na comunicação com servidor: ${error}`);
-      },
-    });
   }
 }
