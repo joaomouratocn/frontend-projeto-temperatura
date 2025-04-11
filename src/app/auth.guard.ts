@@ -1,10 +1,11 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { decode } from './utils/decode';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const token = sessionStorage.getItem('token');
-  const role = sessionStorage.getItem('role');
+  const role = decode()?.role;
   const requiredRole = route.data?.['role'] as string[];
 
   if (token) {

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { decode } from '../../utils/decode';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,7 @@ import { NavigationEnd, Router } from '@angular/router';
 })
 export class HeaderComponent {
   userName: string = sessionStorage.getItem('name') || '';
-  role: string = sessionStorage.getItem('role') || '1';
+  role: string = decode()?.role || '1';
   isHomePage: boolean = false;
 
   constructor(private router: Router) {

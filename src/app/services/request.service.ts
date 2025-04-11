@@ -9,6 +9,7 @@ import { ErrorType } from '../types/erro-type';
 import { ReportModelType } from '../types/report-model.type';
 import { UnitModelType } from '../types/unit-model.type';
 import { decode } from '../utils/decode';
+import { GetUnitNameResponseType } from '../types/get-unit-name-response.type';
 
 @Injectable({
   providedIn: 'root',
@@ -24,9 +25,9 @@ export class RequestService {
     sessionStorage.setItem(
       'token',
       //TOKEN ROLE 0
-      //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJKb8OjbyBNb3VyYXRvIiwicm9sZSI6IjAiLCJleHAiOjQ3OTM3MTQ0MDB9.dummy-signature'
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJKb8OjbyBNb3VyYXRvIiwicm9sZSI6IjAiLCJleHAiOjQ3OTM3MTQ0MDB9.dummy-signature'
       //TOKEN ROLE 1
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJKb8OjbyBNb3VyYXRvIiwicm9sZSI6IjEiLCJleHAiOjQ3OTM3MTQ0MDB9.dummy-signature'
+      //'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJKb8OjbyBNb3VyYXRvIiwicm9sZSI6IjEiLCJleHAiOjQ3OTM3MTQ0MDB9.dummy-signature'
     );
 
     return this.http
@@ -59,16 +60,6 @@ export class RequestService {
     });
   }
 
-  getReport(
-    reportModel: ReportModelType
-  ): Observable<RegisterResponseType | ErrorType> {
-    return this.http.post<RegisterResponseType>(this.apiUrl, {
-      units: reportModel.units,
-      intData: reportModel.initData,
-      endData: reportModel.endData,
-    });
-  }
-
   getUnits(): Observable<UnitModelType[] | ErrorType> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
@@ -76,13 +67,24 @@ export class RequestService {
     return this.http.get<UnitModelType[]>(`${this.apiUrl}units`, { headers });
   }
 
-  getUnitId(): Observable<UnitModelType | ErrorType> {
+  getUnit(): Observable<GetUnitNameResponseType | ErrorType> {
     const userId = decode()?.userId;
     const headers = new HttpHeaders({
       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
     });
     return this.http.get<UnitModelType>(
-      `${this.apiUrl}units/${sessionStorage.getItem(userId || '')}`
+      `${this.apiUrl}units/${decode()?.userId}`
+    );
+  }
+
+  getUnitById(): Observable<GetUnitNameResponseType | ErrorType> {
+    const unitId = sessionStorage.getItem('unitId');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+    });
+
+    return this.http.get<GetUnitNameResponseType>(
+      `${this.apiUrl}units/${unitId}`
     );
   }
 }

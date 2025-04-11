@@ -10,10 +10,10 @@ import { UnitModelType } from '../../types/unit-model.type';
 import { InputDataComponent } from '../../components/input-data/input-data.component';
 import { ButtonComponent } from '../../components/button/button.component';
 import { TableComponent } from '../../components/table/table.component';
-import { DataModelType } from '../../types/data-model.type';
 import { RequestService } from '../../services/request.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { decode } from '../../utils/decode';
 
 @Component({
   selector: 'app-home-admin',
@@ -50,9 +50,9 @@ export class HomeAdminComponent {
     private toastr: ToastrService,
     private router: Router
   ) {}
-
   ngOnInit() {
-    this.getUnits();
+    console.log(decode()?.role);
+    console.log(decode()?.userId);
   }
 
   getReport() {
@@ -128,81 +128,5 @@ export class HomeAdminComponent {
         console.error('Erro HTTP:', erro);
       },
     });
-  }
-  getFakeData(): DataModelType[] {
-    return [
-      {
-        data: '19/03/2025-07:10',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-      {
-        data: '19/03/2025-11:55',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-      {
-        data: '19/03/2025-16:50',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-      {
-        data: '20/03/2025-07:10',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-      {
-        data: '20/03/2025-11:55',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-      {
-        data: '20/03/2025-16:50',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-      {
-        data: '21/03/2025-07:10',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-      {
-        data: '21/03/2025-11:55',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-      {
-        data: '21/03/2025-16:50',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-      {
-        data: '19/03/2025-07:10',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-      {
-        data: '22/03/2025-11:55',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-      {
-        data: '22/03/2025-16:50',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-    ];
   }
 }

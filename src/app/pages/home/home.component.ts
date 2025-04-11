@@ -11,6 +11,9 @@ import { TableComponent } from '../../components/table/table.component';
 import { DataModelType } from '../../types/data-model.type';
 import { InputOnlyNumbersComponent } from '../../components/input-only-numbers/input-only-numbers.component';
 import { InputDataComponent } from '../../components/input-data/input-data.component';
+import { RequestService } from '../../services/request.service';
+import { ToastrService } from 'ngx-toastr';
+import { decode } from '../../utils/decode';
 
 @Component({
   selector: 'app-home',
@@ -26,8 +29,7 @@ import { InputDataComponent } from '../../components/input-data/input-data.compo
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  unitName: string = sessionStorage.getItem('unit') || '';
-
+  unitName: string = '';
   collectDataForm = new FormGroup({
     refMin: new FormControl('', [
       Validators.required,
@@ -71,6 +73,43 @@ export class HomeComponent {
       Validators.minLength(10),
     ]),
   });
+
+  constructor(
+    private requestService: RequestService,
+    private toastr: ToastrService
+  ) {}
+
+  ngOnInit() {
+    if (decode()?.role === '1') {
+      this.requestService.getUnit().subscribe({
+        next: (response) => {
+          if ('name' in response) {
+            this.unitName = response.name;
+          } else {
+            console.error(`Erro ao carregar dados ${response.description}`);
+          }
+        },
+        error: (error) => {
+          console.error(`Erro de comnunicação com servidor: ${error}`);
+          this.toastr.error('Não foi possivel carregar nome da unidade');
+        },
+      });
+    } else {
+      this.requestService.getUnitById().subscribe({
+        next: (response) => {
+          if ('name' in response) {
+            this.unitName = response.name;
+          } else {
+            console.error(`Erro ao carregar dados ${response.description}`);
+          }
+        },
+        error: (error) => {
+          console.error(`Erro de comnunicação com servidor: ${error}`);
+          this.toastr.error('Não foi possivel carregar nome da unidade');
+        },
+      });
+    }
+  }
 
   send() {
     console.log('Enviar dados!');
@@ -140,80 +179,19 @@ export class HomeComponent {
     );
   }
 
-  getFakeData(): DataModelType[] {
-    return [
-      {
-        data: '19/03/2025-07:10',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
+  getunitName() {
+    this.requestService.getUnit().subscribe({
+      next: (response) => {
+        if ('name' in response) {
+          this.unitName = response.name;
+        } else {
+          this.toastr.error(response.description);
+          console.error(response.description);
+        }
       },
-      {
-        data: '19/03/2025-11:55',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
+      error: (error) => {
+        this.toastr.error(`Erro na comunicação com servidor: ${error}`);
       },
-      {
-        data: '19/03/2025-16:50',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-      {
-        data: '20/03/2025-07:10',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-      {
-        data: '20/03/2025-11:55',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-      {
-        data: '20/03/2025-16:50',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-      {
-        data: '21/03/2025-07:10',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-      {
-        data: '21/03/2025-11:55',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-      {
-        data: '21/03/2025-16:50',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-      {
-        data: '19/03/2025-07:10',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-      {
-        data: '22/03/2025-11:55',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-      {
-        data: '22/03/2025-16:50',
-        fridge: { min: '-3°C', cur: '-4°C', max: '-5°C' },
-        env: { min: '27°C', cur: '28°C', max: '29°C' },
-        user: 'JOÃO MOURATO',
-      },
-    ];
+    });
   }
 }
