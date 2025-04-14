@@ -1,4 +1,13 @@
 {
+  "users": [
+    {
+      "id": "e468",
+      "name": "joao mourato",
+      "email": "joaoubamit@gmail.com",
+      "password": "12345678",
+      "unit": "AAA"
+    }
+  ],
   "units": [
     {
       "id": "AAA",
@@ -49,7 +58,38 @@
       "name": "Zavaglia"
     }
   ],
-
-  "data":[
+  "data": [
+    {
+      "id": "3590",
+      "date": "14/04/2025-13:52",
+      "fridge": {
+        "min": "-7.50",
+        "cur": "-7.70",
+        "max": "-8.00"
+      },
+      "env": {
+        "min": "27.45",
+        "cur": "28.00",
+        "max": "29.00"
+      },
+      "unit": "AAA",
+      "user": "AAA"
+    },
+    {
+      "id": "b6bc",
+      "date": "14/04/2025-14:41",
+      "fridge": {
+        "min": "-7.50",
+        "cur": "-7.70",
+        "max": "-8.00"
+      },
+      "env": {
+        "min": "27.45",
+        "cur": "28.00",
+        "max": "29.00"
+      },
+      "unit": "AAA",
+      "user": "AAA"
+    }
   ]
 }

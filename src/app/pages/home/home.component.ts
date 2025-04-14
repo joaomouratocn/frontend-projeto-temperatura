@@ -87,12 +87,13 @@ export class HomeComponent {
 
   ngOnInit() {
     if (decode()?.role === '1') {
-      this.requestService.getUnit().subscribe({
+      this.requestService.getUnitByUser().subscribe({
         next: (response) => {
           if ('name' in response) {
+            this.loadTable(response.id);
             this.unitName = response.name;
           } else {
-            console.error(`Erro ao carregar dados ${response.description}`);
+            console.error(`Erro ao carregar dados: ${response.description}`);
           }
         },
         error: (error) => {
@@ -104,9 +105,11 @@ export class HomeComponent {
       this.requestService.getUnitById().subscribe({
         next: (response) => {
           if ('name' in response) {
+            this.loadTable(response.id);
             this.unitName = response.name;
           } else {
-            console.error(`Erro ao carregar dados ${response.description}`);
+            console.error(`Erro ao carregar dados: ${response.description}`);
+            this.toastr.error('Não foi possivel carregar nome da unidade');
           }
         },
         error: (error) => {
@@ -117,23 +120,7 @@ export class HomeComponent {
     }
   }
 
-  getunitName() {
-    this.requestService.getUnit().subscribe({
-      next: (response) => {
-        if ('name' in response) {
-          this.unitName = response.name;
-        } else {
-          this.toastr.error(response.description);
-          console.error(response.description);
-        }
-      },
-      error: (error) => {
-        this.toastr.error(`Erro na comunicação com servidor: ${error}`);
-      },
-    });
-  }
-
-  send() {
+  sendData() {
     if (this.isInvalidField()) {
       return;
     }
@@ -153,27 +140,56 @@ export class HomeComponent {
         date: getDateHour(),
         fridge: { min: refMin.value, cur: refCur.value, max: refMax.value },
         env: { min: envMin.value, cur: envCur.value, max: envMax.value },
+        unit: sessionStorage.getItem('unitId') || '',
         user: decode()?.userId || '',
       };
 
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         data: {
           title: 'Confirme',
-          message: `Confimar a inserção deste dados? Após o envio não será possivel altera-los.
-          Geladeira 
-          \nMin: ${data.fridge.min}\nAtual: ${data.fridge.cur}\nMax: ${data.fridge.max}
-          \n\nAmbiente
-          \nMin: ${data.env.min}\nAtual: ${data.env.cur}\nMax: ${data.env.max} 
-          `,
+          message: `Confimar a inserção deste dados?\nApós o envio não será possivel altera-los.\n
+          Geladeira:\nMin: ${data.fridge.min}\nAtual: ${data.fridge.cur}\nMax: ${data.fridge.max}
+          \nAmbiente:\nMin: ${data.env.min}\nAtual: ${data.env.cur}\nMax: ${data.env.max}`,
         },
       });
 
       dialogRef.afterClosed().subscribe((result) => {
         if (result) {
-          this.requestService.sendData(data).subscribe({});
+          this.requestService.sendData(data).subscribe({
+            next: (response) => {
+              if ('id' in response) {
+                this.toastr.success('Dados enviados com sucesso!');
+                if (data.unit !== '') {
+                  this.loadTable(data.unit);
+                }
+              } else {
+                this.toastr.error(response.description);
+              }
+            },
+            error: (erro) => {
+              this.toastr.error('Erro na comunicação com servidor');
+              console.error(erro);
+            },
+          });
         }
       });
     }
+  }
+
+  loadTable(unitId: string) {
+    this.requestService.getData(unitId).subscribe({
+      next: (response) => {
+        if (Array.isArray(response)) {
+          this.data = response;
+        } else {
+          this.toastr.error(response.description);
+        }
+      },
+      error: (erro) => {
+        this.toastr.error('Erro na comunicação com servidor');
+        console.log(erro);
+      },
+    });
   }
 
   isInvalidField(): boolean {

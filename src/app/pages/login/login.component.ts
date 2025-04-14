@@ -57,8 +57,6 @@ export class LoginComponent {
       };
 
       this.requestService.login(loginModeType);
-      console.log(decode()?.role);
-      console.log(decode()?.userId);
 
       if (decode()?.role === '0') {
         this.router.navigate(['home']);

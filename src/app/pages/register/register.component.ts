@@ -104,12 +104,14 @@ export class RegisterComponent {
             console.log(response);
             this.router.navigate(['login']);
           } else {
-            const errorMessage = response.description || 'Erro desconhecido!';
-            this.toastr.error(errorMessage);
+            this.toastr.error(response.description);
             console.log(response);
           }
         },
-        error: (erro) => {},
+        error: (erro) => {
+          this.toastr.error('Erro de cominicação com servidor!');
+          console.log(erro);
+        },
       });
     }
   }

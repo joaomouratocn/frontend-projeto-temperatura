@@ -1,12 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { catchError, Observable, tap, throwError } from 'rxjs';
 import { LoginResponseType } from '../types/login-response.type';
 import { LoginModelType } from '../types/login-model.type';
 import { RegisterModelType } from '../types/register-model.type';
 import { RegisterResponseType } from '../types/register-response.type';
 import { ErrorType } from '../types/erro-type';
-import { ReportModelType } from '../types/report-model.type';
 import { UnitModelType } from '../types/unit-model.type';
 import { decode } from '../utils/Decode';
 import { GetUnitNameResponseType } from '../types/get-unit-name-response.type';
@@ -17,7 +16,7 @@ import { DataModelType } from '../types/data-model.type';
   providedIn: 'root',
 })
 export class RequestService {
-  private apiUrl = 'http://localhost:3001/';
+  private apiUrl = 'http://localhost:3002/';
   constructor(private http: HttpClient) {}
 
   login(
@@ -48,12 +47,22 @@ export class RequestService {
   register(
     resgiterModelType: RegisterModelType
   ): Observable<RegisterResponseType | ErrorType> {
-    return this.http.post<RegisterResponseType>(this.apiUrl, {
-      name: resgiterModelType.name,
-      email: resgiterModelType.email,
-      password: resgiterModelType.password,
-      unit: resgiterModelType.unit,
-    });
+    return this.http
+      .post<RegisterResponseType>(`${this.apiUrl}users`, {
+        name: resgiterModelType.name,
+        email: resgiterModelType.email,
+        password: resgiterModelType.password,
+        unit: resgiterModelType.unit,
+      })
+      .pipe(
+        catchError((error) => {
+          const customError: ErrorType = {
+            cod: 1,
+            description: 'Erro ao registrar usuário',
+          };
+          return throwError(() => customError);
+        })
+      );
   }
 
   sendData(
@@ -63,8 +72,18 @@ export class RequestService {
       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
     });
     return this.http.post<DataModelResponseType>(
-      `${this.apiUrl}/data`,
+      `${this.apiUrl}data`,
       dataModelType
+    );
+  }
+
+  getData(unitId: string): Observable<DataModelResponseType[] | ErrorType> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+    });
+    return this.http.get<DataModelResponseType[]>(
+      `${this.apiUrl}data/${unitId}`,
+      { headers }
     );
   }
 
@@ -75,8 +94,7 @@ export class RequestService {
     return this.http.get<UnitModelType[]>(`${this.apiUrl}units`, { headers });
   }
 
-  getUnit(): Observable<GetUnitNameResponseType | ErrorType> {
-    const userId = decode()?.userId;
+  getUnitByUser(): Observable<GetUnitNameResponseType | ErrorType> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
     });
@@ -86,13 +104,11 @@ export class RequestService {
   }
 
   getUnitById(): Observable<GetUnitNameResponseType | ErrorType> {
-    const unitId = sessionStorage.getItem('unitId');
     const headers = new HttpHeaders({
       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
     });
-
     return this.http.get<GetUnitNameResponseType>(
-      `${this.apiUrl}units/${unitId}`
+      `${this.apiUrl}units/${sessionStorage.getItem('unitId')}`
     );
   }
 }
