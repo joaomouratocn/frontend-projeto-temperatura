@@ -13,9 +13,10 @@ import { InputOnlyNumbersComponent } from '../../components/input-only-numbers/i
 import { InputDataComponent } from '../../components/input-data/input-data.component';
 import { RequestService } from '../../services/request.service';
 import { ToastrService } from 'ngx-toastr';
-import { decode } from '../../utils/decode';
+import { decode } from '../../utils/Decode';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
+import { getDateHour } from '../../utils/GetDateHour';
 
 @Component({
   selector: 'app-home',
@@ -35,32 +36,32 @@ export class HomeComponent {
   data: DataModelType[] = [];
 
   collectDataForm = new FormGroup({
-    refMin: new FormControl('', [
+    refMin: new FormControl('-7.50', [
       Validators.required,
       Validators.min(-30),
       Validators.max(100),
     ]),
-    refCur: new FormControl('', [
+    refCur: new FormControl('-7.70', [
       Validators.required,
       Validators.min(-30),
       Validators.max(100),
     ]),
-    refMax: new FormControl('', [
+    refMax: new FormControl('-8.00', [
       Validators.required,
       Validators.min(-30),
       Validators.max(100),
     ]),
-    envMin: new FormControl('', [
+    envMin: new FormControl('27.45', [
       Validators.required,
       Validators.min(-30),
       Validators.max(100),
     ]),
-    envCur: new FormControl('', [
+    envCur: new FormControl('28.00', [
       Validators.required,
       Validators.min(-30),
       Validators.max(100),
     ]),
-    envMax: new FormControl('', [
+    envMax: new FormControl('29.00', [
       Validators.required,
       Validators.min(-30),
       Validators.max(100),
@@ -137,8 +138,6 @@ export class HomeComponent {
       return;
     }
 
-    this.confirmDialog();
-
     const { refMin, refCur, refMax, envMin, envCur, envMax } =
       this.collectDataForm.controls;
 
@@ -150,24 +149,31 @@ export class HomeComponent {
       typeof envCur.value === 'string' &&
       typeof envMax.value === 'string'
     ) {
-      this.requestService.sendData().subscribe({});
+      const data: DataModelType = {
+        date: getDateHour(),
+        fridge: { min: refMin.value, cur: refCur.value, max: refMax.value },
+        env: { min: envMin.value, cur: envCur.value, max: envMax.value },
+        user: decode()?.userId || '',
+      };
+
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        data: {
+          title: 'Confirme',
+          message: `Confimar a inserção deste dados? Após o envio não será possivel altera-los.
+          Geladeira 
+          \nMin: ${data.fridge.min}\nAtual: ${data.fridge.cur}\nMax: ${data.fridge.max}
+          \n\nAmbiente
+          \nMin: ${data.env.min}\nAtual: ${data.env.cur}\nMax: ${data.env.max} 
+          `,
+        },
+      });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.requestService.sendData(data).subscribe({});
+        }
+      });
     }
-  }
-
-  confirmDialog() {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: {
-        title: 'Confirme',
-        message:
-          'Confimar a inserção deste dados? Após o envio não será possivel altera-los.',
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.send();
-      }
-    });
   }
 
   isInvalidField(): boolean {

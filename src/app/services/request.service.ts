@@ -8,9 +8,10 @@ import { RegisterResponseType } from '../types/register-response.type';
 import { ErrorType } from '../types/erro-type';
 import { ReportModelType } from '../types/report-model.type';
 import { UnitModelType } from '../types/unit-model.type';
-import { decode } from '../utils/decode';
+import { decode } from '../utils/Decode';
 import { GetUnitNameResponseType } from '../types/get-unit-name-response.type';
 import { DataModelResponseType } from '../types/data-model-response.type';
+import { DataModelType } from '../types/data-model.type';
 
 @Injectable({
   providedIn: 'root',
@@ -55,11 +56,16 @@ export class RequestService {
     });
   }
 
-  sendData(): Observable<DataModelResponseType | ErrorType> {
-    const headers = HttpHeaders({
+  sendData(
+    dataModelType: DataModelType
+  ): Observable<DataModelResponseType | ErrorType> {
+    const headers = new HttpHeaders({
       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
     });
-    return this.http.post();
+    return this.http.post<DataModelResponseType>(
+      `${this.apiUrl}/data`,
+      dataModelType
+    );
   }
 
   getUnits(): Observable<UnitModelType[] | ErrorType> {

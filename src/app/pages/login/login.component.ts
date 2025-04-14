@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { LoginModelType } from '../../types/login-model.type';
 import { InputPasswordComponent } from '../../components/input-password/input-password.component';
-import { decode } from '../../utils/decode';
+import { decode } from '../../utils/Decode';
 
 @Component({
   selector: 'app-login',

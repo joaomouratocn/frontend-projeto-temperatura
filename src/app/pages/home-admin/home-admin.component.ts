@@ -13,7 +13,7 @@ import { TableComponent } from '../../components/table/table.component';
 import { RequestService } from '../../services/request.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { decode } from '../../utils/decode';
+import { decode } from '../../utils/Decode';
 import { DataModelType } from '../../types/data-model.type';
 
 @Component({
