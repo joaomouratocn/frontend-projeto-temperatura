@@ -56,13 +56,21 @@ export class LoginComponent {
         password: password.value,
       };
 
-      this.requestService.login(loginModeType);
+      this.requestService.login(loginModeType).subscribe((res) => {
+        if ('statusCode' in res) {
+          console.error('Erro no login:', res.message);
+          this.toastr.error(res.message);
+          return;
+        }
 
-      if (decode()?.role === '0') {
-        this.router.navigate(['home']);
-        return;
-      }
-      this.router.navigate(['']);
+        const user = decode();
+        console.log(user);
+        if (user?.role === 'ADMIN') {
+          this.router.navigate(['home']);
+        } else {
+          this.router.navigate(['']);
+        }
+      });
     }
   }
 

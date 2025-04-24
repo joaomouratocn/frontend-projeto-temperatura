@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, Observable, tap, throwError, of } from 'rxjs';
 import { LoginResponseType } from '../types/login-response.type';
 import { LoginModelType } from '../types/login-model.type';
 import { RegisterModelType } from '../types/register-model.type';
@@ -16,23 +16,15 @@ import { DataModelType } from '../types/data-model.type';
   providedIn: 'root',
 })
 export class RequestService {
-  private apiUrl = 'http://localhost:3002/';
+  private apiUrl = 'http://localhost:8080/';
   constructor(private http: HttpClient) {}
 
   login(
     loginModelType: LoginModelType
   ): Observable<LoginResponseType | ErrorType> {
-    sessionStorage.setItem('name', 'João Mourato');
-    sessionStorage.setItem(
-      'token',
-      //TOKEN ROLE 0
-      //'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJBQUEiLCJyb2xlIjoiMCIsImV4cCI6NDc5MzcxNDQwMH0.vWgSBShXEvKSU_AkCl3PvWUEPDBX-a0gQ3e0gBdSHeg'
-      //TOKEN ROLE 1
-      'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJBQUEiLCJyb2xlIjoiMSIsImV4cCI6NDc5MzcxNDQwMH0.n8DfpzjUPBRbSxvFUKXQltEC8VufNiTxN7jPQ08Fvhs'
-    );
-
+    console.log('requisição');
     return this.http
-      .post<LoginResponseType>(`${this.apiUrl}login`, {
+      .post<LoginResponseType>(`http://localhost:8080/auth/login`, {
         email: loginModelType.email,
         password: loginModelType.password,
       })
@@ -40,6 +32,13 @@ export class RequestService {
         tap((value) => {
           sessionStorage.setItem('name', value.name);
           sessionStorage.setItem('token', value.token);
+        }),
+        catchError((error) => {
+          const customError: ErrorType = {
+            statusCode: error.status || 500,
+            message: error.error?.message || 'Erro inesperado no login',
+          };
+          return of(customError);
         })
       );
   }
@@ -48,21 +47,13 @@ export class RequestService {
     resgiterModelType: RegisterModelType
   ): Observable<RegisterResponseType | ErrorType> {
     return this.http
-      .post<RegisterResponseType>(`${this.apiUrl}users`, {
+      .post<RegisterResponseType>(`${this.apiUrl}auth/register`, {
         name: resgiterModelType.name,
         email: resgiterModelType.email,
         password: resgiterModelType.password,
         unit: resgiterModelType.unit,
       })
-      .pipe(
-        catchError((error) => {
-          const customError: ErrorType = {
-            cod: 1,
-            description: 'Erro ao registrar usuário',
-          };
-          return throwError(() => customError);
-        })
-      );
+      .pipe();
   }
 
   sendData(
@@ -91,7 +82,7 @@ export class RequestService {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
     });
-    return this.http.get<UnitModelType[]>(`${this.apiUrl}units`, { headers });
+    return this.http.get<UnitModelType[]>(`${this.apiUrl}units`);
   }
 
   getUnitByUser(): Observable<GetUnitNameResponseType | ErrorType> {
@@ -108,7 +99,8 @@ export class RequestService {
       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
     });
     return this.http.get<GetUnitNameResponseType>(
-      `${this.apiUrl}units/${sessionStorage.getItem('unitId')}`
+      `${this.apiUrl}units/${sessionStorage.getItem('unitId')}`,
+      { headers }
     );
   }
 }

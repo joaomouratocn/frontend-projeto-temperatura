@@ -93,7 +93,7 @@ export class HomeComponent {
             this.loadTable(response.id);
             this.unitName = response.name;
           } else {
-            console.error(`Erro ao carregar dados: ${response.description}`);
+            console.error(`Erro ao carregar dados: ${response.message}`);
           }
         },
         error: (error) => {
@@ -108,7 +108,7 @@ export class HomeComponent {
             this.loadTable(response.id);
             this.unitName = response.name;
           } else {
-            console.error(`Erro ao carregar dados: ${response.description}`);
+            console.error(`Erro ao carregar dados: ${response.message}`);
             this.toastr.error('Não foi possivel carregar nome da unidade');
           }
         },
@@ -163,7 +163,7 @@ export class HomeComponent {
                   this.loadTable(data.unit);
                 }
               } else {
-                this.toastr.error(response.description);
+                this.toastr.error(response.message);
               }
             },
             error: (erro) => {
@@ -182,7 +182,7 @@ export class HomeComponent {
         if (Array.isArray(response)) {
           this.data = response;
         } else {
-          this.toastr.error(response.description);
+          this.toastr.error(response.message);
         }
       },
       error: (erro) => {

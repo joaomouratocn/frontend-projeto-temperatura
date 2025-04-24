@@ -118,9 +118,7 @@ export class HomeAdminComponent {
         if (Array.isArray(response)) {
           this.unitArray = response;
         } else {
-          const errorMessage = response.description;
-          this.toastr.error(errorMessage);
-          console.log(response);
+          console.log('tratar');
         }
       },
       error: (erro) => {

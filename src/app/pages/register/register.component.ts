@@ -63,7 +63,7 @@ export class RegisterComponent {
         if (Array.isArray(response)) {
           this.unitArray = response;
         } else {
-          const errorMessage = response.description || 'Erro desconhecido!';
+          const errorMessage = response.message || 'Erro desconhecido!';
           this.toastr.error(errorMessage);
           console.log(response);
         }
@@ -104,7 +104,6 @@ export class RegisterComponent {
             console.log(response);
             this.router.navigate(['login']);
           } else {
-            this.toastr.error(response.description);
             console.log(response);
           }
         },
