@@ -56,20 +56,23 @@ export class LoginComponent {
         password: password.value,
       };
 
-      this.requestService.login(loginModeType).subscribe((res) => {
-        if ('statusCode' in res) {
-          console.error('Erro no login:', res.message);
-          this.toastr.error(res.message);
-          return;
-        }
+      this.requestService.login(loginModeType).subscribe({
+        next: (res) => {
+          sessionStorage.setItem('name', res.name);
+          sessionStorage.setItem('token', res.token);
 
-        const user = decode();
-        console.log(user);
-        if (user?.role === 'ADMIN') {
-          this.router.navigate(['home']);
-        } else {
-          this.router.navigate(['']);
-        }
+          const user = decode();
+          if (user?.role === 'ADMIN') {
+            this.router.navigate(['home']);
+          } else {
+            this.router.navigate(['']);
+          }
+        },
+        error: (error) => {
+          const message =
+            error.error?.message || 'Erro inesperado ao fazer login';
+          this.toastr.error(message);
+        },
       });
     }
   }

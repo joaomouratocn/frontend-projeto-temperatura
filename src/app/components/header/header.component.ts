@@ -11,7 +11,7 @@ import { decode } from '../../utils/Decode';
 })
 export class HeaderComponent {
   userName: string = sessionStorage.getItem('name') || '';
-  role: string = decode()?.role || '1';
+  role: string = decode()?.role || 'USER';
   isHomePage: boolean = false;
 
   constructor(private router: Router) {
@@ -24,11 +24,11 @@ export class HeaderComponent {
   }
 
   get showRelease(): boolean {
-    return this.role === '0' && this.router.url === '/home';
+    return this.role === 'ADMIN' && this.router.url === '/home';
   }
 
   get showBack(): boolean {
-    return this.role === '0' && this.router.url === '/';
+    return this.role === 'ADMIN' && this.router.url === '/';
   }
 
   goSelectUnit() {

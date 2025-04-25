@@ -8,9 +8,10 @@ import { RegisterResponseType } from '../types/register-response.type';
 import { ErrorType } from '../types/erro-type';
 import { UnitModelType } from '../types/unit-model.type';
 import { decode } from '../utils/Decode';
-import { GetUnitNameResponseType } from '../types/get-unit-name-response.type';
+import { GetUnitResponseType } from '../types/get-unit-name-response.type';
+import { DataModelSendType } from '../types/data-model-send.type';
+import { DataModelGetType } from '../types/data-model-get.type';
 import { DataModelResponseType } from '../types/data-model-response.type';
-import { DataModelType } from '../types/data-model.type';
 
 @Injectable({
   providedIn: 'root',
@@ -19,26 +20,16 @@ export class RequestService {
   private apiUrl = 'http://localhost:8080/';
   constructor(private http: HttpClient) {}
 
-  login(
-    loginModelType: LoginModelType
-  ): Observable<LoginResponseType | ErrorType> {
-    console.log('requisição');
+  login(loginModelType: LoginModelType): Observable<LoginResponseType> {
     return this.http
-      .post<LoginResponseType>(`http://localhost:8080/auth/login`, {
+      .post<LoginResponseType>(`${this.apiUrl}auth/login`, {
         email: loginModelType.email,
         password: loginModelType.password,
       })
       .pipe(
-        tap((value) => {
-          sessionStorage.setItem('name', value.name);
-          sessionStorage.setItem('token', value.token);
-        }),
-        catchError((error) => {
-          const customError: ErrorType = {
-            statusCode: error.status || 500,
-            message: error.error?.message || 'Erro inesperado no login',
-          };
-          return of(customError);
+        tap((res) => {
+          sessionStorage.setItem('name', res.name);
+          sessionStorage.setItem('token', res.token);
         })
       );
   }
@@ -57,25 +48,25 @@ export class RequestService {
   }
 
   sendData(
-    dataModelType: DataModelType
-  ): Observable<DataModelResponseType | ErrorType> {
+    dataModelSendType: DataModelSendType
+  ): Observable<DataModelResponseType> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
     });
     return this.http.post<DataModelResponseType>(
       `${this.apiUrl}data`,
-      dataModelType
+      dataModelSendType,
+      { headers }
     );
   }
 
-  getData(unitId: string): Observable<DataModelResponseType[] | ErrorType> {
+  getData(id: string): Observable<DataModelGetType[]> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
     });
-    return this.http.get<DataModelResponseType[]>(
-      `${this.apiUrl}data/${unitId}`,
-      { headers }
-    );
+    return this.http.get<DataModelGetType[]>(`${this.apiUrl}data/${id}`, {
+      headers,
+    });
   }
 
   getUnits(): Observable<UnitModelType[] | ErrorType> {
@@ -85,20 +76,21 @@ export class RequestService {
     return this.http.get<UnitModelType[]>(`${this.apiUrl}units`);
   }
 
-  getUnitByUser(): Observable<GetUnitNameResponseType | ErrorType> {
+  getUnitByUser(): Observable<GetUnitResponseType> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
     });
     return this.http.get<UnitModelType>(
-      `${this.apiUrl}units/${decode()?.userId}`
+      `${this.apiUrl}units/userid/${decode()?.id}`,
+      { headers }
     );
   }
 
-  getUnitById(): Observable<GetUnitNameResponseType | ErrorType> {
+  getUnitById(): Observable<GetUnitResponseType> {
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+      Authorization: `Bearer${sessionStorage.getItem('token')}`,
     });
-    return this.http.get<GetUnitNameResponseType>(
+    return this.http.get<GetUnitResponseType>(
       `${this.apiUrl}units/${sessionStorage.getItem('unitId')}`,
       { headers }
     );

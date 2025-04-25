@@ -1,4 +1,4 @@
 export type DecodePaylodType = {
-  userId: string;
+  id: string;
   role: string;
 };

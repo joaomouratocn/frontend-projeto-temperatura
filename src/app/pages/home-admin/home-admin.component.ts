@@ -12,9 +12,7 @@ import { ButtonComponent } from '../../components/button/button.component';
 import { TableComponent } from '../../components/table/table.component';
 import { RequestService } from '../../services/request.service';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
-import { decode } from '../../utils/Decode';
-import { DataModelType } from '../../types/data-model.type';
+import { DataModelGetType } from '../../types/data-model-get.type';
 
 @Component({
   selector: 'app-home-admin',
@@ -29,7 +27,7 @@ import { DataModelType } from '../../types/data-model.type';
   styleUrl: './home-admin.component.css',
 })
 export class HomeAdminComponent {
-  data: DataModelType[] = [];
+  data: DataModelGetType[] = [];
   unitArray: UnitModelType[] = [];
 
   formCollectData = new FormGroup({

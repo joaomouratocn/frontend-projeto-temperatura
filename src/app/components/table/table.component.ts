@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { DataModelType } from '../../types/data-model.type';
 import { CommonModule } from '@angular/common';
+import { DataModelGetType } from '../../types/data-model-get.type';
 
 @Component({
   selector: 'app-table',
@@ -9,5 +9,5 @@ import { CommonModule } from '@angular/common';
   styleUrl: './table.component.css',
 })
 export class TableComponent {
-  @Input() data: DataModelType[] = [];
+  @Input() data: DataModelGetType[] = [];
 }

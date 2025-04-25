@@ -8,7 +8,6 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TableComponent } from '../../components/table/table.component';
-import { DataModelType } from '../../types/data-model.type';
 import { InputOnlyNumbersComponent } from '../../components/input-only-numbers/input-only-numbers.component';
 import { InputDataComponent } from '../../components/input-data/input-data.component';
 import { RequestService } from '../../services/request.service';
@@ -16,7 +15,8 @@ import { ToastrService } from 'ngx-toastr';
 import { decode } from '../../utils/Decode';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
-import { getDateHour } from '../../utils/GetDateHour';
+import { DataModelSendType } from '../../types/data-model-send.type';
+import { DataModelGetType } from '../../types/data-model-get.type';
 
 @Component({
   selector: 'app-home',
@@ -33,7 +33,7 @@ import { getDateHour } from '../../utils/GetDateHour';
 })
 export class HomeComponent {
   unitName: string = '';
-  data: DataModelType[] = [];
+  data: DataModelGetType[] = [];
 
   collectDataForm = new FormGroup({
     refMin: new FormControl('-7.50', [
@@ -86,37 +86,21 @@ export class HomeComponent {
   ) {}
 
   ngOnInit() {
-    if (decode()?.role === '1') {
+    if (decode()?.role === 'USER') {
       this.requestService.getUnitByUser().subscribe({
         next: (response) => {
-          if ('name' in response) {
-            this.loadTable(response.id);
-            this.unitName = response.name;
-          } else {
-            console.error(`Erro ao carregar dados: ${response.message}`);
-          }
+          this.loadTable(response.id);
+          this.unitName = response.name;
         },
         error: (error) => {
-          console.error(`Erro de comnunicação com servidor: ${error}`);
-          this.toastr.error('Não foi possivel carregar nome da unidade');
+          console.error('Erro detalhado:', error);
+          const msg =
+            error?.error?.message || 'Erro ao buscar dados da unidade';
+          this.toastr.error(msg);
         },
       });
     } else {
-      this.requestService.getUnitById().subscribe({
-        next: (response) => {
-          if ('name' in response) {
-            this.loadTable(response.id);
-            this.unitName = response.name;
-          } else {
-            console.error(`Erro ao carregar dados: ${response.message}`);
-            this.toastr.error('Não foi possivel carregar nome da unidade');
-          }
-        },
-        error: (error) => {
-          console.error(`Erro de comnunicação com servidor: ${error}`);
-          this.toastr.error('Não foi possivel carregar nome da unidade');
-        },
-      });
+      //TODO
     }
   }
 
@@ -136,39 +120,37 @@ export class HomeComponent {
       typeof envCur.value === 'string' &&
       typeof envMax.value === 'string'
     ) {
-      const data: DataModelType = {
-        date: getDateHour(),
-        fridge: { min: refMin.value, cur: refCur.value, max: refMax.value },
-        env: { min: envMin.value, cur: envCur.value, max: envMax.value },
-        unit: sessionStorage.getItem('unitId') || '',
-        user: decode()?.userId || '',
+      const data: DataModelSendType = {
+        dateTime: Date.now().toString(),
+        refMin: refMin.value,
+        refCur: refCur.value,
+        refMax: refMax.value,
+        envMin: envMin.value,
+        envCur: envCur.value,
+        envMax: envMax.value,
       };
 
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         data: {
           title: 'Confirme',
           message: `Confimar a inserção deste dados?\nApós o envio não será possivel altera-los.\n
-          Geladeira:\nMin: ${data.fridge.min}\nAtual: ${data.fridge.cur}\nMax: ${data.fridge.max}
-          \nAmbiente:\nMin: ${data.env.min}\nAtual: ${data.env.cur}\nMax: ${data.env.max}`,
+          Geladeira:\nMin: ${data.refMin}\nAtual: ${data.refCur}\nMax: ${data.refMax}
+          \nAmbiente:\nMin: ${data.envMin}\nAtual: ${data.envCur}\nMax: ${data.envMax}`,
         },
       });
 
-      dialogRef.afterClosed().subscribe((result) => {
-        if (result) {
+      dialogRef.afterClosed().subscribe((response) => {
+        if (response) {
           this.requestService.sendData(data).subscribe({
             next: (response) => {
-              if ('id' in response) {
-                this.toastr.success('Dados enviados com sucesso!');
-                if (data.unit !== '') {
-                  this.loadTable(data.unit);
-                }
-              } else {
-                this.toastr.error(response.message);
-              }
+              this.toastr.success(response.status);
+              this.loadTable(response.id);
             },
-            error: (erro) => {
-              this.toastr.error('Erro na comunicação com servidor');
-              console.error(erro);
+            error: (error) => {
+              console.error('Erro detalhado:', error);
+              const msg =
+                error?.error?.message || 'Erro ao buscar dados da unidade';
+              this.toastr.error(msg);
             },
           });
         }
@@ -179,15 +161,12 @@ export class HomeComponent {
   loadTable(unitId: string) {
     this.requestService.getData(unitId).subscribe({
       next: (response) => {
-        if (Array.isArray(response)) {
-          this.data = response;
-        } else {
-          this.toastr.error(response.message);
-        }
+        this.data = response;
       },
-      error: (erro) => {
-        this.toastr.error('Erro na comunicação com servidor');
-        console.log(erro);
+      error: (error) => {
+        console.error('Erro detalhado:', error);
+        const msg = error?.error?.message || 'Erro ao buscar dados da unidade';
+        this.toastr.error(msg);
       },
     });
   }
