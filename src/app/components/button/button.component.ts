@@ -14,8 +14,11 @@ export class ButtonComponent {
   @Output() onSubmit = new EventEmitter();
   @Input() imageSrc?: string;
   @Input() imageAlt: string = '';
+  @Input() isLoading: boolean = false;
 
   submit() {
-    this.onSubmit.emit();
+    if (!this.isLoading) {
+      this.onSubmit.emit();
+    }
   }
 }

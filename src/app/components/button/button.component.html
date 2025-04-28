@@ -1,5 +1,13 @@
 <Button 
 (click)="submit()"
 [ngClass]="orangeButton ? 'orange-button' : 'green-button'">
-<img *ngIf="imageSrc" [src]="imageSrc" [alt]="imageAlt" class="button-icon"/>
-{{buttonText}}</Button>
+<ng-container *ngIf="!isLoading; else loading">
+    <img *ngIf="imageSrc" [src]="imageSrc" [alt]="imageAlt" class="button-icon"/>
+    {{ buttonText }}
+  </ng-container>
+
+  <ng-template #loading>
+    Carregando...
+    <span class="spinner"></span>
+  </ng-template>
+</Button>

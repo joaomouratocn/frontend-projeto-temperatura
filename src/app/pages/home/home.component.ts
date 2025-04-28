@@ -33,35 +33,36 @@ import { DataModelGetType } from '../../types/data-model-get.type';
 })
 export class HomeComponent {
   unitName: string = '';
+  isLoading = false;
   data: DataModelGetType[] = [];
 
   collectDataForm = new FormGroup({
-    refMin: new FormControl('-7.50', [
+    refMin: new FormControl('', [
       Validators.required,
       Validators.min(-30),
       Validators.max(100),
     ]),
-    refCur: new FormControl('-7.70', [
+    refCur: new FormControl('', [
       Validators.required,
       Validators.min(-30),
       Validators.max(100),
     ]),
-    refMax: new FormControl('-8.00', [
+    refMax: new FormControl('', [
       Validators.required,
       Validators.min(-30),
       Validators.max(100),
     ]),
-    envMin: new FormControl('27.45', [
+    envMin: new FormControl('', [
       Validators.required,
       Validators.min(-30),
       Validators.max(100),
     ]),
-    envCur: new FormControl('28.00', [
+    envCur: new FormControl('', [
       Validators.required,
       Validators.min(-30),
       Validators.max(100),
     ]),
-    envMax: new FormControl('29.00', [
+    envMax: new FormControl('', [
       Validators.required,
       Validators.min(-30),
       Validators.max(100),
@@ -133,7 +134,7 @@ export class HomeComponent {
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         data: {
           title: 'Confirme',
-          message: `Confimar a inserção deste dados?\nApós o envio não será possivel altera-los.\n
+          message: `Confima a inserção deste dados?\nApós o envio não será possivel altera-los.\n
           Geladeira:\nMin: ${data.refMin}\nAtual: ${data.refCur}\nMax: ${data.refMax}
           \nAmbiente:\nMin: ${data.envMin}\nAtual: ${data.envCur}\nMax: ${data.envMax}`,
         },
@@ -178,7 +179,7 @@ export class HomeComponent {
         .subscribe({
           next: (response) => {
             if (response.length === 0) {
-              this.toastr.warning('Sem dados para carregar no intervalo!');
+              this.toastr.warning('Sem dados para carregar neste intervalo');
             }
             this.data = response;
           },
@@ -196,7 +197,7 @@ export class HomeComponent {
     this.requestService.getData().subscribe({
       next: (response) => {
         if (response.length === 0) {
-          this.toastr.warning('Sem dados para carregar no intervalo!');
+          this.toastr.warning('Sem dados para carregar neste intervalo');
         }
         this.data = response;
       },
@@ -209,6 +210,8 @@ export class HomeComponent {
   }
 
   printInterval() {
+    this.isLoading = true;
+
     if (
       this.searchDataForm.controls.startDate.invalid ||
       this.searchDataForm.controls.endDate.invalid
@@ -226,8 +229,8 @@ export class HomeComponent {
     ) {
       this.requestService
         .printInterval(startDate.value, endDate.value)
-        .subscribe(
-          (blob) => {
+        .subscribe({
+          next: (blob) => {
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -235,10 +238,13 @@ export class HomeComponent {
             a.click();
             window.URL.revokeObjectURL(url);
           },
-          (error) => {
+          error: (error) => {
             console.error('Erro ao gerar PDF de unidade', error);
-          }
-        );
+          },
+          complete: () => {
+            this.isLoading = false;
+          },
+        });
     }
   }
 
