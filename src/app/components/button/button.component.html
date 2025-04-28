@@ -1,5 +1,6 @@
 <Button 
 (click)="submit()"
+[disabled]="disable"
 [ngClass]="orangeButton ? 'orange-button' : 'green-button'">
 <ng-container *ngIf="!isLoading; else loading">
     <img *ngIf="imageSrc" [src]="imageSrc" [alt]="imageAlt" class="button-icon"/>

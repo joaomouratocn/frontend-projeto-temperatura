@@ -34,6 +34,8 @@ import { DataModelGetType } from '../../types/data-model-get.type';
 export class HomeComponent {
   unitName: string = '';
   isLoading = false;
+  isLoadingFilter = false;
+  isdisablePrint = false;
   data: DataModelGetType[] = [];
 
   collectDataForm = new FormGroup({
@@ -87,11 +89,11 @@ export class HomeComponent {
   ) {}
 
   ngOnInit() {
-    if (decode()?.role === 'USER') {
+    if (decode().role === 'USER') {
       this.requestService.getUnitByUser().subscribe({
         next: (response) => {
           this.unitName = response.name;
-          this.loadTable();
+          this.loadInit();
         },
         error: (error) => {
           console.error('Erro detalhado:', error);
@@ -101,7 +103,15 @@ export class HomeComponent {
         },
       });
     } else {
-      //TODO
+      const unit = sessionStorage.getItem('unit');
+      if (!unit) {
+        this.toastr.error('Erro ao carregar dados da unidade');
+        return;
+      }
+
+      const name = JSON.parse(unit).name;
+      this.unitName = name;
+      this.loadInit();
     }
   }
 
@@ -145,7 +155,7 @@ export class HomeComponent {
           this.requestService.sendData(data).subscribe({
             next: (response) => {
               this.toastr.success(response.status);
-              this.loadTable();
+              this.loadInit();
             },
             error: (error) => {
               console.error('Erro detalhado:', error);
@@ -158,7 +168,7 @@ export class HomeComponent {
     }
   }
 
-  loadTableInterval() {
+  searchInterval() {
     if (
       this.searchDataForm.controls.startDate.invalid ||
       this.searchDataForm.controls.endDate.invalid
@@ -174,6 +184,7 @@ export class HomeComponent {
       typeof startDate.value === 'string' &&
       typeof endDate.value === 'string'
     ) {
+      this.isLoadingFilter = true;
       this.requestService
         .getDataInterval(startDate.value, endDate.value)
         .subscribe({
@@ -189,11 +200,14 @@ export class HomeComponent {
               error?.error?.message || 'Erro ao buscar dados selecionados';
             this.toastr.error(msg);
           },
+          complete: () => {
+            this.isLoadingFilter = false;
+          },
         });
     }
   }
 
-  loadTable() {
+  loadInit() {
     this.requestService.getData().subscribe({
       next: (response) => {
         if (response.length === 0) {
@@ -210,8 +224,6 @@ export class HomeComponent {
   }
 
   printInterval() {
-    this.isLoading = true;
-
     if (
       this.searchDataForm.controls.startDate.invalid ||
       this.searchDataForm.controls.endDate.invalid
@@ -227,6 +239,7 @@ export class HomeComponent {
       typeof startDate.value === 'string' &&
       typeof endDate.value === 'string'
     ) {
+      this.isLoading = true;
       this.requestService
         .printInterval(startDate.value, endDate.value)
         .subscribe({
@@ -276,6 +289,13 @@ export class HomeComponent {
 
     this.toastr.error(`Campos inválidos: ${isInvalidField.join(', ')}`);
     return true;
+  }
+
+  get disablePrint(): boolean {
+    return (
+      this.searchDataForm.controls.startDate.invalid ||
+      this.searchDataForm.controls.endDate.invalid
+    );
   }
 
   get refMinInvalid(): boolean {

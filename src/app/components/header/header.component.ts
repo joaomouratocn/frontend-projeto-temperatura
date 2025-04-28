@@ -10,8 +10,8 @@ import { decode } from '../../utils/decode';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
-  userName: string = sessionStorage.getItem('name') || '';
-  role: string = decode()?.role || 'USER';
+  userName = '';
+  role = '';
   isHomePage: boolean = false;
 
   constructor(private router: Router) {
@@ -21,6 +21,15 @@ export class HeaderComponent {
         this.isHomePage = !pages.includes(event.url);
       }
     });
+
+    const auth = sessionStorage.getItem('response-token');
+
+    if (!auth) {
+      throw new Error('Erro ao verificar token');
+    }
+
+    this.userName = JSON.parse(auth).name;
+    this.role = decode().role;
   }
 
   get showRelease(): boolean {
@@ -31,12 +40,21 @@ export class HeaderComponent {
     return this.role === 'ADMIN' && this.router.url === '/';
   }
 
+  get showRegister(): boolean {
+    return this.role === 'ADMIN' && this.router.url === '/home';
+  }
+
   goSelectUnit() {
     this.router.navigate(['select']);
   }
 
   goHomeAdm() {
     this.router.navigate(['home']);
+  }
+
+  goRegister() {
+    sessionStorage.clear();
+    this.router.navigate(['register']);
   }
 
   logout() {

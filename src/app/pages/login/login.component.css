@@ -34,17 +34,4 @@
       width: 100%;
     }
   }
-
-  .pRegister {
-    font-size: 18px;
-    margin-top: 16px;
-    text-decoration: underline;
-    cursor: pointer;
-    color: var(--text-color-primary);
-    margin-left: auto;
-  }
-
-  .pRegister:hover {
-    color: var(--hover-color);
-  }
 }

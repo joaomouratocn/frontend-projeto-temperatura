@@ -84,10 +84,6 @@ export class LoginComponent {
     }
   }
 
-  register() {
-    this.router.navigate(['register']);
-  }
-
   get emailValid(): boolean {
     return (
       this.loginForm.controls.username.invalid &&

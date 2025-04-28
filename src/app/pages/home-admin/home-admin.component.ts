@@ -31,9 +31,7 @@ export class HomeAdminComponent {
   unitArray: UnitModelType[] = [];
 
   formCollectData = new FormGroup({
-    unit: new FormControl({ value: '', disabled: false }, [
-      Validators.required,
-    ]),
+    unit: new FormControl<UnitModelType | null>(null, [Validators.required]),
     allUnits: new FormControl(false),
     initData: new FormControl('', [
       Validators.required,
@@ -66,27 +64,6 @@ export class HomeAdminComponent {
     unitControl?.disabled ? unitControl.enable() : unitControl?.disable();
   }
 
-  get unitInvalid(): boolean {
-    return (
-      this.formCollectData.controls.unit.invalid &&
-      this.formCollectData.controls.unit.touched
-    );
-  }
-
-  get initDateInvalid(): boolean {
-    return (
-      this.formCollectData.controls.initData.invalid &&
-      this.formCollectData.controls.initData.touched
-    );
-  }
-
-  get endDateInvalid(): boolean {
-    return (
-      this.formCollectData.controls.endData.invalid &&
-      this.formCollectData.controls.endData.touched
-    );
-  }
-
   invalidFields(): boolean {
     let fieldsError: string[] = [];
 
@@ -113,16 +90,33 @@ export class HomeAdminComponent {
   getUnits() {
     this.requestService.getUnits().subscribe({
       next: (response) => {
-        if (Array.isArray(response)) {
-          this.unitArray = response;
-        } else {
-          console.log('tratar');
-        }
+        this.unitArray = response;
       },
       error: (erro) => {
-        this.toastr.error('Erro de comunicação com o servidor.');
+        this.toastr.error('Erro ao carregar as unidades');
         console.error(erro);
       },
     });
+  }
+
+  get unitInvalid(): boolean {
+    return (
+      this.formCollectData.controls.unit.invalid &&
+      this.formCollectData.controls.unit.touched
+    );
+  }
+
+  get initDateInvalid(): boolean {
+    return (
+      this.formCollectData.controls.initData.invalid &&
+      this.formCollectData.controls.initData.touched
+    );
+  }
+
+  get endDateInvalid(): boolean {
+    return (
+      this.formCollectData.controls.endData.invalid &&
+      this.formCollectData.controls.endData.touched
+    );
   }
 }

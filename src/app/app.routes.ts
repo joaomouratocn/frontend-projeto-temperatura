@@ -26,7 +26,12 @@ export const routes: Routes = [
     canActivate: [authGuard],
     data: { role: ['ADMIN'] },
   },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    canActivate: [authGuard],
+    data: { role: ['ADMIN'] },
+  },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
   { path: 'danied', component: AccessDeniedComponent },
 ];

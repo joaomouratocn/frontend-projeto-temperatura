@@ -4,6 +4,11 @@
         <p class="pUserName">{{userName}}</p>
         <p 
         class="pLink"
+        *ngIf="showRegister"
+        (click)="goRegister()"
+        > Cadastrar</p>
+        <p 
+        class="pLink"
         *ngIf="showRelease"
         (click)="goSelectUnit()"
         > Lançar</p>

@@ -15,6 +15,7 @@ export class ButtonComponent {
   @Input() imageSrc?: string;
   @Input() imageAlt: string = '';
   @Input() isLoading: boolean = false;
+  @Input() disable: boolean = false;
 
   submit() {
     if (!this.isLoading) {

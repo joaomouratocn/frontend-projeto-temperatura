@@ -27,9 +27,8 @@ export class RequestService {
         password: loginModelType.password,
       })
       .pipe(
-        tap((res) => {
-          sessionStorage.setItem('name', res.name);
-          sessionStorage.setItem('token', res.token);
+        tap((response) => {
+          sessionStorage.setItem('response-token', JSON.stringify(response));
         })
       );
   }
@@ -50,8 +49,14 @@ export class RequestService {
   sendData(
     dataModelSendType: DataModelSendType
   ): Observable<DataModelResponseType> {
+    const auth = sessionStorage.getItem('response-token');
+
+    if (!auth) {
+      throw new Error('Erro ao pegar token');
+    }
+
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+      Authorization: `Bearer ${JSON.parse(auth).token}`,
     });
     return this.http.post<DataModelResponseType>(
       `${this.apiUrl}data`,
@@ -61,12 +66,13 @@ export class RequestService {
   }
 
   getData(): Observable<DataModelGetType[]> {
-    const id =
-      sessionStorage.getItem('unit') !== null
-        ? sessionStorage.getItem('unit')
-        : () => {
-            throw new Error('Unidade vazia!');
-          };
+    const unit = sessionStorage.getItem('unit');
+    if (!unit) {
+      throw new Error('Unidade vazia!');
+    }
+
+    const { id } = JSON.parse(unit);
+
     const headers = new HttpHeaders({
       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
     });
@@ -75,50 +81,67 @@ export class RequestService {
     });
   }
 
+  getUnits(): Observable<UnitModelType[]> {
+    const auth = sessionStorage.getItem('response-token');
+
+    if (!auth) {
+      throw new Error('Erro ao pegar token');
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${JSON.parse(auth).token}`,
+    });
+    return this.http.get<UnitModelType[]>(`${this.apiUrl}units`, { headers });
+  }
+
+  getUnitByUser(): Observable<GetUnitResponseType> {
+    const auth = sessionStorage.getItem('response-token');
+
+    if (!auth) {
+      throw new Error('Erro ao pegar token');
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${JSON.parse(auth).token}`,
+    });
+    return this.http
+      .get<UnitModelType>(`${this.apiUrl}units/userid/${decode().id}`, {
+        headers,
+      })
+      .pipe(
+        tap((response) => {
+          sessionStorage.setItem('unit', JSON.stringify(response));
+        })
+      );
+  }
+
   getDataInterval(
     startDate: string,
     endDate: string
   ): Observable<DataModelGetType[]> {
     const unit = sessionStorage.getItem('unit');
+    const auth = sessionStorage.getItem('response-token');
 
     if (unit === null) {
       throw new Error('Unidade vazia!');
     }
 
     const params = new HttpParams()
-      .set('unitid', unit)
+      .set('unitid', JSON.parse(unit).id)
       .set('startdate', startDate.toString())
       .set('enddate', endDate.toString());
 
+    if (!auth) {
+      throw new Error('Erro ao pegar token');
+    }
+
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+      Authorization: `Bearer ${JSON.parse(auth).token}`,
     });
     return this.http.get<DataModelGetType[]>(`${this.apiUrl}data/interval`, {
       headers,
       params,
     });
-  }
-
-  getUnits(): Observable<UnitModelType[] | ErrorType> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-    });
-    return this.http.get<UnitModelType[]>(`${this.apiUrl}units`);
-  }
-
-  getUnitByUser(): Observable<GetUnitResponseType> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-    });
-    return this.http
-      .get<UnitModelType>(`${this.apiUrl}units/userid/${decode()?.id}`, {
-        headers,
-      })
-      .pipe(
-        tap((response) => {
-          sessionStorage.setItem('unit', response.id);
-        })
-      );
   }
 
   printInterval(startDate: string, endDate: string): Observable<Blob> {
@@ -129,7 +152,7 @@ export class RequestService {
     }
 
     const params = new HttpParams()
-      .set('unitid', unit)
+      .set('unitid', JSON.parse(unit).id)
       .set('start', startDate)
       .set('end', endDate);
 
@@ -147,8 +170,14 @@ export class RequestService {
   printAllUnits(start: string, end: string): Observable<Blob> {
     const params = new HttpParams().set('start', start).set('end', end);
 
+    const auth = sessionStorage.getItem('response-token');
+
+    if (!auth) {
+      throw new Error('Erro ao pegar token');
+    }
+
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+      Authorization: `Bearer ${JSON.parse(auth).token}`,
     });
 
     return this.http.get(`${this.apiUrl}relatorios/pdf-all-units`, {
@@ -156,15 +185,5 @@ export class RequestService {
       params,
       responseType: 'blob',
     });
-  }
-
-  getUnitById(): Observable<GetUnitResponseType> {
-    const headers = new HttpHeaders({
-      Authorization: `Bearer${sessionStorage.getItem('token')}`,
-    });
-    return this.http.get<GetUnitResponseType>(
-      `${this.apiUrl}units/${sessionStorage.getItem('unitId')}`,
-      { headers }
-    );
   }
 }

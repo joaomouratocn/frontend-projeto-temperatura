@@ -50,7 +50,7 @@ export class RegisterComponent {
       Validators.required,
       Validators.minLength(6),
     ]),
-    unit: new FormControl('', [Validators.required]),
+    unit: new FormControl<UnitModelType | null>(null, [Validators.required]),
   });
 
   ngOnInit() {
@@ -60,13 +60,7 @@ export class RegisterComponent {
   getUnits() {
     this.requestService.getUnits().subscribe({
       next: (response) => {
-        if (Array.isArray(response)) {
-          this.unitArray = response;
-        } else {
-          const errorMessage = response.message || 'Erro desconhecido!';
-          this.toastr.error(errorMessage);
-          console.log(response);
-        }
+        this.unitArray = response;
       },
       error: (erro) => {
         this.toastr.error('Erro de comunicação com o servidor.');

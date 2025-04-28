@@ -78,13 +78,20 @@
     [pErrorText]="'Data invalída'"
     formControlName="endDate"
   />
-  <app-button [buttonText]="'FILTRAR'" (onSubmit)="loadTableInterval()" />
+  <app-button 
+    [buttonText]="'FILTRAR'"
+    (onSubmit)="searchInterval()"
+    [isLoading]="isLoadingFilter"
+    [disable]="disablePrint"
+  />
+
   <app-button
     [buttonText]="'IMPRIMIR'"
     [orangeButton]="true"
     [imageAlt]="'Print'"
     [imageSrc]="'/assets/print.png'"
     [isLoading]="isLoading"
+    [disable]="disablePrint"
     (onSubmit)="printInterval()"
   />
 </form>

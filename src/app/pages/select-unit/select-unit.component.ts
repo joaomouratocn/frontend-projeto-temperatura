@@ -32,7 +32,7 @@ export class SelectUnitComponent {
   }
 
   selectForm = new FormGroup({
-    unit: new FormControl('', [Validators.required]),
+    unit: new FormControl<UnitModelType | null>(null, [Validators.required]),
   });
 
   get unitInvalid(): boolean {
@@ -43,27 +43,25 @@ export class SelectUnitComponent {
   }
 
   selectUnit() {
-    if (this.selectForm.controls.unit.invalid) {
-      this.toastr.error('Selecione uma unidade');
+    const unit = this.selectForm.controls.unit.value;
+
+    if (!unit) {
+      this.toastr.error('Selecione uma unidade!');
       return;
     }
 
-    const unit = this.selectForm.controls.unit.value;
-    sessionStorage.setItem('unitId', unit || '');
+    sessionStorage.setItem('unit', JSON.stringify(unit));
+
     this.router.navigate(['']);
   }
 
   getUnits() {
     this.requestService.getUnits().subscribe({
       next: (response) => {
-        if (Array.isArray(response)) {
-          this.unitArray = response;
-        } else {
-          console.log(response);
-        }
+        this.unitArray = response;
       },
       error: (erro) => {
-        this.toastr.error('Erro de comunicação com o servidor');
+        this.toastr.error('Erro ao carregar as unidades');
         console.error(erro);
       },
     });
