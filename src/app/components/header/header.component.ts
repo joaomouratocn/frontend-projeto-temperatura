@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { decode } from '../../utils/Decode';
+import { decode } from '../../utils/decode';
 
 @Component({
   selector: 'app-header',

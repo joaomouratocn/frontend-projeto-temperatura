@@ -12,7 +12,7 @@ import { InputOnlyNumbersComponent } from '../../components/input-only-numbers/i
 import { InputDataComponent } from '../../components/input-data/input-data.component';
 import { RequestService } from '../../services/request.service';
 import { ToastrService } from 'ngx-toastr';
-import { decode } from '../../utils/Decode';
+import { decode } from '../../utils/decode';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
 import { DataModelSendType } from '../../types/data-model-send.type';
@@ -69,11 +69,11 @@ export class HomeComponent {
   });
 
   searchDataForm = new FormGroup({
-    initData: new FormControl('', [
+    startDate: new FormControl('', [
       Validators.required,
       Validators.minLength(10),
     ]),
-    endData: new FormControl('', [
+    endDate: new FormControl('', [
       Validators.required,
       Validators.minLength(10),
     ]),
@@ -89,13 +89,13 @@ export class HomeComponent {
     if (decode()?.role === 'USER') {
       this.requestService.getUnitByUser().subscribe({
         next: (response) => {
-          this.loadTable(response.id);
           this.unitName = response.name;
+          this.loadTable();
         },
         error: (error) => {
           console.error('Erro detalhado:', error);
           const msg =
-            error?.error?.message || 'Erro ao buscar dados da unidade';
+            error?.error?.message || 'Erro ao carregar dados de sua unidade';
           this.toastr.error(msg);
         },
       });
@@ -144,12 +144,11 @@ export class HomeComponent {
           this.requestService.sendData(data).subscribe({
             next: (response) => {
               this.toastr.success(response.status);
-              this.loadTable(response.id);
+              this.loadTable();
             },
             error: (error) => {
               console.error('Erro detalhado:', error);
-              const msg =
-                error?.error?.message || 'Erro ao buscar dados da unidade';
+              const msg = error?.error?.message || 'Erro ao enviar os dados';
               this.toastr.error(msg);
             },
           });
@@ -158,9 +157,47 @@ export class HomeComponent {
     }
   }
 
-  loadTable(unitId: string) {
-    this.requestService.getData(unitId).subscribe({
+  loadTableInterval() {
+    if (
+      this.searchDataForm.controls.startDate.invalid ||
+      this.searchDataForm.controls.endDate.invalid
+    ) {
+      this.toastr.error('Campos de data inválidos!');
+      return;
+    }
+
+    const { startDate: startDate, endDate: endDate } =
+      this.searchDataForm.controls;
+
+    if (
+      typeof startDate.value === 'string' &&
+      typeof endDate.value === 'string'
+    ) {
+      this.requestService
+        .getDataInterval(startDate.value, endDate.value)
+        .subscribe({
+          next: (response) => {
+            if (response.length === 0) {
+              this.toastr.warning('Sem dados para carregar no intervalo!');
+            }
+            this.data = response;
+          },
+          error: (error) => {
+            console.error('Erro detalhado:', error);
+            const msg =
+              error?.error?.message || 'Erro ao buscar dados selecionados';
+            this.toastr.error(msg);
+          },
+        });
+    }
+  }
+
+  loadTable() {
+    this.requestService.getData().subscribe({
       next: (response) => {
+        if (response.length === 0) {
+          this.toastr.warning('Sem dados para carregar no intervalo!');
+        }
         this.data = response;
       },
       error: (error) => {
@@ -169,6 +206,40 @@ export class HomeComponent {
         this.toastr.error(msg);
       },
     });
+  }
+
+  printInterval() {
+    if (
+      this.searchDataForm.controls.startDate.invalid ||
+      this.searchDataForm.controls.endDate.invalid
+    ) {
+      this.toastr.error('Campos de data inválidos!');
+      return;
+    }
+
+    const { startDate: startDate, endDate: endDate } =
+      this.searchDataForm.controls;
+
+    if (
+      typeof startDate.value === 'string' &&
+      typeof endDate.value === 'string'
+    ) {
+      this.requestService
+        .printInterval(startDate.value, endDate.value)
+        .subscribe(
+          (blob) => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'relatorio-unidade.pdf';
+            a.click();
+            window.URL.revokeObjectURL(url);
+          },
+          (error) => {
+            console.error('Erro ao gerar PDF de unidade', error);
+          }
+        );
+    }
   }
 
   isInvalidField(): boolean {
@@ -245,15 +316,15 @@ export class HomeComponent {
 
   get dataInitInvalid(): boolean {
     return (
-      this.searchDataForm.controls.initData.invalid &&
-      this.searchDataForm.controls.initData.touched
+      this.searchDataForm.controls.startDate.invalid &&
+      this.searchDataForm.controls.startDate.touched
     );
   }
 
   get dataEndInvalid(): boolean {
     return (
-      this.searchDataForm.controls.endData.invalid &&
-      this.searchDataForm.controls.endData.touched
+      this.searchDataForm.controls.endDate.invalid &&
+      this.searchDataForm.controls.endDate.touched
     );
   }
 }

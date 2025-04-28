@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { LoginModelType } from '../../types/login-model.type';
 import { InputPasswordComponent } from '../../components/input-password/input-password.component';
-import { decode } from '../../utils/Decode';
+import { decode } from '../../utils/decode';
 
 @Component({
   selector: 'app-login',
@@ -36,7 +36,10 @@ export class LoginComponent {
   ) {}
 
   loginForm = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
+    username: new FormControl('', [
+      Validators.required,
+      Validators.minLength(4),
+    ]),
     password: new FormControl('', [
       Validators.required,
       Validators.minLength(6),
@@ -48,11 +51,14 @@ export class LoginComponent {
       return;
     }
 
-    const { email, password } = this.loginForm.controls;
+    const { username: username, password } = this.loginForm.controls;
 
-    if (typeof email.value === 'string' && typeof password.value === 'string') {
+    if (
+      typeof username.value === 'string' &&
+      typeof password.value === 'string'
+    ) {
       const loginModeType: LoginModelType = {
-        email: email.value,
+        username: username.value,
         password: password.value,
       };
 
@@ -69,6 +75,7 @@ export class LoginComponent {
           }
         },
         error: (error) => {
+          console.log(error);
           const message =
             error.error?.message || 'Erro inesperado ao fazer login';
           this.toastr.error(message);
@@ -83,8 +90,8 @@ export class LoginComponent {
 
   get emailValid(): boolean {
     return (
-      this.loginForm.controls.email.invalid &&
-      this.loginForm.controls.email.touched
+      this.loginForm.controls.username.invalid &&
+      this.loginForm.controls.username.touched
     );
   }
 
@@ -98,7 +105,7 @@ export class LoginComponent {
   invalidFields(): boolean {
     let fieldsError: string[] = [];
 
-    const { email, password } = this.loginForm.controls;
+    const { username: email, password } = this.loginForm.controls;
 
     if (email.invalid) {
       fieldsError.push('Email');

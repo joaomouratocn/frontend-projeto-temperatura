@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, tap, throwError, of } from 'rxjs';
 import { LoginResponseType } from '../types/login-response.type';
@@ -7,7 +7,7 @@ import { RegisterModelType } from '../types/register-model.type';
 import { RegisterResponseType } from '../types/register-response.type';
 import { ErrorType } from '../types/erro-type';
 import { UnitModelType } from '../types/unit-model.type';
-import { decode } from '../utils/Decode';
+import { decode } from '../utils/decode';
 import { GetUnitResponseType } from '../types/get-unit-name-response.type';
 import { DataModelSendType } from '../types/data-model-send.type';
 import { DataModelGetType } from '../types/data-model-get.type';
@@ -23,7 +23,7 @@ export class RequestService {
   login(loginModelType: LoginModelType): Observable<LoginResponseType> {
     return this.http
       .post<LoginResponseType>(`${this.apiUrl}auth/login`, {
-        email: loginModelType.email,
+        username: loginModelType.username,
         password: loginModelType.password,
       })
       .pipe(
@@ -60,12 +60,42 @@ export class RequestService {
     );
   }
 
-  getData(id: string): Observable<DataModelGetType[]> {
+  getData(): Observable<DataModelGetType[]> {
+    const id =
+      sessionStorage.getItem('unit') !== null
+        ? sessionStorage.getItem('unit')
+        : () => {
+            throw new Error('Unidade vazia!');
+          };
     const headers = new HttpHeaders({
       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
     });
     return this.http.get<DataModelGetType[]>(`${this.apiUrl}data/${id}`, {
       headers,
+    });
+  }
+
+  getDataInterval(
+    startDate: string,
+    endDate: string
+  ): Observable<DataModelGetType[]> {
+    const unit = sessionStorage.getItem('unit');
+
+    if (unit === null) {
+      throw new Error('Unidade vazia!');
+    }
+
+    const params = new HttpParams()
+      .set('unitid', unit)
+      .set('startdate', startDate.toString())
+      .set('enddate', endDate.toString());
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+    });
+    return this.http.get<DataModelGetType[]>(`${this.apiUrl}data/interval`, {
+      headers,
+      params,
     });
   }
 
@@ -80,10 +110,52 @@ export class RequestService {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${sessionStorage.getItem('token')}`,
     });
-    return this.http.get<UnitModelType>(
-      `${this.apiUrl}units/userid/${decode()?.id}`,
-      { headers }
-    );
+    return this.http
+      .get<UnitModelType>(`${this.apiUrl}units/userid/${decode()?.id}`, {
+        headers,
+      })
+      .pipe(
+        tap((response) => {
+          sessionStorage.setItem('unit', response.id);
+        })
+      );
+  }
+
+  printInterval(startDate: string, endDate: string): Observable<Blob> {
+    const unit = sessionStorage.getItem('unit');
+
+    if (!unit) {
+      throw new Error('Unidade vazia!');
+    }
+
+    const params = new HttpParams()
+      .set('unitid', unit)
+      .set('start', startDate)
+      .set('end', endDate);
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+    });
+
+    return this.http.get(`${this.apiUrl}report/pdf`, {
+      headers,
+      params,
+      responseType: 'blob',
+    });
+  }
+
+  printAllUnits(start: string, end: string): Observable<Blob> {
+    const params = new HttpParams().set('start', start).set('end', end);
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+    });
+
+    return this.http.get(`${this.apiUrl}relatorios/pdf-all-units`, {
+      headers,
+      params,
+      responseType: 'blob',
+    });
   }
 
   getUnitById(): Observable<GetUnitResponseType> {

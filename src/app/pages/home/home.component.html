@@ -1,5 +1,5 @@
 <form [formGroup]="collectDataForm" class="collectDataForm">
-  <h1>{{unitName}}</h1>
+  <h1>{{ unitName }}</h1>
   <h2>Temperatura Geladeira:</h2>
   <div class="refrigarator">
     <app-input-only-numbers
@@ -68,7 +68,7 @@
     [placeHolder]="'00/00/0000'"
     [showError]="dataInitInvalid"
     [pErrorText]="'Data Invalída'"
-    formControlName="initData"
+    formControlName="startDate"
   />
   <app-input-data
     [labelName]="'endDate'"
@@ -76,14 +76,15 @@
     [placeHolder]="'00/00/0000'"
     [showError]="dataEndInvalid"
     [pErrorText]="'Data invalída'"
-    formControlName="endData"
+    formControlName="endDate"
   />
-  <app-button [buttonText]="'FILTRAR'"/>
+  <app-button [buttonText]="'FILTRAR'" (onSubmit)="loadTableInterval()" />
   <app-button
     [buttonText]="'IMPRIMIR'"
     [orangeButton]="true"
     [imageAlt]="'Print'"
     [imageSrc]="'/assets/print.png'"
+    (onSubmit)="printInterval()"
   />
 </form>
 <app-table [data]="data" />
