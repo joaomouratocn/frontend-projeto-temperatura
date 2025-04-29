@@ -8,12 +8,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RequestService } from '../../services/request.service';
+import { RequestService } from '../../services/requests/request.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { LoginModelType } from '../../types/login-model.type';
 import { InputPasswordComponent } from '../../components/input-password/input-password.component';
-import { decode } from '../../utils/decode';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -30,6 +30,7 @@ import { decode } from '../../utils/decode';
 })
 export class LoginComponent {
   constructor(
+    private authService: AuthService,
     private requestService: RequestService,
     private toastr: ToastrService,
     private router: Router
@@ -64,11 +65,8 @@ export class LoginComponent {
 
       this.requestService.login(loginModeType).subscribe({
         next: (res) => {
-          sessionStorage.setItem('name', res.name);
-          sessionStorage.setItem('token', res.token);
-
-          const user = decode();
-          if (user?.role === 'ADMIN') {
+          const userRole = this.authService.decodeToken()?.role;
+          if (userRole === 'ADMIN') {
             this.router.navigate(['home']);
           } else {
             this.router.navigate(['']);

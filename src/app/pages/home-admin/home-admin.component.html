@@ -16,29 +16,34 @@
 
     <div class="filterData">
         <app-input-data
-        [labelName]="'initData'"
+        [labelName]="'startDate'"
         [labelText]="'Data inicial:'"
         [placeHolder]="'00/00/0000'"
         [showError]="initDateInvalid"
         [pErrorText]="'Data invalída'"
-        formControlName="initData"/>
+        formControlName="startDate"/>
     
         <app-input-data
-        [labelName]="'endData'"
+        [labelName]="'endDate'"
         [labelText]="'Data final:'"
         [placeHolder]="'00/00/0000'"
         [showError]="endDateInvalid"
         [pErrorText]="'Data invalída'"
-        formControlName="endData"/>
+        formControlName="endDate"/>
     
         <app-button
         [buttonText]="'FILTRAR'"
-        (click)="getReport()"/>
+        [isLoading]="isLoadingFilter"
+        [disable]="disablePrint"
+        (click)="getFilter()"/>
     
         <app-button
         [buttonText]="'IMPRIMIR'"
         [orangeButton]="true"
-        [imageSrc]="'assets/print.png'"/>
+        [isLoading]="isLoadingPrint"
+        [disable]="disablePrint"
+        [imageSrc]="'assets/print.png'"
+        (click)="getReport()"/>
     </div>
 
     <app-table [data]="data"/>

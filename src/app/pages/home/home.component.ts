@@ -10,13 +10,13 @@ import { CommonModule } from '@angular/common';
 import { TableComponent } from '../../components/table/table.component';
 import { InputOnlyNumbersComponent } from '../../components/input-only-numbers/input-only-numbers.component';
 import { InputDataComponent } from '../../components/input-data/input-data.component';
-import { RequestService } from '../../services/request.service';
+import { RequestService } from '../../services/requests/request.service';
 import { ToastrService } from 'ngx-toastr';
-import { decode } from '../../utils/decode';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
 import { DataModelSendType } from '../../types/data-model-send.type';
 import { DataModelGetType } from '../../types/data-model-get.type';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -83,13 +83,21 @@ export class HomeComponent {
   });
 
   constructor(
+    private authService: AuthService,
     private requestService: RequestService,
     private toastr: ToastrService,
     private dialog: MatDialog
   ) {}
 
   ngOnInit() {
-    if (decode().role === 'USER') {
+    const token = sessionStorage.getItem('token');
+
+    if (!token) {
+      throw new Error('Erro a pegar o token');
+    }
+
+    const userRole = this.authService.decodeToken()?.role;
+    if (userRole === 'USER') {
       this.requestService.getUnitByUser().subscribe({
         next: (response) => {
           this.unitName = response.name;

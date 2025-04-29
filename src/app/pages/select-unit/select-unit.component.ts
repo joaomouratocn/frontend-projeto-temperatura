@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { UnitModelType } from '../../types/unit-model.type';
-import { RequestService } from '../../services/request.service';
+import { RequestService } from '../../services/requests/request.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import {

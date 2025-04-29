@@ -1,23 +1,23 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, tap, throwError, of } from 'rxjs';
-import { LoginResponseType } from '../types/login-response.type';
-import { LoginModelType } from '../types/login-model.type';
-import { RegisterModelType } from '../types/register-model.type';
-import { RegisterResponseType } from '../types/register-response.type';
-import { ErrorType } from '../types/erro-type';
-import { UnitModelType } from '../types/unit-model.type';
-import { decode } from '../utils/decode';
-import { GetUnitResponseType } from '../types/get-unit-name-response.type';
-import { DataModelSendType } from '../types/data-model-send.type';
-import { DataModelGetType } from '../types/data-model-get.type';
-import { DataModelResponseType } from '../types/data-model-response.type';
+import { LoginResponseType } from '../../types/login-response.type';
+import { LoginModelType } from '../../types/login-model.type';
+import { RegisterModelType } from '../../types/register-model.type';
+import { RegisterResponseType } from '../../types/register-response.type';
+import { ErrorType } from '../../types/erro-type';
+import { UnitModelType } from '../../types/unit-model.type';
+import { GetUnitResponseType } from '../../types/get-unit-name-response.type';
+import { DataModelSendType } from '../../types/data-model-send.type';
+import { DataModelGetType } from '../../types/data-model-get.type';
+import { DataModelResponseType } from '../../types/data-model-response.type';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RequestService {
   private apiUrl = 'http://localhost:8080/';
+  private token = sessionStorage.getItem('token');
   constructor(private http: HttpClient) {}
 
   login(loginModelType: LoginModelType): Observable<LoginResponseType> {
@@ -28,7 +28,8 @@ export class RequestService {
       })
       .pipe(
         tap((response) => {
-          sessionStorage.setItem('response-token', JSON.stringify(response));
+          sessionStorage.setItem('name', response.name);
+          sessionStorage.setItem('token', response.token);
         })
       );
   }
@@ -49,14 +50,8 @@ export class RequestService {
   sendData(
     dataModelSendType: DataModelSendType
   ): Observable<DataModelResponseType> {
-    const auth = sessionStorage.getItem('response-token');
-
-    if (!auth) {
-      throw new Error('Erro ao pegar token');
-    }
-
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${JSON.parse(auth).token}`,
+      Authorization: `Bearer ${this.token}`,
     });
     return this.http.post<DataModelResponseType>(
       `${this.apiUrl}data`,
@@ -74,7 +69,7 @@ export class RequestService {
     const { id } = JSON.parse(unit);
 
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+      Authorization: `Bearer ${this.token}`,
     });
     return this.http.get<DataModelGetType[]>(`${this.apiUrl}data/${id}`, {
       headers,
@@ -82,30 +77,19 @@ export class RequestService {
   }
 
   getUnits(): Observable<UnitModelType[]> {
-    const auth = sessionStorage.getItem('response-token');
-
-    if (!auth) {
-      throw new Error('Erro ao pegar token');
-    }
-
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${JSON.parse(auth).token}`,
+      Authorization: `Bearer ${this.token}`,
     });
     return this.http.get<UnitModelType[]>(`${this.apiUrl}units`, { headers });
   }
 
   getUnitByUser(): Observable<GetUnitResponseType> {
-    const auth = sessionStorage.getItem('response-token');
-
-    if (!auth) {
-      throw new Error('Erro ao pegar token');
-    }
-
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${JSON.parse(auth).token}`,
+      Authorization: `Bearer ${this.token}`,
     });
+
     return this.http
-      .get<UnitModelType>(`${this.apiUrl}units/userid/${decode().id}`, {
+      .get<UnitModelType>(`${this.apiUrl}units/byuser`, {
         headers,
       })
       .pipe(
@@ -120,7 +104,6 @@ export class RequestService {
     endDate: string
   ): Observable<DataModelGetType[]> {
     const unit = sessionStorage.getItem('unit');
-    const auth = sessionStorage.getItem('response-token');
 
     if (unit === null) {
       throw new Error('Unidade vazia!');
@@ -131,12 +114,8 @@ export class RequestService {
       .set('startdate', startDate.toString())
       .set('enddate', endDate.toString());
 
-    if (!auth) {
-      throw new Error('Erro ao pegar token');
-    }
-
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${JSON.parse(auth).token}`,
+      Authorization: `Bearer ${this.token}`,
     });
     return this.http.get<DataModelGetType[]>(`${this.apiUrl}data/interval`, {
       headers,
@@ -157,7 +136,7 @@ export class RequestService {
       .set('end', endDate);
 
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+      Authorization: `Bearer ${this.token}`,
     });
 
     return this.http.get(`${this.apiUrl}report/pdf`, {
@@ -170,14 +149,8 @@ export class RequestService {
   printAllUnits(start: string, end: string): Observable<Blob> {
     const params = new HttpParams().set('start', start).set('end', end);
 
-    const auth = sessionStorage.getItem('response-token');
-
-    if (!auth) {
-      throw new Error('Erro ao pegar token');
-    }
-
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${JSON.parse(auth).token}`,
+      Authorization: `Bearer ${this.token}`,
     });
 
     return this.http.get(`${this.apiUrl}relatorios/pdf-all-units`, {

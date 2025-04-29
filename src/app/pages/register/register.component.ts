@@ -9,7 +9,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RequestService } from '../../services/request.service';
+import { RequestService } from '../../services/requests/request.service';
 import { ToastrService } from 'ngx-toastr';
 import { UnitModelType } from '../../types/unit-model.type';
 import { RegisterModelType } from '../../types/register-model.type';
