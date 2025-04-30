@@ -37,11 +37,11 @@ export class HomeAdminComponent {
   formCollectData = new FormGroup({
     unit: new FormControl<UnitModelType | null>(null, [Validators.required]),
     allUnits: new FormControl(false),
-    startDate: new FormControl('', [
+    startDate: new FormControl('27/04/2025', [
       Validators.required,
       Validators.minLength(10),
     ]),
-    endDate: new FormControl('', [
+    endDate: new FormControl('30/04/2025', [
       Validators.required,
       Validators.minLength(10),
     ]),
@@ -56,11 +56,7 @@ export class HomeAdminComponent {
   }
 
   getFilter() {
-    if (
-      this.formCollectData.controls.startDate.invalid ||
-      this.formCollectData.controls.endDate.invalid
-    ) {
-      this.toastr.error('Campos de data inválidos!');
+    if (this.invalidFields()) {
       return;
     }
 
@@ -95,6 +91,14 @@ export class HomeAdminComponent {
             this.isLoadingFilter = false;
           },
         });
+    }
+  }
+
+  selectReport() {
+    if (this.formCollectData.controls.allUnits.value) {
+      this.getRegportAllUnits();
+    } else {
+      this.getReport();
     }
   }
 
@@ -168,7 +172,8 @@ export class HomeAdminComponent {
             window.URL.revokeObjectURL(url);
           },
           error: (error) => {
-            console.error('Erro ao gerar PDF de unidade', error);
+            this.toastr.error('Erro ao gerar Relatório');
+            console.error('Erro ao gerar PDF das unidades: ', error);
           },
           complete: () => {
             this.isLoadingPrint = false;
@@ -179,10 +184,18 @@ export class HomeAdminComponent {
 
   toggleDisable() {
     const unitControl = this.formCollectData.controls.unit;
-    unitControl?.disabled
+    unitControl?.disabled ? unitControl.enable() : unitControl?.disable();
+
+    this.disableFilterButton
       ? (this.disableFilterButton = false)
       : (this.disableFilterButton = true);
-    unitControl?.disabled ? unitControl.enable() : unitControl?.disable();
+  }
+
+  get disablePrint(): boolean {
+    return (
+      this.formCollectData.controls.startDate.invalid ||
+      this.formCollectData.controls.endDate.invalid
+    );
   }
 
   invalidFields(): boolean {
@@ -223,14 +236,6 @@ export class HomeAdminComponent {
         console.error(erro);
       },
     });
-  }
-
-  get disablePrint(): boolean {
-    return (
-      this.formCollectData.controls.startDate.invalid ||
-      this.formCollectData.controls.endDate.invalid ||
-      this.formCollectData.controls.unit.disabled
-    );
   }
 
   get unitInvalid(): boolean {

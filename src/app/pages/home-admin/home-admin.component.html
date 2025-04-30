@@ -34,16 +34,16 @@
         <app-button
         [buttonText]="'FILTRAR'"
         [isLoading]="isLoadingFilter"
-        [disable]="disablePrint"
+        [disable]="disableFilterButton"
         (click)="getFilter()"/>
     
         <app-button
         [buttonText]="'IMPRIMIR'"
         [orangeButton]="true"
         [isLoading]="isLoadingPrint"
-        [disable]="disablePrint"
+        [disable]="disablePrintButton"
         [imageSrc]="'assets/print.png'"
-        (click)="getReport()"/>
+        (click)="selectReport()"/>
     </div>
 
     <app-table [data]="data"/>

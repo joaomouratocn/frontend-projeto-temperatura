@@ -153,7 +153,7 @@ export class RequestService {
       Authorization: `Bearer ${this.token}`,
     });
 
-    return this.http.get(`${this.apiUrl}relatorios/pdf-all-units`, {
+    return this.http.get(`${this.apiUrl}report/pdf-all-units`, {
       headers,
       params,
       responseType: 'blob',
