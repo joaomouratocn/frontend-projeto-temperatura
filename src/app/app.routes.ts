@@ -33,5 +33,5 @@ export const routes: Routes = [
     data: { role: ['ADMIN'] },
   },
   { path: 'login', component: LoginComponent },
-  { path: 'danied', component: AccessDeniedComponent },
+  { path: 'denied', component: AccessDeniedComponent },
 ];

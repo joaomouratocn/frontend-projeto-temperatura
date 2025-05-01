@@ -11,14 +11,17 @@ import { GetUnitResponseType } from '../../types/get-unit-name-response.type';
 import { DataModelSendType } from '../../types/data-model-send.type';
 import { DataModelGetType } from '../../types/data-model-get.type';
 import { DataModelResponseType } from '../../types/data-model-response.type';
+import { SessionService } from '../session/session-service.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RequestService {
-  private apiUrl = 'http://localhost:8080/';
-  private token = sessionStorage.getItem('token');
-  constructor(private http: HttpClient) {}
+  private apiUrl: string = 'http://localhost:8080/';
+  constructor(
+    private http: HttpClient,
+    private sessionService: SessionService
+  ) {}
 
   login(loginModelType: LoginModelType): Observable<LoginResponseType> {
     return this.http
@@ -28,8 +31,8 @@ export class RequestService {
       })
       .pipe(
         tap((response) => {
-          sessionStorage.setItem('name', response.name);
-          sessionStorage.setItem('token', response.token);
+          this.sessionService.set('name', response.name);
+          this.sessionService.set('token', response.token);
         })
       );
   }
@@ -51,7 +54,7 @@ export class RequestService {
     dataModelSendType: DataModelSendType
   ): Observable<DataModelResponseType> {
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`,
+      Authorization: `Bearer ${this.sessionService.get('token')}`,
     });
     return this.http.post<DataModelResponseType>(
       `${this.apiUrl}data`,
@@ -61,31 +64,26 @@ export class RequestService {
   }
 
   getData(): Observable<DataModelGetType[]> {
-    const unit = sessionStorage.getItem('unit');
-    if (!unit) {
-      throw new Error('Unidade vazia!');
-    }
-
-    const { id } = JSON.parse(unit);
+    const unitId = this.sessionService.get('unit');
 
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`,
+      Authorization: `Bearer ${this.sessionService.get('token')}`,
     });
-    return this.http.get<DataModelGetType[]>(`${this.apiUrl}data/${id}`, {
+    return this.http.get<DataModelGetType[]>(`${this.apiUrl}data/${unitId}`, {
       headers,
     });
   }
 
   getUnits(): Observable<UnitModelType[]> {
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`,
+      Authorization: `Bearer ${this.sessionService.get('token')}`,
     });
     return this.http.get<UnitModelType[]>(`${this.apiUrl}units`, { headers });
   }
 
   getUnitByUser(): Observable<GetUnitResponseType> {
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`,
+      Authorization: `Bearer ${this.sessionService.get('token')}`,
     });
 
     return this.http
@@ -94,7 +92,8 @@ export class RequestService {
       })
       .pipe(
         tap((response) => {
-          sessionStorage.setItem('unit', JSON.stringify(response));
+          this.sessionService.set('id', response.id);
+          this.sessionService.set('unit', response.name);
         })
       );
   }
@@ -103,19 +102,15 @@ export class RequestService {
     startDate: string,
     endDate: string
   ): Observable<DataModelGetType[]> {
-    const unit = sessionStorage.getItem('unit');
-
-    if (unit === null) {
-      throw new Error('Unidade vazia!');
-    }
+    const unitId = this.sessionService.get('unit');
 
     const params = new HttpParams()
-      .set('unitid', JSON.parse(unit).id)
+      .set('unitid', JSON.parse(unitId).id)
       .set('startdate', startDate.toString())
       .set('enddate', endDate.toString());
 
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`,
+      Authorization: `Bearer ${this.sessionService.get('token')}`,
     });
     return this.http.get<DataModelGetType[]>(`${this.apiUrl}data/interval`, {
       headers,
@@ -124,7 +119,7 @@ export class RequestService {
   }
 
   printInterval(startDate: string, endDate: string): Observable<Blob> {
-    const unit = sessionStorage.getItem('unit');
+    const unitId = this.sessionService.get('unit');
 
     if (!unit) {
       throw new Error('Unidade vazia!');
@@ -136,7 +131,7 @@ export class RequestService {
       .set('end', endDate);
 
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`,
+      Authorization: `Bearer ${this.sessionService.get('token')}`,
     });
 
     return this.http.get(`${this.apiUrl}report/pdf`, {
@@ -150,7 +145,7 @@ export class RequestService {
     const params = new HttpParams().set('start', start).set('end', end);
 
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.token}`,
+      Authorization: `Bearer ${this.sessionService.get('token')}`,
     });
 
     return this.http.get(`${this.apiUrl}report/pdf-all-units`, {

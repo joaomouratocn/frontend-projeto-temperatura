@@ -1,11 +1,13 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from './services/auth/auth.service';
+import { SessionService } from './services/session/session-service.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const authService = inject(AuthService);
-  const token = sessionStorage.getItem('token');
+  const sessionService = inject(SessionService);
+  const token = sessionService.get('token');
   const requiredRoles = route.data?.['role'] as string[];
 
   if (!token) {
@@ -20,15 +22,15 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   const isExpired = decodedToken.exp * 1000 < Date.now();
   if (isExpired) {
+    console.log('expirado');
     sessionStorage.removeItem('token');
     return router.createUrlTree(['/login']);
   }
 
   const userRole = decodedToken.role;
   if (requiredRoles.includes(userRole)) {
-    console.log('createTre');
     return true;
   }
 
-  return router.createUrlTree(['/danied']);
+  return router.createUrlTree(['/denied']);
 };

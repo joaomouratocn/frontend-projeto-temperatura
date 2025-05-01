@@ -4,6 +4,7 @@ import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { AuthService } from './services/auth/auth.service';
+import { SessionService } from './services/session/session-service.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,12 @@ import { AuthService } from './services/auth/auth.service';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private sessionService: SessionService
+  ) {
+    sessionService.clear();
+  }
 
   ngOnInit(): void {
     this.authService.validateSession();

@@ -11,6 +11,7 @@ import {
 } from '@angular/forms';
 import { SelectComponent } from '../../components/select/select.component';
 import { ButtonComponent } from '../../components/button/button.component';
+import { SessionService } from '../../services/session/session-service.service';
 
 @Component({
   selector: 'app-select-unit',
@@ -23,6 +24,7 @@ export class SelectUnitComponent {
 
   constructor(
     private requestService: RequestService,
+    private sessionService: SessionService,
     private toastr: ToastrService,
     private router: Router
   ) {}
@@ -50,7 +52,11 @@ export class SelectUnitComponent {
       return;
     }
 
-    sessionStorage.setItem('unit', JSON.stringify(unit));
+    this.sessionService.set('unitId', this.selectForm.controls.unit.value?.id);
+    this.sessionService.set(
+      'unitName',
+      this.selectForm.controls.unit.value?.name
+    );
 
     this.router.navigate(['']);
   }

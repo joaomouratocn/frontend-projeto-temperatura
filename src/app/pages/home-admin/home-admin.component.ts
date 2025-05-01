@@ -13,6 +13,7 @@ import { TableComponent } from '../../components/table/table.component';
 import { RequestService } from '../../services/requests/request.service';
 import { ToastrService } from 'ngx-toastr';
 import { DataModelGetType } from '../../types/data-model-get.type';
+import { SessionService } from '../../services/session/session-service.service';
 
 @Component({
   selector: 'app-home-admin',
@@ -49,6 +50,7 @@ export class HomeAdminComponent {
 
   constructor(
     private requestService: RequestService,
+    private sessionService: SessionService,
     private toastr: ToastrService
   ) {}
   ngOnInit() {
@@ -68,9 +70,13 @@ export class HomeAdminComponent {
       typeof endDate.value === 'string'
     ) {
       this.isLoadingFilter = true;
-      sessionStorage.setItem(
-        'unit',
-        JSON.stringify(this.formCollectData.controls.unit.value)
+      this.sessionService.set(
+        'unitId',
+        this.formCollectData.controls.unit.value?.id
+      );
+      this.sessionService.set(
+        'unitName',
+        this.formCollectData.controls.unit.value?.name
       );
       this.requestService
         .getDataInterval(startDate.value, endDate.value)
@@ -119,9 +125,13 @@ export class HomeAdminComponent {
       typeof endDate.value === 'string'
     ) {
       this.isLoadingPrint = true;
-      sessionStorage.setItem(
-        'unit',
-        JSON.stringify(this.formCollectData.controls.unit.value)
+      this.sessionService.set(
+        'unitId',
+        this.formCollectData.controls.unit.value?.id
+      );
+      this.sessionService.set(
+        'unitName',
+        this.formCollectData.controls.unit.value?.name
       );
       this.requestService
         .printInterval(startDate.value, endDate.value)
