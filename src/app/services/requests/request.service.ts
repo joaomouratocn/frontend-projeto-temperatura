@@ -39,15 +39,18 @@ export class RequestService {
 
   register(
     resgiterModelType: RegisterModelType
-  ): Observable<RegisterResponseType | ErrorType> {
-    return this.http
-      .post<RegisterResponseType>(`${this.apiUrl}auth/register`, {
-        name: resgiterModelType.name,
-        email: resgiterModelType.email,
-        password: resgiterModelType.password,
-        unit: resgiterModelType.unit,
-      })
-      .pipe();
+  ): Observable<RegisterResponseType> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.sessionService.get('token')}`,
+    });
+
+    return this.http.post<RegisterResponseType>(
+      `${this.apiUrl}auth/register`,
+      {
+        resgiterModelType,
+      },
+      { headers }
+    );
   }
 
   sendData(
@@ -102,10 +105,14 @@ export class RequestService {
     startDate: string,
     endDate: string
   ): Observable<DataModelGetType[]> {
-    const unitId = this.sessionService.get('unit');
+    const unitId = this.sessionService.get('unitId');
+
+    if (typeof unitId !== 'string') {
+      throw new Error('Unidade vazia');
+    }
 
     const params = new HttpParams()
-      .set('unitid', JSON.parse(unitId).id)
+      .set('unitid', unitId)
       .set('startdate', startDate.toString())
       .set('enddate', endDate.toString());
 
@@ -119,14 +126,14 @@ export class RequestService {
   }
 
   printInterval(startDate: string, endDate: string): Observable<Blob> {
-    const unitId = this.sessionService.get('unit');
+    const unitId = this.sessionService.get('unitId');
 
-    if (!unit) {
+    if (typeof unitId !== 'string') {
       throw new Error('Unidade vazia!');
     }
 
     const params = new HttpParams()
-      .set('unitid', JSON.parse(unit).id)
+      .set('unitid', unitId)
       .set('start', startDate)
       .set('end', endDate);
 

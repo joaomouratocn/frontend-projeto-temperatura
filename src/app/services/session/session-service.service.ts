@@ -8,9 +8,8 @@ export class SessionService {
     sessionStorage.setItem(key, value);
   }
 
-  get<T>(key: string): T | null {
-    const item = sessionStorage.getItem(key);
-    return item ? JSON.parse(item) : null;
+  get(key: string): string | null {
+    return sessionStorage.getItem(key);
   }
 
   clear(): void {

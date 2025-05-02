@@ -1,5 +1,4 @@
 <div class="content">
-  <img src="/assets/logo-horizontal-branco.png" alt="logo" />
   <form [formGroup]="registerForm">
     <app-input
       class="input"
@@ -13,31 +12,17 @@
 
     <app-input
       class="input"
-      [labelName]="'email'"
-      [labelText]="'Email:'"
-      [placeHolder]="'Insira seu email'"
-      [pErrorText]="'Email inválido'"
-      [showError]="emailInvalid"
+      [labelName]="'username'"
+      [labelText]="'Nome de usuário:'"
+      [placeHolder]="'Usuário'"
+      [pErrorText]="'Usuário inválido'"
+      [showError]="usernameInvalid"
       formControlName="email"
-    />
-
-    <app-input-password
-      class="input"
-      [pErrorText]="'Senha inválida'"
-      [showError]="passwordInvalid"
-      formControlName="password"
-    />
-
-    <app-input-password
-      class="input"
-      [pErrorText]="'Senhas não coincidem'"
-      [showError]="matchPassword"
-      formControlName="rePassword"
     />
 
     <app-select
       class="select"
-      [labelName]="'Escolha um item'"
+      [labelName]="'Escolha uma unidade'"
       [labelText]="'Selecione sua unidade:'"
       [itens]="unitArray"
       [pErrorText]="'Selecione sua unidade'"

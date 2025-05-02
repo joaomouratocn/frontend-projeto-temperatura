@@ -14,7 +14,6 @@ import { ToastrService } from 'ngx-toastr';
 import { UnitModelType } from '../../types/unit-model.type';
 import { RegisterModelType } from '../../types/register-model.type';
 import { Router } from '@angular/router';
-import { InputPasswordComponent } from '../../components/input-password/input-password.component';
 
 @Component({
   selector: 'app-register',
@@ -25,7 +24,6 @@ import { InputPasswordComponent } from '../../components/input-password/input-pa
     InputComponent,
     ButtonComponent,
     SelectComponent,
-    InputPasswordComponent,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
@@ -41,14 +39,9 @@ export class RegisterComponent {
 
   registerForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.minLength(4)]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [
+    username: new FormControl('', [
       Validators.required,
-      Validators.minLength(6),
-    ]),
-    rePassword: new FormControl('', [
-      Validators.required,
-      Validators.minLength(6),
+      Validators.minLength(4),
     ]),
     unit: new FormControl<UnitModelType | null>(null, [Validators.required]),
   });
@@ -64,7 +57,7 @@ export class RegisterComponent {
       },
       error: (erro) => {
         this.toastr.error('Erro de comunicação com o servidor.');
-        console.error('Erro HTTP:', erro);
+        console.error(erro);
       },
     });
   }
@@ -74,35 +67,27 @@ export class RegisterComponent {
       return;
     }
 
-    const { name, email, password, unit } = this.registerForm.controls;
+    const { name, username: username, unit } = this.registerForm.controls;
 
     console.log(typeof name.value);
 
     if (
       typeof name.value === 'string' &&
-      typeof email.value === 'string' &&
-      typeof password.value === 'string' &&
+      typeof username.value === 'string' &&
       typeof unit.value === 'string'
     ) {
       const newUser: RegisterModelType = {
         name: name.value,
-        email: email.value,
-        password: password.value,
+        username: username.value,
         unit: unit.value,
       };
 
       this.requestService.register(newUser).subscribe({
         next: (response) => {
-          if ('email' in response) {
-            this.toastr.success('Cadastro realizado com sucesso!');
-            console.log(response);
-            this.router.navigate(['login']);
-          } else {
-            console.log(response);
-          }
+          this.toastr.success(response.message);
         },
         error: (erro) => {
-          this.toastr.error('Erro de cominicação com servidor!');
+          this.toastr.error('Erro de cominicação com servidor');
           console.log(erro);
         },
       });
@@ -116,25 +101,10 @@ export class RegisterComponent {
     );
   }
 
-  get emailInvalid(): boolean {
+  get usernameInvalid(): boolean {
     return (
-      this.registerForm.controls.email.invalid &&
-      this.registerForm.controls.email.touched
-    );
-  }
-
-  get passwordInvalid(): boolean {
-    return (
-      this.registerForm.controls.password.invalid &&
-      this.registerForm.controls.password.touched
-    );
-  }
-
-  get matchPassword(): boolean {
-    return (
-      this.registerForm.controls.rePassword.value !==
-        this.registerForm.controls.password?.value &&
-      this.registerForm.controls.rePassword.touched
+      this.registerForm.controls.username.invalid &&
+      this.registerForm.controls.username.touched
     );
   }
 
@@ -148,16 +118,13 @@ export class RegisterComponent {
   invalidFields(): boolean {
     let fieldsError: string[] = [];
 
-    const { name, email, password, unit } = this.registerForm.controls;
+    const { name, username: username, unit } = this.registerForm.controls;
 
     if (name.invalid) {
       fieldsError.push('name');
     }
-    if (email.invalid) {
-      fieldsError.push('email');
-    }
-    if (password.invalid) {
-      fieldsError.push('senha');
+    if (username.invalid) {
+      fieldsError.push('username');
     }
     if (unit.invalid) {
       fieldsError.push('unidade');

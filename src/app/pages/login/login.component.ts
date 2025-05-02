@@ -82,7 +82,7 @@ export class LoginComponent {
     }
   }
 
-  get emailValid(): boolean {
+  get usernameInvalid(): boolean {
     return (
       this.loginForm.controls.username.invalid &&
       this.loginForm.controls.username.touched

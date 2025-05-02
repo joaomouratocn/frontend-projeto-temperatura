@@ -3,13 +3,13 @@
   <form [formGroup]="loginForm">
     <app-input
       class="input"
-      [labelName]="'email'"
-      [labelText]="'Email:'"
-      [placeHolder]="'Insira seu email'"
-      [pErrorText]="'Email invalído!'"
-      [showError]="emailValid"
+      [labelName]="'username'"
+      [labelText]="'Nome de usuário:'"
+      [placeHolder]="'Nome de usuário'"
+      [pErrorText]="'Nome de usuário invalído'"
+      [showError]="usernameInvalid"
       [imageSrc]="'/assets/person.png'"
-      [imageAlt]="'Email'"
+      [imageAlt]="'username'"
       [reverseOrietation]="true"
       formControlName="username"
     />

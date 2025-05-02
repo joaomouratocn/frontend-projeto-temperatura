@@ -70,6 +70,7 @@ export class HomeAdminComponent {
       typeof endDate.value === 'string'
     ) {
       this.isLoadingFilter = true;
+
       this.sessionService.set(
         'unitId',
         this.formCollectData.controls.unit.value?.id
