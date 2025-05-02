@@ -46,9 +46,7 @@ export class RequestService {
 
     return this.http.post<RegisterResponseType>(
       `${this.apiUrl}auth/register`,
-      {
-        resgiterModelType,
-      },
+      resgiterModelType,
       { headers }
     );
   }
@@ -67,7 +65,7 @@ export class RequestService {
   }
 
   getData(): Observable<DataModelGetType[]> {
-    const unitId = this.sessionService.get('unit');
+    const unitId = this.sessionService.get('unitId');
 
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.sessionService.get('token')}`,
@@ -95,8 +93,8 @@ export class RequestService {
       })
       .pipe(
         tap((response) => {
-          this.sessionService.set('id', response.id);
-          this.sessionService.set('unit', response.name);
+          this.sessionService.set('unitId', response.id);
+          this.sessionService.set('unitName', response.name);
         })
       );
   }

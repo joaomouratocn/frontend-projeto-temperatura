@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, Input } from '@angular/core';
+import { Component, forwardRef, Input, ChangeDetectorRef } from '@angular/core';
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
@@ -29,6 +29,8 @@ export class InputComponent implements ControlValueAccessor {
   @Input() imageAlt: string = '';
   @Input() reverseOrietation = false;
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   value: string = '';
   onChange: any = () => {};
   onTouched: any = () => {};
@@ -40,6 +42,7 @@ export class InputComponent implements ControlValueAccessor {
 
   writeValue(obj: any): void {
     this.value = obj || '';
+    this.cdr.detectChanges();
   }
 
   registerOnChange(fn: any): void {

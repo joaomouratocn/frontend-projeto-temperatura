@@ -1,7 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, forwardRef, Input } from '@angular/core';
 import { ValidateDateDirective } from '../../directives/validate-date.directive';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-input-data',
@@ -29,6 +33,7 @@ export class InputDataComponent implements ControlValueAccessor {
 
   onInput(event: Event) {
     const value = (event.target as HTMLInputElement).value;
+    this.value = value;
     this.onChange(value);
   }
 

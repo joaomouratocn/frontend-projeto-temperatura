@@ -38,8 +38,11 @@ export class RegisterComponent {
   ) {}
 
   registerForm = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.minLength(4)]),
-    username: new FormControl('', [
+    name: new FormControl<string>('', [
+      Validators.required,
+      Validators.minLength(4),
+    ]),
+    username: new FormControl<string | null>(null, [
       Validators.required,
       Validators.minLength(4),
     ]),
@@ -67,27 +70,26 @@ export class RegisterComponent {
       return;
     }
 
-    const { name, username: username, unit } = this.registerForm.controls;
-
-    console.log(typeof name.value);
+    const { name, username, unit } = this.registerForm.controls;
 
     if (
       typeof name.value === 'string' &&
       typeof username.value === 'string' &&
-      typeof unit.value === 'string'
+      typeof unit.value?.id === 'string'
     ) {
       const newUser: RegisterModelType = {
         name: name.value,
         username: username.value,
-        unit: unit.value,
+        unit: unit.value.id,
       };
 
       this.requestService.register(newUser).subscribe({
         next: (response) => {
           this.toastr.success(response.message);
+          this.router.navigate(['/home']);
         },
         error: (erro) => {
-          this.toastr.error('Erro de cominicação com servidor');
+          this.toastr.error(erro.error?.message);
           console.log(erro);
         },
       });

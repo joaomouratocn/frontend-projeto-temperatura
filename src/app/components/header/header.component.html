@@ -9,14 +9,9 @@
         > Cadastrar</p>
         <p 
         class="pLink"
-        *ngIf="showRelease"
-        (click)="goSelectUnit()"
-        > Inserir</p>
-        <p 
-        class="pLink"
-        *ngIf="showBack"
-        (click)="goHomeAdm()"
-        > Voltar</p>
+        *ngIf="shouldShowInsertButton"
+        (click)="handleInsertClick()"
+        >{{buttonText}}</p>
         <p
         class="pLink"
         (click)="logout()"

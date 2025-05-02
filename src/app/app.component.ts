@@ -13,12 +13,7 @@ import { SessionService } from './services/session/session-service.service';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  constructor(
-    private authService: AuthService,
-    private sessionService: SessionService
-  ) {
-    sessionService.clear();
-  }
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.authService.validateSession();

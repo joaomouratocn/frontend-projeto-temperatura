@@ -17,6 +17,7 @@ import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/co
 import { DataModelSendType } from '../../types/data-model-send.type';
 import { DataModelGetType } from '../../types/data-model-get.type';
 import { AuthService } from '../../services/auth/auth.service';
+import { SessionService } from '../../services/session/session-service.service';
 
 @Component({
   selector: 'app-home',
@@ -86,7 +87,8 @@ export class HomeComponent {
     private authService: AuthService,
     private requestService: RequestService,
     private toastr: ToastrService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private sessionService: SessionService
   ) {}
 
   ngOnInit() {
@@ -111,14 +113,7 @@ export class HomeComponent {
         },
       });
     } else {
-      const unit = sessionStorage.getItem('unit');
-      if (!unit) {
-        this.toastr.error('Erro ao carregar dados da unidade');
-        return;
-      }
-
-      const name = JSON.parse(unit).name;
-      this.unitName = name;
+      this.unitName = sessionStorage.getItem('unitName') || '';
       this.loadInit();
     }
   }
@@ -131,16 +126,20 @@ export class HomeComponent {
     const { refMin, refCur, refMax, envMin, envCur, envMax } =
       this.collectDataForm.controls;
 
+    const unitid = this.sessionService.get('unitId');
+
     if (
       typeof refMin.value === 'string' &&
       typeof refCur.value === 'string' &&
       typeof refMax.value === 'string' &&
       typeof envMin.value === 'string' &&
       typeof envCur.value === 'string' &&
-      typeof envMax.value === 'string'
+      typeof envMax.value === 'string' &&
+      unitid !== null
     ) {
       const data: DataModelSendType = {
         dateTime: Date.now().toString(),
+        unitId: unitid,
         refMin: refMin.value,
         refCur: refCur.value,
         refMax: refMax.value,

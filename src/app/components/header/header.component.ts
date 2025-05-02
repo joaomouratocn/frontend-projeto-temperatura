@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 import { SessionService } from '../../services/session/session-service.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,18 @@ import { SessionService } from '../../services/session/session-service.service';
 export class HeaderComponent {
   userName: string = '';
   isHomePage: boolean = false;
+  optionInsert: boolean = false;
+  buttonText: string = '';
+
+  ngOnInit() {
+    this.updateText();
+
+    this.router.events
+      .pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe(() => {
+        this.updateText();
+      });
+  }
 
   constructor(
     private authService: AuthService,
@@ -23,33 +36,21 @@ export class HeaderComponent {
       if (event instanceof NavigationEnd) {
         const pages = ['/login'];
         this.isHomePage = !pages.includes(event.url);
+        this.userName = sessionService.get('name') || '';
       }
     });
   }
 
-  ngOnInit() {
-    this.userName = this.sessionService.get('name') || '';
-  }
-
-  get showRelease(): boolean {
-    return (
-      this.authService.decodeToken()?.role === 'ADMIN' &&
-      this.router.url === '/home'
-    );
-  }
-
-  get showBack(): boolean {
-    return (
-      this.authService.decodeToken()?.role === 'ADMIN' &&
-      this.router.url === '/'
-    );
-  }
-
   get showRegister(): boolean {
     return (
-      this.authService.decodeToken()?.role === 'ADMIN' &&
+      this.authService.decodeToken()?.role == 'ADMIN' &&
       this.router.url === '/home'
     );
+  }
+
+  get shouldShowInsertButton(): boolean {
+    const role = this.authService.decodeToken()?.role;
+    return role === 'ADMIN';
   }
 
   goSelectUnit() {
@@ -65,6 +66,30 @@ export class HeaderComponent {
   }
 
   logout() {
-    sessionStorage.clear();
+    this.sessionService.clear();
+    this.router.navigate(['/login']);
+  }
+
+  handleInsertClick() {
+    const currentUrl = this.router.url;
+
+    if (currentUrl === '/home') {
+      this.optionInsert = true;
+      this.router.navigate(['/select']);
+    } else {
+      this.optionInsert = false;
+      this.router.navigate(['/home']);
+    }
+
+    this.updateText();
+  }
+  private updateText() {
+    const currentUrl = this.router.url;
+
+    if (currentUrl === '/home') {
+      this.buttonText = 'Inserir dados';
+    } else {
+      this.buttonText = 'Voltar';
+    }
   }
 }
