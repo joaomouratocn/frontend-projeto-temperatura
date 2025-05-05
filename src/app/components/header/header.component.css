@@ -33,13 +33,21 @@ header {
     }
   }
 
-  @media (max-width: 375px) {
+  @media (max-width: 798px) {
     img {
-      width: 130px;
+      width: 100px;
+    }
+
+    div {
+      margin-left: 16px;
     }
 
     p {
       font-size: 12px;
+    }
+
+    .pUserName {
+      display: none;
     }
   }
 }

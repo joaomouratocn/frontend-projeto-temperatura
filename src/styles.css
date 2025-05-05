@@ -10,7 +10,7 @@
   --text-color-primary: #ffffff;
   --text-color-secondary: #262727;
 
-  --error-color: rgb(253, 82, 82);
+  --error-color: rgb(146, 26, 26);
 }
 
 html,
@@ -85,5 +85,11 @@ app-input-only-numbers {
   }
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

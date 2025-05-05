@@ -17,16 +17,6 @@ export class HeaderComponent {
   optionInsert: boolean = false;
   buttonText: string = '';
 
-  ngOnInit() {
-    this.updateText();
-
-    this.router.events
-      .pipe(filter((e) => e instanceof NavigationEnd))
-      .subscribe(() => {
-        this.updateText();
-      });
-  }
-
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -44,52 +34,51 @@ export class HeaderComponent {
   get showRegister(): boolean {
     return (
       this.authService.decodeToken()?.role == 'ADMIN' &&
-      this.router.url === '/home'
+      this.router.url.startsWith('/register')
+    );
+  }
+
+  get showAlterPassword(): boolean {
+    return this.router.url !== '/alterpass';
+  }
+
+  get showBackToHome(): boolean {
+    return (
+      !this.router.url.startsWith('') || !this.router.url.startsWith('/home')
     );
   }
 
   get shouldShowInsertButton(): boolean {
+    return this.authService.decodeToken()?.role === 'ADMIN';
+  }
+
+  goSelectUnitPage() {
+    this.navigate('/select');
+  }
+
+  goHomePage() {
     const role = this.authService.decodeToken()?.role;
-    return role === 'ADMIN';
+    if (role === 'ADMIN') {
+      this.navigate('/home');
+    } else {
+      this.navigate('');
+    }
   }
 
-  goSelectUnit() {
-    this.router.navigate(['/select']);
+  goRegisterPage() {
+    this.navigate('/register');
   }
 
-  goHomeAdm() {
-    this.router.navigate(['/home']);
-  }
-
-  goRegister() {
-    this.router.navigate(['/register']);
+  goAlterPasswordPage() {
+    this.navigate('/alterpass');
   }
 
   logout() {
     this.sessionService.clear();
-    this.router.navigate(['/login']);
+    this.navigate('/login');
   }
 
-  handleInsertClick() {
-    const currentUrl = this.router.url;
-
-    if (currentUrl === '/home') {
-      this.optionInsert = true;
-      this.router.navigate(['/select']);
-    } else {
-      this.optionInsert = false;
-      this.router.navigate(['/home']);
-    }
-
-    this.updateText();
-  }
-  private updateText() {
-    const currentUrl = this.router.url;
-
-    if (currentUrl === '/home') {
-      this.buttonText = 'Inserir dados';
-    } else {
-      this.buttonText = 'Voltar';
-    }
+  private navigate(dest: string) {
+    this.router.navigate([dest]);
   }
 }

@@ -35,14 +35,14 @@ export class HomeAdminComponent {
   disableFilterButton = false;
   disablePrintButton = false;
 
-  formCollectData = new FormGroup({
+  formFilterData = new FormGroup({
     unit: new FormControl<UnitModelType | null>(null, [Validators.required]),
     allUnits: new FormControl(false),
-    startDate: new FormControl('27/04/2025', [
+    startDate: new FormControl('', [
       Validators.required,
       Validators.minLength(10),
     ]),
-    endDate: new FormControl('30/04/2025', [
+    endDate: new FormControl('', [
       Validators.required,
       Validators.minLength(10),
     ]),
@@ -63,7 +63,7 @@ export class HomeAdminComponent {
     }
 
     const { startDate: startDate, endDate: endDate } =
-      this.formCollectData.controls;
+      this.formFilterData.controls;
 
     if (
       typeof startDate.value === 'string' &&
@@ -73,11 +73,11 @@ export class HomeAdminComponent {
 
       this.sessionService.set(
         'unitId',
-        this.formCollectData.controls.unit.value?.id
+        this.formFilterData.controls.unit.value?.id
       );
       this.sessionService.set(
         'unitName',
-        this.formCollectData.controls.unit.value?.name
+        this.formFilterData.controls.unit.value?.name
       );
       this.requestService
         .getDataInterval(startDate.value, endDate.value)
@@ -102,7 +102,7 @@ export class HomeAdminComponent {
   }
 
   selectReport() {
-    if (this.formCollectData.controls.allUnits.value) {
+    if (this.formFilterData.controls.allUnits.value) {
       this.getRegportAllUnits();
     } else {
       this.getReport();
@@ -111,15 +111,15 @@ export class HomeAdminComponent {
 
   getReport() {
     if (
-      this.formCollectData.controls.startDate.invalid ||
-      this.formCollectData.controls.endDate.invalid
+      this.formFilterData.controls.startDate.invalid ||
+      this.formFilterData.controls.endDate.invalid
     ) {
       this.toastr.error('Campos de data inválidos!');
       return;
     }
 
     const { startDate: startDate, endDate: endDate } =
-      this.formCollectData.controls;
+      this.formFilterData.controls;
 
     if (
       typeof startDate.value === 'string' &&
@@ -128,11 +128,11 @@ export class HomeAdminComponent {
       this.isLoadingPrint = true;
       this.sessionService.set(
         'unitId',
-        this.formCollectData.controls.unit.value?.id
+        this.formFilterData.controls.unit.value?.id
       );
       this.sessionService.set(
         'unitName',
-        this.formCollectData.controls.unit.value?.name
+        this.formFilterData.controls.unit.value?.name
       );
       this.requestService
         .printInterval(startDate.value, endDate.value)
@@ -157,15 +157,15 @@ export class HomeAdminComponent {
 
   getRegportAllUnits() {
     if (
-      this.formCollectData.controls.startDate.invalid ||
-      this.formCollectData.controls.endDate.invalid
+      this.formFilterData.controls.startDate.invalid ||
+      this.formFilterData.controls.endDate.invalid
     ) {
       this.toastr.error('Campos de data inválidos!');
       return;
     }
 
     const { startDate: startDate, endDate: endDate } =
-      this.formCollectData.controls;
+      this.formFilterData.controls;
 
     if (
       typeof startDate.value === 'string' &&
@@ -194,7 +194,7 @@ export class HomeAdminComponent {
   }
 
   toggleDisable() {
-    const unitControl = this.formCollectData.controls.unit;
+    const unitControl = this.formFilterData.controls.unit;
     unitControl?.disabled ? unitControl.enable() : unitControl?.disable();
 
     this.disableFilterButton
@@ -204,8 +204,8 @@ export class HomeAdminComponent {
 
   get disablePrint(): boolean {
     return (
-      this.formCollectData.controls.startDate.invalid ||
-      this.formCollectData.controls.endDate.invalid
+      this.formFilterData.controls.startDate.invalid ||
+      this.formFilterData.controls.endDate.invalid
     );
   }
 
@@ -217,7 +217,7 @@ export class HomeAdminComponent {
       allUnits,
       startDate,
       endDate: endData,
-    } = this.formCollectData.controls;
+    } = this.formFilterData.controls;
 
     if (unit.invalid && !allUnits.value) {
       fieldsError.push('Unidade');
@@ -251,22 +251,22 @@ export class HomeAdminComponent {
 
   get unitInvalid(): boolean {
     return (
-      this.formCollectData.controls.unit.invalid &&
-      this.formCollectData.controls.unit.touched
+      this.formFilterData.controls.unit.invalid &&
+      this.formFilterData.controls.unit.touched
     );
   }
 
   get initDateInvalid(): boolean {
     return (
-      this.formCollectData.controls.startDate.invalid &&
-      this.formCollectData.controls.startDate.touched
+      this.formFilterData.controls.startDate.invalid &&
+      this.formFilterData.controls.startDate.touched
     );
   }
 
   get endDateInvalid(): boolean {
     return (
-      this.formCollectData.controls.endDate.invalid &&
-      this.formCollectData.controls.endDate.touched
+      this.formFilterData.controls.endDate.invalid &&
+      this.formFilterData.controls.endDate.touched
     );
   }
 }

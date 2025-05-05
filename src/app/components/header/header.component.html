@@ -1,20 +1,21 @@
 <header *ngIf="isHomePage">
-    <img src="/assets/logo-horizontal-branco.png" alt="Logo">
-    <div>
-        <p class="pUserName">{{userName}}</p>
-        <p 
-        class="pLink"
-        *ngIf="showRegister"
-        (click)="goRegister()"
-        > Cadastrar</p>
-        <p 
-        class="pLink"
-        *ngIf="shouldShowInsertButton"
-        (click)="handleInsertClick()"
-        >{{buttonText}}</p>
-        <p
-        class="pLink"
-        (click)="logout()"
-        >Sair</p>
-    </div>
+  <img src="/assets/logo-horizontal-branco.png" alt="Logo" />
+  <div>
+    <p class="pUserName">{{ userName }}</p>
+    <p class="pLink" *ngIf="showAlterPassword" (click)="goAlterPasswordPage()">
+      Alterar senha
+    </p>
+    <p class="pLink" *ngIf="showRegister" (click)="goRegisterPage()">
+      Cadastrar
+    </p>
+    <p
+      class="pLink"
+      *ngIf="shouldShowInsertButton"
+      (click)="goSelectUnitPage()"
+    >
+      Inserir dados
+    </p>
+    <p class="pLink" *ngIf="showBackToHome" (click)="goHomePage()">Voltar</p>
+    <p class="pLink" (click)="logout()">Sair</p>
+  </div>
 </header>

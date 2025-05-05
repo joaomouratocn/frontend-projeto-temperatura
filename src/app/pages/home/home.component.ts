@@ -151,7 +151,7 @@ export class HomeComponent {
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         data: {
           title: 'Confirme',
-          message: `Confima a inserção deste dados?\nApós o envio não será possivel altera-los.\n
+          message: `Confirma a inserção destes dados?\nApós o envio não será possível altera-los.\n
           Geladeira:\nMin: ${data.refMin}\nAtual: ${data.refCur}\nMax: ${data.refMax}
           \nAmbiente:\nMin: ${data.envMin}\nAtual: ${data.envCur}\nMax: ${data.envMax}`,
         },

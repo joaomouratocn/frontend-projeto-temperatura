@@ -58,7 +58,7 @@ app-table {
   overflow-y: auto;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 798px) {
   .collectDataForm {
     margin-top: 24px;
     color: var(--text-color-primary);
