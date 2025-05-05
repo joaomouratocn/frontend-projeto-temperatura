@@ -86,7 +86,7 @@ export class RegisterComponent {
       this.requestService.register(newUser).subscribe({
         next: (response) => {
           this.toastr.success(response.message);
-          this.router.navigate(['/home']);
+          this.router.navigate(['/admin']);
         },
         error: (erro) => {
           this.toastr.error(erro.error?.message);

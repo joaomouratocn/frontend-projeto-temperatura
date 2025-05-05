@@ -11,13 +11,13 @@ import { AlterPasswordComponent } from './pages/alter-password/alter-password.co
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'home',
     component: HomeComponent,
     canActivate: [authGuard],
     data: { role: ['ADMIN', 'USER'] },
   },
   {
-    path: 'home',
+    path: 'admin',
     component: HomeAdminComponent,
     canActivate: [authGuard],
     data: { role: ['ADMIN'] },

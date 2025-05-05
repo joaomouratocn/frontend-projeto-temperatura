@@ -159,4 +159,19 @@ export class RequestService {
       responseType: 'blob',
     });
   }
+
+  updatePassword(currentyPass: string, newPass: string): Observable<string> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.sessionService.get('token')}`,
+    });
+
+    const body = {
+      currentPass: currentyPass,
+      newPass: newPass,
+    };
+
+    return this.http.patch<string>(`${this.apiUrl}user/updatepass`, body, {
+      headers,
+    });
+  }
 }

@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '../../services/auth/auth.service';
 import { SessionService } from '../../services/session/session-service.service';
-import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -33,23 +32,36 @@ export class HeaderComponent {
 
   get showRegister(): boolean {
     return (
-      this.authService.decodeToken()?.role == 'ADMIN' &&
-      this.router.url.startsWith('/register')
+      this.authService.decodeToken()?.role === 'ADMIN' &&
+      this.router.url.startsWith('/admin')
     );
   }
 
   get showAlterPassword(): boolean {
-    return this.router.url !== '/alterpass';
+    const role = this.authService.decodeToken()?.role;
+    if (role === 'USER' && this.router.url.startsWith('/home')) {
+      return true;
+    } else if (role === 'ADMIN' && this.router.url.startsWith('/admin')) {
+      return true;
+    }
+    return false;
   }
 
   get showBackToHome(): boolean {
-    return (
-      !this.router.url.startsWith('') || !this.router.url.startsWith('/home')
-    );
+    const role = this.authService.decodeToken()?.role;
+    if (role === 'USER' && !this.router.url.startsWith('/home')) {
+      return true;
+    } else if (role === 'ADMIN' && !this.router.url.startsWith('/admin')) {
+      return true;
+    }
+    return false;
   }
 
   get shouldShowInsertButton(): boolean {
-    return this.authService.decodeToken()?.role === 'ADMIN';
+    return (
+      this.authService.decodeToken()?.role === 'ADMIN' &&
+      this.router.url.startsWith('/admin')
+    );
   }
 
   goSelectUnitPage() {
@@ -59,9 +71,9 @@ export class HeaderComponent {
   goHomePage() {
     const role = this.authService.decodeToken()?.role;
     if (role === 'ADMIN') {
-      this.navigate('/home');
+      this.navigate('/admin');
     } else {
-      this.navigate('');
+      this.navigate('home');
     }
   }
 
