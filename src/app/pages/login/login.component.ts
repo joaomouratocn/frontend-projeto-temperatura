@@ -67,15 +67,14 @@ export class LoginComponent {
         next: (res) => {
           const userRole = this.authService.decodeToken()?.role;
           if (userRole === 'ADMIN') {
-            this.router.navigate(['home']);
+            this.router.navigate(['admin']);
           } else {
-            this.router.navigate(['']);
+            this.router.navigate(['home']);
           }
         },
         error: (error) => {
           console.log(error);
-          const message =
-            error.error?.message || 'Erro inesperado ao fazer login';
+          const message = error.error?.message;
           this.toastr.error(message);
         },
       });
