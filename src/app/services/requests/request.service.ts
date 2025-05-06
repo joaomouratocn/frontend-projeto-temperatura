@@ -1,17 +1,23 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+  HttpParams,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, tap, throwError, of } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { LoginResponseType } from '../../types/login-response.type';
 import { LoginModelType } from '../../types/login-model.type';
 import { RegisterModelType } from '../../types/register-model.type';
 import { RegisterResponseType } from '../../types/register-response.type';
-import { ErrorType } from '../../types/erro-type';
 import { UnitModelType } from '../../types/unit-model.type';
 import { GetUnitResponseType } from '../../types/get-unit-name-response.type';
 import { DataModelSendType } from '../../types/data-model-send.type';
 import { DataModelGetType } from '../../types/data-model-get.type';
 import { DataModelResponseType } from '../../types/data-model-response.type';
 import { SessionService } from '../session/session-service.service';
+import { NewPassResponseSuccess } from '../../types/new-pass-success.type';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +25,7 @@ import { SessionService } from '../session/session-service.service';
 export class RequestService {
   private apiUrl: string = 'http://localhost:8080/';
   constructor(
+    private router: Router,
     private http: HttpClient,
     private sessionService: SessionService
   ) {}
@@ -160,7 +167,10 @@ export class RequestService {
     });
   }
 
-  updatePassword(currentyPass: string, newPass: string): Observable<string> {
+  updatePassword(
+    currentyPass: string,
+    newPass: string
+  ): Observable<NewPassResponseSuccess> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.sessionService.get('token')}`,
     });
@@ -170,8 +180,12 @@ export class RequestService {
       newPass: newPass,
     };
 
-    return this.http.patch<string>(`${this.apiUrl}user/updatepass`, body, {
-      headers,
-    });
+    return this.http.patch<NewPassResponseSuccess>(
+      `${this.apiUrl}user/updatepass`,
+      body,
+      {
+        headers,
+      }
+    );
   }
 }

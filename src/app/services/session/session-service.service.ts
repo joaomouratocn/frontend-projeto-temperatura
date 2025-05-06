@@ -12,6 +12,10 @@ export class SessionService {
     return sessionStorage.getItem(key);
   }
 
+  remove(key: string) {
+    sessionStorage.removeItem(key);
+  }
+
   clear(): void {
     sessionStorage.clear();
   }

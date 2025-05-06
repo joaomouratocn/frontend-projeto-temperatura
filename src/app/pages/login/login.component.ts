@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 import { LoginModelType } from '../../types/login-model.type';
 import { InputPasswordComponent } from '../../components/input-password/input-password.component';
 import { AuthService } from '../../services/auth/auth.service';
+import { SessionService } from '../../services/session/session-service.service';
 
 @Component({
   selector: 'app-login',
@@ -32,6 +33,7 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private requestService: RequestService,
+    private sessionService: SessionService,
     private toastr: ToastrService,
     private router: Router
   ) {}
@@ -64,16 +66,20 @@ export class LoginComponent {
       };
 
       this.requestService.login(loginModeType).subscribe({
-        next: (res) => {
-          const userRole = this.authService.decodeToken()?.role;
-          if (userRole === 'ADMIN') {
-            this.router.navigate(['admin']);
+        next: (response) => {
+          if (response.mustChange) {
+            this.sessionService.set('pass', loginModeType.password);
+            this.router.navigate(['alterpass']);
           } else {
-            this.router.navigate(['home']);
+            const userRole = this.authService.decodeToken()?.role;
+            if (userRole === 'ADMIN') {
+              this.router.navigate(['admin']);
+            } else {
+              this.router.navigate(['home']);
+            }
           }
         },
         error: (error) => {
-          console.log(error);
           const message = error.error?.message;
           this.toastr.error(message);
         },
@@ -98,10 +104,10 @@ export class LoginComponent {
   invalidFields(): boolean {
     let fieldsError: string[] = [];
 
-    const { username: email, password } = this.loginForm.controls;
+    const { username, password } = this.loginForm.controls;
 
-    if (email.invalid) {
-      fieldsError.push('Email');
+    if (username.invalid) {
+      fieldsError.push('Nome de usuário');
     }
     if (password.invalid) {
       fieldsError.push('Senha');

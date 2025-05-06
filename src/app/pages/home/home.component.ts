@@ -107,8 +107,7 @@ export class HomeComponent {
         },
         error: (error) => {
           console.error('Erro detalhado:', error);
-          const msg =
-            error?.error?.message || 'Erro ao carregar dados de sua unidade';
+          const msg = error?.error?.message;
           this.toastr.error(msg);
         },
       });

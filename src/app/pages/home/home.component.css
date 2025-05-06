@@ -1,3 +1,12 @@
+.container {
+  width: 100%;
+  max-width: 750px;
+  margin-top: 16px;
+  padding: 32px;
+  border-radius: 20px;
+  background-color: var(--surface-color);
+}
+
 .collectDataForm {
   display: flex;
   flex-direction: column;
@@ -5,12 +14,10 @@
   align-items: center;
   max-width: 750px;
   width: 100%;
-
-  margin-top: 40px;
   color: var(--text-color-primary);
 
   h2 {
-    margin-top: 36px;
+    margin-top: 24px;
     color: var(--text-color-primary);
   }
   div {

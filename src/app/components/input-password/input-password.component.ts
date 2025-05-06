@@ -18,6 +18,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class InputPasswordComponent implements ControlValueAccessor {
   @Input() showError: boolean = false;
   @Input() pErrorText: string = '';
+  @Input() labelText: string = 'Insira sua senha:';
 
   showPassword: boolean = false;
 
@@ -53,6 +54,5 @@ export class InputPasswordComponent implements ControlValueAccessor {
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
-    console.log(this.showPassword);
   }
 }

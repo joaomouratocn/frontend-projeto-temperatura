@@ -58,7 +58,7 @@ export class SelectUnitComponent {
       this.selectForm.controls.unit.value?.name
     );
 
-    this.router.navigate(['']);
+    this.router.navigate(['/home']);
   }
 
   getUnits() {

@@ -1,98 +1,100 @@
-<form [formGroup]="collectDataForm" class="collectDataForm">
-  <h1>{{ unitName }}</h1>
-  <h2>Temperatura Geladeira:</h2>
-  <div class="refrigarator">
-    <app-input-only-numbers
-      [labelName]="'refmin'"
-      [labelText]="'Miníma:'"
-      [placeHolder]="'0.00°C'"
-      [showError]="refMinInvalid"
-      [pErrorText]="'Dado invalído'"
-      formControlName="refMin"
+<div class="container">
+  <form [formGroup]="collectDataForm" class="collectDataForm">
+    <h1>{{ unitName }}</h1>
+    <h2>Temperatura Geladeira:</h2>
+    <div class="refrigarator">
+      <app-input-only-numbers
+        [labelName]="'refmin'"
+        [labelText]="'Miníma:'"
+        [placeHolder]="'0.00°C'"
+        [showError]="refMinInvalid"
+        [pErrorText]="'Dado invalído'"
+        formControlName="refMin"
+      />
+  
+      <app-input-only-numbers
+        [labelName]="'refcur'"
+        [labelText]="'Atual:'"
+        [placeHolder]="'0.00°C'"
+        [showError]="refCurInvalid"
+        [pErrorText]="'Dado invalído'"
+        formControlName="refCur"
+      />
+  
+      <app-input-only-numbers
+        [labelName]="'refmax'"
+        [labelText]="'Maxíma:'"
+        [placeHolder]="'0.00°C'"
+        [showError]="refMaxInvalid"
+        [pErrorText]="'Dado invalído'"
+        formControlName="refMax"
+      />
+    </div>
+    <h2>Temperatura Ambiente:</h2>
+    <div class="environment">
+      <app-input-only-numbers
+        [labelName]="'envmin'"
+        [labelText]="'Miníma:'"
+        [placeHolder]="'0.00°C'"
+        [showError]="envMinInvalid"
+        [pErrorText]="'Dado invalído'"
+        formControlName="envMin"
+      />
+  
+      <app-input-only-numbers
+        [labelName]="'envcur'"
+        [labelText]="'Atual:'"
+        [placeHolder]="'0.00°C'"
+        [showError]="envCurInvalid"
+        [pErrorText]="'Dado invalído'"
+        formControlName="envCur"
+      />
+  
+      <app-input-only-numbers
+        [labelName]="'envmax'"
+        [labelText]="'Maxíma:'"
+        [placeHolder]="'0.00°C'"
+        [showError]="envMaxInvalid"
+        [pErrorText]="'Dado invalído'"
+        formControlName="envMax"
+      />
+    </div>
+    <app-button [buttonText]="'ENVIAR'" (onSubmit)="sendData()" />
+  </form>
+  
+  <form [formGroup]="searchDataForm" class="searchDataForm">
+    <app-input-data
+      [labelName]="'initDate'"
+      [labelText]="'Data inicial:'"
+      [placeHolder]="'00/00/0000'"
+      [showError]="dataInitInvalid"
+      [pErrorText]="'Data Invalída'"
+      formControlName="startDate"
     />
-
-    <app-input-only-numbers
-      [labelName]="'refcur'"
-      [labelText]="'Atual:'"
-      [placeHolder]="'0.00°C'"
-      [showError]="refCurInvalid"
-      [pErrorText]="'Dado invalído'"
-      formControlName="refCur"
+    <app-input-data
+      [labelName]="'endDate'"
+      [labelText]="'Data final:'"
+      [placeHolder]="'00/00/0000'"
+      [showError]="dataEndInvalid"
+      [pErrorText]="'Data invalída'"
+      formControlName="endDate"
     />
-
-    <app-input-only-numbers
-      [labelName]="'refmax'"
-      [labelText]="'Maxíma:'"
-      [placeHolder]="'0.00°C'"
-      [showError]="refMaxInvalid"
-      [pErrorText]="'Dado invalído'"
-      formControlName="refMax"
+    <app-button 
+      [buttonText]="'FILTRAR'"
+      (onSubmit)="searchInterval()"
+      [isLoading]="isLoadingFilter"
+      [disable]="disablePrint"
     />
-  </div>
-  <h2>Temperatura Ambiente:</h2>
-  <div class="environment">
-    <app-input-only-numbers
-      [labelName]="'envmin'"
-      [labelText]="'Miníma:'"
-      [placeHolder]="'0.00°C'"
-      [showError]="envMinInvalid"
-      [pErrorText]="'Dado invalído'"
-      formControlName="envMin"
+  
+    <app-button
+      [buttonText]="'IMPRIMIR'"
+      [orangeButton]="true"
+      [imageAlt]="'Print'"
+      [imageSrc]="'/assets/print.png'"
+      [isLoading]="isLoading"
+      [disable]="disablePrint"
+      (onSubmit)="printInterval()"
     />
-
-    <app-input-only-numbers
-      [labelName]="'envcur'"
-      [labelText]="'Atual:'"
-      [placeHolder]="'0.00°C'"
-      [showError]="envCurInvalid"
-      [pErrorText]="'Dado invalído'"
-      formControlName="envCur"
-    />
-
-    <app-input-only-numbers
-      [labelName]="'envmax'"
-      [labelText]="'Maxíma:'"
-      [placeHolder]="'0.00°C'"
-      [showError]="envMaxInvalid"
-      [pErrorText]="'Dado invalído'"
-      formControlName="envMax"
-    />
-  </div>
-  <app-button [buttonText]="'ENVIAR'" (onSubmit)="sendData()" />
-</form>
-
-<form [formGroup]="searchDataForm" class="searchDataForm">
-  <app-input-data
-    [labelName]="'initDate'"
-    [labelText]="'Data inicial:'"
-    [placeHolder]="'00/00/0000'"
-    [showError]="dataInitInvalid"
-    [pErrorText]="'Data Invalída'"
-    formControlName="startDate"
-  />
-  <app-input-data
-    [labelName]="'endDate'"
-    [labelText]="'Data final:'"
-    [placeHolder]="'00/00/0000'"
-    [showError]="dataEndInvalid"
-    [pErrorText]="'Data invalída'"
-    formControlName="endDate"
-  />
-  <app-button 
-    [buttonText]="'FILTRAR'"
-    (onSubmit)="searchInterval()"
-    [isLoading]="isLoadingFilter"
-    [disable]="disablePrint"
-  />
-
-  <app-button
-    [buttonText]="'IMPRIMIR'"
-    [orangeButton]="true"
-    [imageAlt]="'Print'"
-    [imageSrc]="'/assets/print.png'"
-    [isLoading]="isLoading"
-    [disable]="disablePrint"
-    (onSubmit)="printInterval()"
-  />
-</form>
+  </form>
+</div>
 <app-table [data]="data" />

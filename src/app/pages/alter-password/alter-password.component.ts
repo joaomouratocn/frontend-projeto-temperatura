@@ -9,6 +9,9 @@ import { InputPasswordComponent } from '../../components/input-password/input-pa
 import { ButtonComponent } from '../../components/button/button.component';
 import { RequestService } from '../../services/requests/request.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { SessionService } from '../../services/session/session-service.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-alter-password',
@@ -34,9 +37,20 @@ export class AlterPasswordComponent {
   });
 
   constructor(
+    private router: Router,
+    private toastr: ToastrService,
+    private authService: AuthService,
     private requestService: RequestService,
-    private toastr: ToastrService
+    private sessionService: SessionService
   ) {}
+
+  ngOnInit() {
+    const currentPass = this.sessionService.get('pass');
+
+    if (typeof currentPass === 'string') {
+      this.alterPassForm.get('currentPass')?.setValue(currentPass);
+    }
+  }
 
   get currentShowError(): boolean {
     return (
@@ -60,12 +74,8 @@ export class AlterPasswordComponent {
   }
 
   sendUpdate() {
-    if (
-      this.alterPassForm.controls.currentPass.invalid ||
-      this.alterPassForm.controls.newPass.invalid ||
-      this.alterPassForm.controls.newPass !=
-        this.alterPassForm.controls.matchNewPass
-    ) {
+    if (this.invalidFields()) {
+      return;
     }
 
     const { currentPass, newPass } = this.alterPassForm.controls;
@@ -78,13 +88,48 @@ export class AlterPasswordComponent {
         .updatePassword(currentPass.value, newPass.value)
         .subscribe({
           next: (response) => {
-            console.log('sucesso!');
-            this.toastr.success(response);
+            this.toastr.success(response.message);
+            this.navigate();
           },
           error: (error) => {
-            this.toastr.error(error.erro?.message);
+            console.log(error);
+            const message = error.error?.message;
+            this.toastr.error(message);
           },
         });
+    }
+  }
+
+  invalidFields(): boolean {
+    let fieldsError: string[] = [];
+
+    const { currentPass, newPass, matchNewPass } = this.alterPassForm.controls;
+
+    if (currentPass.invalid) {
+      fieldsError.push('Senha atual');
+    }
+    if (newPass.invalid) {
+      fieldsError.push('Nova senha');
+    }
+    if (matchNewPass.value !== newPass.value) {
+      fieldsError.push('Campo de senha não confere');
+    }
+
+    if (fieldsError.length === 0) {
+      return false;
+    }
+
+    this.toastr.error(`Campos invalidos:\n ${fieldsError.join(', ')}`);
+    return true;
+  }
+
+  navigate() {
+    this.sessionService.remove('pass');
+    const userRole = this.authService.decodeToken()?.role;
+    if (userRole === 'ADMIN') {
+      this.router.navigate(['/admin']);
+    } else {
+      this.router.navigate(['/home']);
     }
   }
 }
