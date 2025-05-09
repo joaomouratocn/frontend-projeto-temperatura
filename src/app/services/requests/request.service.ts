@@ -18,12 +18,13 @@ import { DataModelResponseType } from '../../types/data-model-response.type';
 import { SessionService } from '../session/session-service.service';
 import { NewPassResponseSuccess } from '../../types/new-pass-success.type';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RequestService {
-  private apiUrl: string = 'http://localhost:8080/';
+  private apiUrl = environment.apiUrl;
   constructor(
     private router: Router,
     private http: HttpClient,
