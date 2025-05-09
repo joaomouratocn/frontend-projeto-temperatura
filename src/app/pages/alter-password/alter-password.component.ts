@@ -69,7 +69,9 @@ export class AlterPasswordComponent {
   get confirmShowError(): boolean {
     return (
       this.alterPassForm.controls.matchNewPass.invalid &&
-      this.alterPassForm.controls.matchNewPass.touched
+      this.alterPassForm.controls.matchNewPass.touched &&
+      this.alterPassForm.controls.matchNewPass.value !==
+        this.alterPassForm.controls.newPass.value
     );
   }
 

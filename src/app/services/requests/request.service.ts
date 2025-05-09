@@ -18,7 +18,7 @@ import { DataModelResponseType } from '../../types/data-model-response.type';
 import { SessionService } from '../session/session-service.service';
 import { NewPassResponseSuccess } from '../../types/new-pass-success.type';
 import { Router } from '@angular/router';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
