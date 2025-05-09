@@ -107,7 +107,7 @@ export class HomeComponent {
         },
         error: (error) => {
           console.error('Erro detalhado:', error);
-          const msg = error?.error?.message;
+          const msg = error.error?.message;
           this.toastr.error(msg);
         },
       });

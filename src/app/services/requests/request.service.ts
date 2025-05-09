@@ -96,9 +96,7 @@ export class RequestService {
     });
 
     return this.http
-      .get<UnitModelType>(`${this.apiUrl}units/byuser`, {
-        headers,
-      })
+      .get<UnitModelType>(`${this.apiUrl}units/byuser`, { headers })
       .pipe(
         tap((response) => {
           this.sessionService.set('unitId', response.id);
