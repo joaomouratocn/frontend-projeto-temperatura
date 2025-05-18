@@ -171,6 +171,7 @@ export class HomeAdminComponent {
       typeof startDate.value === 'string' &&
       typeof endDate.value === 'string'
     ) {
+      this.isLoadingPrint = true;
       this.requestService
         .printAllUnits(startDate.value, endDate.value)
         .subscribe({
