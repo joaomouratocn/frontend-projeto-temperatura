@@ -46,7 +46,7 @@ export class RegisterComponent {
       Validators.required,
       Validators.minLength(4),
     ]),
-    unit: new FormControl<UnitModelType | null>(null, [Validators.required]),
+    unit: new FormControl<UnitModelType | null>(null, Validators.required),
   });
 
   ngOnInit() {
@@ -71,16 +71,18 @@ export class RegisterComponent {
     }
 
     const { name, username, unit } = this.registerForm.controls;
+    console.log(unit.value);
 
     if (
       typeof name.value === 'string' &&
       typeof username.value === 'string' &&
-      typeof unit.value?.id === 'string'
+      typeof unit.value?.uuid === 'string'
     ) {
+      console.log('entrou');
       const newUser: RegisterModelType = {
         name: name.value,
         username: username.value,
-        unit: unit.value.id,
+        unituuid: unit.value.uuid,
       };
 
       this.requestService.register(newUser).subscribe({
@@ -112,7 +114,7 @@ export class RegisterComponent {
 
   get unitInvalid(): boolean {
     return (
-      this.registerForm.controls.unit.invalid &&
+      this.registerForm.controls.unit.value == null &&
       this.registerForm.controls.unit.touched
     );
   }

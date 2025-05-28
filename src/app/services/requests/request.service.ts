@@ -11,10 +11,9 @@ import { LoginModelType } from '../../types/login-model.type';
 import { RegisterModelType } from '../../types/register-model.type';
 import { RegisterResponseType } from '../../types/register-response.type';
 import { UnitModelType } from '../../types/unit-model.type';
-import { GetUnitResponseType } from '../../types/get-unit-name-response.type';
 import { DataModelSendType } from '../../types/data-model-send.type';
 import { DataModelGetType } from '../../types/data-model-get.type';
-import { DataModelResponseType } from '../../types/data-model-response.type';
+import { SuccessMessageType } from '../../types/data-model-response.type';
 import { SessionService } from '../session/session-service.service';
 import { NewPassResponseSuccess } from '../../types/new-pass-success.type';
 import { Router } from '@angular/router';
@@ -53,7 +52,7 @@ export class RequestService {
     });
 
     return this.http.post<RegisterResponseType>(
-      `${this.apiUrl}auth/register`,
+      `${this.apiUrl}user/register`,
       resgiterModelType,
       { headers }
     );
@@ -61,11 +60,11 @@ export class RequestService {
 
   sendData(
     dataModelSendType: DataModelSendType
-  ): Observable<DataModelResponseType> {
+  ): Observable<SuccessMessageType> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.sessionService.get('token')}`,
     });
-    return this.http.post<DataModelResponseType>(
+    return this.http.post<SuccessMessageType>(
       `${this.apiUrl}data`,
       dataModelSendType,
       { headers }
@@ -90,7 +89,7 @@ export class RequestService {
     return this.http.get<UnitModelType[]>(`${this.apiUrl}units`, { headers });
   }
 
-  getUnitByUser(): Observable<GetUnitResponseType> {
+  getUnitByUser(): Observable<UnitModelType> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.sessionService.get('token')}`,
     });
@@ -99,7 +98,7 @@ export class RequestService {
       .get<UnitModelType>(`${this.apiUrl}units/byuser`, { headers })
       .pipe(
         tap((response) => {
-          this.sessionService.set('unitId', response.id);
+          this.sessionService.set('unitId', response.uuid);
           this.sessionService.set('unitName', response.name);
         })
       );

@@ -1,6 +1,6 @@
 export type DataModelSendType = {
   dateTime: string;
-  unitId: string;
+  unituuid: string;
   refMin: string;
   refCur: string;
   refMax: string;

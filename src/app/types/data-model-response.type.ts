@@ -1,4 +1,3 @@
-export type DataModelResponseType = {
-  status: string;
-  id: string;
+export type SuccessMessageType = {
+  message: string;
 };

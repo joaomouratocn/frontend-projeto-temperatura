@@ -73,7 +73,7 @@ export class HomeAdminComponent {
 
       this.sessionService.set(
         'unitId',
-        this.formFilterData.controls.unit.value?.id
+        this.formFilterData.controls.unit.value?.uuid
       );
       this.sessionService.set(
         'unitName',
@@ -128,7 +128,7 @@ export class HomeAdminComponent {
       this.isLoadingPrint = true;
       this.sessionService.set(
         'unitId',
-        this.formFilterData.controls.unit.value?.id
+        this.formFilterData.controls.unit.value?.uuid
       );
       this.sessionService.set(
         'unitName',

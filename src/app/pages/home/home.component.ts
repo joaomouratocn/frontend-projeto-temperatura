@@ -138,7 +138,7 @@ export class HomeComponent {
     ) {
       const data: DataModelSendType = {
         dateTime: Date.now().toString(),
-        unitId: unitid,
+        unituuid: unitid,
         refMin: refMin.value,
         refCur: refCur.value,
         refMax: refMax.value,
@@ -160,7 +160,7 @@ export class HomeComponent {
         if (response) {
           this.requestService.sendData(data).subscribe({
             next: (response) => {
-              this.toastr.success(response.status);
+              this.toastr.success(response.message);
               this.loadInit();
             },
             error: (error) => {

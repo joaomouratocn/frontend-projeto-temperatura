@@ -52,7 +52,10 @@ export class SelectUnitComponent {
       return;
     }
 
-    this.sessionService.set('unitId', this.selectForm.controls.unit.value?.id);
+    this.sessionService.set(
+      'unitId',
+      this.selectForm.controls.unit.value?.uuid
+    );
     this.sessionService.set(
       'unitName',
       this.selectForm.controls.unit.value?.name

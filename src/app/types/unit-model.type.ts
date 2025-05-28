@@ -1,4 +1,4 @@
 export type UnitModelType = {
-  id: string;
+  uuid: string;
   name: string;
 };
