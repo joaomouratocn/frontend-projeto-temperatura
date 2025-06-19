@@ -9,7 +9,7 @@ header {
   justify-content: space-between;
 
   img {
-    width: 180px;
+    width: 70px;
     height: auto;
   }
 
@@ -35,7 +35,7 @@ header {
 
   @media (max-width: 798px) {
     img {
-      width: 100px;
+      width: 70px;
     }
 
     div {
