@@ -92,6 +92,7 @@ export class AlterPasswordComponent {
           next: (response) => {
             this.toastr.success(response.message);
             this.sessionService.set('mustchange', false);
+            this.sessionService.remove('pwd');
             this.navigate();
           },
           error: (error) => {
