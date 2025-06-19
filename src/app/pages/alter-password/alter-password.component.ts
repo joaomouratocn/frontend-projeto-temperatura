@@ -45,7 +45,7 @@ export class AlterPasswordComponent {
   ) {}
 
   ngOnInit() {
-    const currentPass = this.sessionService.get('pass');
+    const currentPass = this.sessionService.get('pwd');
 
     if (typeof currentPass === 'string') {
       this.alterPassForm.get('currentPass')?.setValue(currentPass);
@@ -91,6 +91,7 @@ export class AlterPasswordComponent {
         .subscribe({
           next: (response) => {
             this.toastr.success(response.message);
+            this.sessionService.set('mustchange', false);
             this.navigate();
           },
           error: (error) => {
@@ -113,11 +114,11 @@ export class AlterPasswordComponent {
     if (newPass.invalid) {
       fieldsError.push('Nova senha');
     }
-    if (matchNewPass.value !== newPass.value) {
+    if (matchNewPass.value != newPass.value) {
       fieldsError.push('Campo de senha não confere');
     }
 
-    if (fieldsError.length === 0) {
+    if (fieldsError.length == 0) {
       return false;
     }
 

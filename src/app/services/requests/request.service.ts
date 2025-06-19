@@ -40,6 +40,7 @@ export class RequestService {
         tap((response) => {
           this.sessionService.set('name', response.name);
           this.sessionService.set('token', response.token);
+          this.sessionService.set('mustchange', response.mustChange);
         })
       );
   }

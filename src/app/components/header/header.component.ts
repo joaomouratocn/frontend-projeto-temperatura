@@ -49,12 +49,16 @@ export class HeaderComponent {
 
   get showBackToHome(): boolean {
     const role = this.authService.decodeToken()?.role;
-    if (role === 'USER' && !this.router.url.startsWith('/home')) {
-      return true;
-    } else if (role === 'ADMIN' && !this.router.url.startsWith('/admin')) {
+    if (this.sessionService.get('mustchange') === 'true') {
+      return false;
+    } else if (
+      (role == 'ADMIN' && this.router.url == '/admin') ||
+      (role == 'USER' && this.router.url == '/home')
+    ) {
+      return false;
+    } else {
       return true;
     }
-    return false;
   }
 
   get shouldShowInsertButton(): boolean {

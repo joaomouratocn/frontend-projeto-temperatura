@@ -8,7 +8,7 @@ export class SessionService {
     sessionStorage.setItem(key, value);
   }
 
-  get(key: string): string | null {
+  get(key: string): any | null {
     return sessionStorage.getItem(key);
   }
 

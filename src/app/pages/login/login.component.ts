@@ -54,11 +54,11 @@ export class LoginComponent {
       return;
     }
 
-    const { username: username, password } = this.loginForm.controls;
+    const { username, password } = this.loginForm.controls;
 
     if (
-      typeof username.value === 'string' &&
-      typeof password.value === 'string'
+      typeof username.value == 'string' &&
+      typeof password.value == 'string'
     ) {
       const loginModeType: LoginModelType = {
         username: username.value,
@@ -68,8 +68,8 @@ export class LoginComponent {
       this.requestService.login(loginModeType).subscribe({
         next: (response) => {
           if (response.mustChange) {
-            this.sessionService.set('pass', loginModeType.password);
             this.router.navigate(['alterpass']);
+            this.sessionService.set('pwd', password.value);
           } else {
             const userRole = this.authService.decodeToken()?.role;
             if (userRole === 'ADMIN') {
